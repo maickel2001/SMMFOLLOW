@@ -34,6 +34,10 @@ try {
     $stmt = $pdo->query("SELECT SUM(total_price) as total FROM orders WHERE status = 'Terminée'");
     $totalRevenue = $stmt->fetch()['total'] ?: 0;
     
+    // Tickets de support ouverts
+    $stmt = $pdo->query("SELECT COUNT(*) as total FROM support_tickets WHERE status = 'Ouvert'");
+    $openTickets = $stmt->fetch()['total'];
+    
     // Dernières commandes
     $stmt = $pdo->query("
         SELECT o.*, s.name as service_name, c.name as category_name
@@ -44,6 +48,19 @@ try {
         LIMIT 10
     ");
     $recentOrders = $stmt->fetchAll();
+    
+    // Derniers tickets
+    $stmt = $pdo->query("
+        SELECT t.*, o.order_number
+        FROM support_tickets t
+        LEFT JOIN orders o ON t.order_id = o.id
+        ORDER BY t.created_at DESC
+        LIMIT 5
+    ");
+    $recentTickets = $stmt->fetchAll();
+    
+    // Notifications admin
+    $notifications = getAdminNotifications();
     
 } catch (Exception $e) {
     $error = 'Erreur de base de données.';
@@ -151,6 +168,51 @@ try {
         .status-processing { background: rgba(0, 170, 255, 0.2); color: var(--info-color); }
         .status-completed { background: rgba(0, 255, 136, 0.2); color: var(--success-color); }
         .status-cancelled { background: rgba(255, 68, 68, 0.2); color: var(--danger-color); }
+        
+        .priority-badge {
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        
+        .priority-urgent { background: rgba(255, 68, 68, 0.2); color: var(--danger-color); }
+        .priority-high { background: rgba(255, 170, 0, 0.2); color: var(--warning-color); }
+        .priority-normal { background: rgba(0, 170, 255, 0.2); color: var(--info-color); }
+        .priority-low { background: rgba(0, 255, 136, 0.2); color: var(--success-color); }
+        
+        .quick-actions {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .action-btn {
+            background: var(--darker-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--text-primary);
+            display: block;
+        }
+        
+        .action-btn:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+        
+        .action-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -185,6 +247,12 @@ try {
                     </a>
                     <a class="nav-link" href="categories.php">
                         <i class="fas fa-tags me-2"></i>Catégories
+                    </a>
+                    <a class="nav-link" href="tickets.php">
+                        <i class="fas fa-ticket-alt me-2"></i>Tickets
+                    </a>
+                    <a class="nav-link" href="analytics.php">
+                        <i class="fas fa-chart-line me-2"></i>Analytics
                     </a>
                 </nav>
             </div>
@@ -232,9 +300,9 @@ try {
                 </div>
             </div>
             
-            <!-- Chiffre d'affaires -->
+            <!-- Statistiques supplémentaires -->
             <div class="row mb-4">
-                <div class="col-12">
+                <div class="col-lg-4 col-md-6 mb-3">
                     <div class="stats-card">
                         <div class="stats-icon">
                             <i class="fas fa-money-bill-wave"></i>
@@ -243,11 +311,81 @@ try {
                         <div class="stats-label">Chiffre d'Affaires Total</div>
                     </div>
                 </div>
+                
+                <div class="col-lg-4 col-md-6 mb-3">
+                    <div class="stats-card">
+                        <div class="stats-icon">
+                            <i class="fas fa-ticket-alt"></i>
+                        </div>
+                        <div class="stats-number"><?php echo number_format($openTickets, 0, ',', ' '); ?></div>
+                        <div class="stats-label">Tickets Ouverts</div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-3">
+                    <div class="stats-card">
+                        <div class="stats-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="stats-number"><?php echo number_format($notifications['pending_payment'], 0, ',', ' '); ?></div>
+                        <div class="stats-label">Paiements en Attente</div>
+                    </div>
+                </div>
             </div>
             
-            <!-- Dernières commandes -->
+            <!-- Actions rapides -->
+            <div class="quick-actions">
+                <h4 class="mb-4 text-white">
+                    <i class="fas fa-bolt me-2"></i>Actions Rapides
+                </h4>
+                
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <a href="orders.php" class="action-btn">
+                            <div class="action-icon">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <h6>Gérer les Commandes</h6>
+                            <small class="text-muted">Voir et traiter les commandes</small>
+                        </a>
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <a href="tickets.php" class="action-btn">
+                            <div class="action-icon">
+                                <i class="fas fa-ticket-alt"></i>
+                            </div>
+                            <h6>Support Client</h6>
+                            <small class="text-muted">Répondre aux tickets</small>
+                        </a>
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <a href="services.php" class="action-btn">
+                            <div class="action-icon">
+                                <i class="fas fa-cogs"></i>
+                            </div>
+                            <h6>Gérer les Services</h6>
+                            <small class="text-muted">Ajouter/modifier services</small>
+                        </a>
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <a href="analytics.php" class="action-btn">
+                            <div class="action-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h6>Voir les Analytics</h6>
+                            <small class="text-muted">Statistiques détaillées</small>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dernières activités -->
             <div class="row">
-                <div class="col-12">
+                <!-- Dernières commandes -->
+                <div class="col-lg-8">
                     <div class="card" style="background: var(--card-bg); border-color: var(--border-color);">
                         <div class="card-header" style="background: var(--darker-bg); border-color: var(--border-color);">
                             <h5 class="mb-0 text-white">
@@ -262,7 +400,6 @@ try {
                                             <th>N° Commande</th>
                                             <th>Client</th>
                                             <th>Service</th>
-                                            <th>Quantité</th>
                                             <th>Prix</th>
                                             <th>Statut</th>
                                             <th>Date</th>
@@ -287,7 +424,6 @@ try {
                                                         <small class="text-muted"><?php echo htmlspecialchars($order['category_name']); ?></small>
                                                     </div>
                                                 </td>
-                                                <td><?php echo number_format($order['quantity'], 0, ',', ' '); ?></td>
                                                 <td class="fw-bold"><?php echo formatPrice($order['total_price']); ?></td>
                                                 <td>
                                                     <?php
@@ -314,6 +450,59 @@ try {
                                         <?php endforeach; ?>
                                     </tbody>
                                 </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Derniers tickets -->
+                <div class="col-lg-4">
+                    <div class="card" style="background: var(--card-bg); border-color: var(--border-color);">
+                        <div class="card-header" style="background: var(--darker-bg); border-color: var(--border-color);">
+                            <h5 class="mb-0 text-white">
+                                <i class="fas fa-ticket-alt me-2"></i>Derniers Tickets
+                            </h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <?php if (!empty($recentTickets)): ?>
+                                <div class="list-group list-group-flush">
+                                    <?php foreach ($recentTickets as $ticket): ?>
+                                        <div class="list-group-item" style="background: transparent; border-color: var(--border-color);">
+                                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                                <h6 class="mb-1"><?php echo htmlspecialchars($ticket['subject']); ?></h6>
+                                                <?php
+                                                $priorityClass = '';
+                                                switch ($ticket['priority']) {
+                                                    case 'Urgente': $priorityClass = 'priority-urgent'; break;
+                                                    case 'Élevée': $priorityClass = 'priority-high'; break;
+                                                    case 'Normale': $priorityClass = 'priority-normal'; break;
+                                                    case 'Faible': $priorityClass = 'priority-low'; break;
+                                                }
+                                                ?>
+                                                <span class="priority-badge <?php echo $priorityClass; ?>">
+                                                    <?php echo htmlspecialchars($ticket['priority']); ?>
+                                                </span>
+                                            </div>
+                                            <p class="mb-1 text-muted small">
+                                                <?php echo htmlspecialchars($ticket['customer_name']); ?>
+                                            </p>
+                                            <small class="text-muted">
+                                                <?php echo getTimeAgo($ticket['created_at']); ?>
+                                            </small>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            <?php else: ?>
+                                <div class="text-center py-4">
+                                    <i class="fas fa-ticket-alt fa-2x text-muted mb-2"></i>
+                                    <p class="text-muted mb-0">Aucun ticket récent</p>
+                                </div>
+                            <?php endif; ?>
+                            
+                            <div class="card-footer text-center" style="background: var(--darker-bg); border-color: var(--border-color);">
+                                <a href="tickets.php" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-eye me-1"></i>Voir tous les tickets
+                                </a>
                             </div>
                         </div>
                     </div>
