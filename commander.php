@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $paymentMethod = cleanInput($_POST['payment_method']);
     
     // Validation
-    if (empty($serviceId) || empty($customerName) || empty($customerEmail) || empty($linkUrl) || $quantity < 1000) {
+    if (empty($serviceId) || empty($customerName) || empty($customerEmail) || empty($linkUrl) || $quantity < 1000 || empty($paymentMethod)) {
         showAlert('Veuillez remplir tous les champs correctement.', 'danger');
     } else {
         // Calcul du prix total
@@ -87,8 +87,7 @@ if ($selectedCategory) {
                     <li class="nav-item">
                         <a class="nav-link" href="index.php#services">Services</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="commander.php">Commander</a>
+                    <li class="nav-link active" href="commander.php">Commander</a>
                     </li>
                 </ul>
             </div>
@@ -135,7 +134,7 @@ if ($selectedCategory) {
                             <?php if ($selectedCategory && !empty($services)): ?>
                                 <div class="form-group">
                                     <label class="form-label">Service</label>
-                                    <select class="form-control form-select" id="serviceSelect" name="service_id" required>
+                                    <select class="form-control form-select" id="serviceSelect" required>
                                         <option value="">Sélectionner un service</option>
                                         <?php foreach ($services as $service): ?>
                                             <option value="<?php echo $service['id']; ?>" 
@@ -161,6 +160,9 @@ if ($selectedCategory) {
                         </h4>
                         
                         <form method="POST" action="" id="orderForm">
+                            <!-- Champ caché pour service_id -->
+                            <input type="hidden" name="service_id" id="hiddenServiceId" required>
+                            
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -259,6 +261,7 @@ if ($selectedCategory) {
         
         // Gestion de la sélection de service et calcul du prix
         const serviceSelect = document.getElementById('serviceSelect');
+        const hiddenServiceId = document.getElementById('hiddenServiceId');
         const quantityInput = document.getElementById('quantity');
         const selectedServiceSpan = document.getElementById('selectedService');
         const totalPriceSpan = document.getElementById('totalPrice');
@@ -272,10 +275,14 @@ if ($selectedCategory) {
                 const pricePer1000 = parseFloat(selectedOption.dataset.price);
                 const totalPrice = (pricePer1000 * quantity) / 1000;
                 
+                // Mettre à jour le champ caché
+                hiddenServiceId.value = selectedOption.value;
+                
                 selectedServiceSpan.textContent = selectedOption.text;
                 totalPriceSpan.textContent = new Intl.NumberFormat('fr-FR').format(totalPrice) + ' FCFA';
                 submitBtn.disabled = false;
             } else {
+                hiddenServiceId.value = '';
                 selectedServiceSpan.textContent = '-';
                 totalPriceSpan.textContent = '-';
                 submitBtn.disabled = true;
@@ -289,12 +296,35 @@ if ($selectedCategory) {
         
         // Validation du formulaire
         document.getElementById('orderForm').addEventListener('submit', function(e) {
-            const serviceId = serviceSelect.value;
+            const serviceId = hiddenServiceId.value;
             const quantity = parseInt(quantityInput.value);
+            const customerName = document.querySelector('input[name="customer_name"]').value.trim();
+            const customerEmail = document.querySelector('input[name="customer_email"]').value.trim();
+            const linkUrl = document.querySelector('input[name="link_url"]').value.trim();
+            const paymentMethod = document.querySelector('select[name="payment_method"]').value;
             
+            // Validation côté client
             if (!serviceId) {
                 e.preventDefault();
                 alert('Veuillez sélectionner un service.');
+                return false;
+            }
+            
+            if (!customerName) {
+                e.preventDefault();
+                alert('Veuillez saisir votre nom complet.');
+                return false;
+            }
+            
+            if (!customerEmail) {
+                e.preventDefault();
+                alert('Veuillez saisir une adresse email valide.');
+                return false;
+            }
+            
+            if (!linkUrl) {
+                e.preventDefault();
+                alert('Veuillez saisir le lien à promouvoir.');
                 return false;
             }
             
@@ -303,6 +333,15 @@ if ($selectedCategory) {
                 alert('La quantité minimum est de 1 000.');
                 return false;
             }
+            
+            if (!paymentMethod) {
+                e.preventDefault();
+                alert('Veuillez sélectionner une méthode de paiement.');
+                return false;
+            }
+            
+            // Si tout est valide, activer le bouton
+            submitBtn.disabled = false;
         });
     </script>
 </body>
