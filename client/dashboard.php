@@ -68,21 +68,21 @@ foreach ($userStats['tickets_by_status'] as $ticket) {
 
 function getStatusColor($status) {
     switch ($status) {
-        case 'En attente': return '#ffc107';
-        case 'En cours': return '#17a2b8';
-        case 'Terminée': return '#28a745';
-        case 'Annulée': return '#dc3545';
-        default: return '#6c757d';
+        case 'En attente': return '#ff9500';
+        case 'En cours': return '#007aff';
+        case 'Terminée': return '#34c759';
+        case 'Annulée': return '#ff3b30';
+        default: return '#8e8e93';
     }
 }
 
 function getTicketStatusColor($status) {
     switch ($status) {
-        case 'Ouvert': return '#17a2b8';
-        case 'En cours': return '#ffc107';
-        case 'Résolu': return '#28a745';
-        case 'Fermé': return '#6c757d';
-        default: return '#6c757d';
+        case 'Ouvert': return '#007aff';
+        case 'En cours': return '#ff9500';
+        case 'Résolu': return '#34c759';
+        case 'Fermé': return '#8e8e93';
+        default: return '#8e8e93';
     }
 }
 ?>
@@ -97,503 +97,429 @@ function getTicketStatusColor($status) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
         :root {
-            --dark-bg: #0a0a0a;
-            --darker-bg: #1a1a1a;
-            --card-bg: #2a2a2a;
-            --border-color: #3a3a3a;
-            --text-primary: #ffffff;
-            --text-secondary: #cccccc;
-            --primary-color: #00ff88;
-            --secondary-color: #00cc6a;
-            --success-color: #28a745;
-            --warning-color: #ffc107;
-            --danger-color: #dc3545;
-            --info-color: #17a2b8;
-            --gradient-primary: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
-            --gradient-secondary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --gradient-warning: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --gradient-info: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f7;
+            --bg-tertiary: #fafafa;
+            --text-primary: #1d1d1f;
+            --text-secondary: #86868b;
+            --text-tertiary: #6e6e73;
+            --accent-primary: #007aff;
+            --accent-secondary: #5856d6;
+            --accent-success: #34c759;
+            --accent-warning: #ff9500;
+            --accent-danger: #ff3b30;
+            --border-light: #d2d2d7;
+            --border-lighter: #e5e5e7;
+            --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.04);
+            --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.08);
+            --shadow-large: 0 8px 32px rgba(0, 0, 0, 0.12);
+            --radius-small: 8px;
+            --radius-medium: 12px;
+            --radius-large: 16px;
+            --radius-xl: 24px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
         
         body {
-            background: var(--dark-bg);
+            background: var(--bg-primary);
             color: var(--text-primary);
-            font-family: 'Poppins', sans-serif;
-            overflow-x: hidden;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-weight: 400;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
         
         .client-container {
             padding-top: 20px;
             min-height: 100vh;
-            background: var(--dark-bg);
+            background: var(--bg-primary);
         }
         
-        /* Navigation Client Améliorée */
+        /* Header Principal */
+        .main-header {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+            border-radius: var(--radius-xl);
+            padding: 40px;
+            margin-bottom: 32px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-subtle);
+        }
+        
+        .header-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .header-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 32px;
+            font-size: 2rem;
+            color: white;
+            box-shadow: var(--shadow-medium);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .header-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+        
+        .header-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-bottom: 0;
+        }
+        
+        /* Navigation Client Minimaliste */
         .client-nav {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
+            background: var(--bg-primary);
+            border: 1px solid var(--border-lighter);
+            border-radius: var(--radius-large);
+            padding: 24px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-subtle);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
         }
         
         .client-nav .nav-link {
             color: var(--text-secondary);
-            padding: 15px 25px;
-            border-radius: 15px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 12px 20px;
+            border-radius: var(--radius-medium);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             text-decoration: none;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .client-nav .nav-link::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: var(--gradient-primary);
-            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: -1;
-        }
-        
-        .client-nav .nav-link:hover::before,
-        .client-nav .nav-link.active::before {
-            left: 0;
+            font-weight: 500;
+            font-size: 0.95rem;
+            margin: 0 4px;
         }
         
         .client-nav .nav-link:hover,
         .client-nav .nav-link.active {
-            color: var(--dark-bg);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0, 255, 136, 0.3);
+            color: var(--accent-primary);
+            background: rgba(0, 122, 255, 0.04);
+            transform: translateY(-1px);
         }
         
-        /* Header Amélioré */
-        .dashboard-header {
-            background: var(--gradient-primary);
-            border-radius: 25px;
-            padding: 40px;
-            margin-bottom: 40px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0, 255, 136, 0.2);
-        }
-        
-        .dashboard-header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="10" cy="60" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="40" r="0.5" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-            animation: float 20s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
-        }
-        
-        .welcome-content {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-        }
-        
-        .welcome-icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            animation: bounce 2s ease-in-out infinite;
-        }
-        
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
-        }
-        
-        .welcome-title {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 15px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        
-        .welcome-subtitle {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            margin-bottom: 0;
-        }
-        
-        /* Cartes de Statistiques Améliorées */
+        /* Cartes de Statistiques Minimalistes */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
         }
         
         .stats-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 30px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-lighter);
+            border-radius: var(--radius-large);
+            padding: 32px 24px;
             text-align: center;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-        }
-        
-        .stats-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--gradient-primary);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-subtle);
         }
         
         .stats-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0, 255, 136, 0.2);
-            border-color: var(--primary-color);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-medium);
+            border-color: var(--accent-primary);
         }
         
-        .stats-card:nth-child(1)::before { background: var(--gradient-primary); }
-        .stats-card:nth-child(2)::before { background: var(--gradient-secondary); }
-        .stats-card:nth-child(3)::before { background: var(--gradient-warning); }
-        .stats-card:nth-child(4)::before { background: var(--gradient-info); }
+        .stats-card:nth-child(1) { border-top: 4px solid var(--accent-primary); }
+        .stats-card:nth-child(2) { border-top: 4px solid var(--accent-secondary); }
+        .stats-card:nth-child(3) { border-top: 4px solid var(--accent-warning); }
+        .stats-card:nth-child(4) { border-top: 4px solid var(--accent-success); }
         
         .stats-icon {
-            font-size: 3rem;
+            font-size: 2.5rem;
             margin-bottom: 20px;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--accent-primary);
+            opacity: 0.8;
         }
         
-        .stats-card:nth-child(1) .stats-icon { background: var(--gradient-primary); }
-        .stats-card:nth-child(2) .stats-icon { background: var(--gradient-secondary); }
-        .stats-card:nth-child(3) .stats-icon { background: var(--gradient-warning); }
-        .stats-card:nth-child(4) .stats-icon { background: var(--gradient-info); }
+        .stats-card:nth-child(1) .stats-icon { color: var(--accent-primary); }
+        .stats-card:nth-child(2) .stats-icon { color: var(--accent-secondary); }
+        .stats-card:nth-child(3) .stats-icon { color: var(--accent-warning); }
+        .stats-card:nth-child(4) .stats-icon { color: var(--accent-success); }
         
         .stats-number {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
         }
-        
-        .stats-card:nth-child(1) .stats-number { background: var(--gradient-primary); }
-        .stats-card:nth-child(2) .stats-number { background: var(--gradient-secondary); }
-        .stats-card:nth-child(3) .stats-number { background: var(--gradient-warning); }
-        .stats-card:nth-child(4) .stats-number { background: var(--gradient-info); }
         
         .stats-label {
-            color: var(--text-secondary);
-            font-size: 1rem;
+            color: var(--text-tertiary);
+            font-size: 0.875rem;
             font-weight: 500;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.05em;
         }
         
-        /* Actions Rapides Améliorées */
+        /* Actions Rapides Minimalistes */
         .quick-actions {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 25px;
-            padding: 35px;
-            margin-bottom: 40px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            background: var(--bg-primary);
+            border: 1px solid var(--border-lighter);
+            border-radius: var(--radius-xl);
+            padding: 40px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-subtle);
         }
         
         .quick-actions h4 {
             color: var(--text-primary);
-            font-weight: 700;
-            margin-bottom: 30px;
+            font-weight: 600;
+            margin-bottom: 32px;
             text-align: center;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        
+        .quick-actions h4 i {
+            color: var(--accent-primary);
             font-size: 1.5rem;
         }
         
         .actions-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
         }
         
         .action-btn {
-            background: var(--darker-bg);
-            border: 2px solid var(--border-color);
-            border-radius: 20px;
-            padding: 30px 20px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-lighter);
+            border-radius: var(--radius-large);
+            padding: 32px 24px;
             text-align: center;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-decoration: none;
             color: var(--text-primary);
             display: block;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .action-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: var(--gradient-primary);
-            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 1;
-        }
-        
-        .action-btn:hover::before {
-            left: 0;
         }
         
         .action-btn:hover {
-            border-color: var(--primary-color);
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 20px 40px rgba(0, 255, 136, 0.3);
-        }
-        
-        .action-content {
-            position: relative;
-            z-index: 2;
+            background: var(--bg-tertiary);
+            border-color: var(--accent-primary);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-medium);
+            text-decoration: none;
+            color: var(--text-primary);
         }
         
         .action-icon {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: var(--primary-color);
+            font-size: 2.25rem;
+            margin-bottom: 16px;
+            color: var(--accent-primary);
             transition: all 0.3s ease;
         }
         
         .action-btn:hover .action-icon {
-            color: var(--dark-bg);
             transform: scale(1.1);
         }
         
         .action-title {
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: 1.125rem;
             margin-bottom: 8px;
-            transition: color 0.3s ease;
-        }
-        
-        .action-btn:hover .action-title {
-            color: var(--dark-bg);
+            color: var(--text-primary);
         }
         
         .action-description {
             color: var(--text-secondary);
             font-size: 0.9rem;
-            transition: color 0.3s ease;
-        }
-        
-        .action-btn:hover .action-description {
-            color: var(--dark-bg);
+            line-height: 1.5;
         }
         
         /* Graphiques et Visualisations */
         .charts-section {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 25px;
-            padding: 35px;
-            margin-bottom: 40px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            background: var(--bg-primary);
+            border: 1px solid var(--border-lighter);
+            border-radius: var(--radius-xl);
+            padding: 40px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-subtle);
         }
         
         .charts-section h4 {
             color: var(--text-primary);
-            font-weight: 700;
-            margin-bottom: 30px;
+            font-weight: 600;
+            margin-bottom: 32px;
             text-align: center;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        
+        .charts-section h4 i {
+            color: var(--accent-primary);
             font-size: 1.5rem;
         }
         
         .charts-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 30px;
+            gap: 32px;
         }
         
         .chart-container {
-            background: var(--darker-bg);
-            border-radius: 20px;
-            padding: 25px;
-            border: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            border-radius: var(--radius-large);
+            padding: 32px;
+            border: 1px solid var(--border-lighter);
         }
         
         .chart-title {
             color: var(--text-primary);
             font-weight: 600;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             text-align: center;
-            font-size: 1.1rem;
+            font-size: 1.125rem;
         }
         
         /* Contenu Principal */
         .main-content {
             display: grid;
             grid-template-columns: 2fr 1fr;
-            gap: 30px;
+            gap: 32px;
         }
         
         .content-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            background: var(--bg-primary);
+            border: 1px solid var(--border-lighter);
+            border-radius: var(--radius-xl);
+            padding: 32px;
+            box-shadow: var(--shadow-subtle);
+            margin-bottom: 32px;
         }
         
         .content-card h5 {
             color: var(--text-primary);
-            font-weight: 700;
-            margin-bottom: 25px;
+            font-weight: 600;
+            margin-bottom: 24px;
             display: flex;
             align-items: center;
-            gap: 15px;
-            font-size: 1.3rem;
+            gap: 12px;
+            font-size: 1.25rem;
         }
         
         .content-card h5 i {
-            color: var(--primary-color);
-            font-size: 1.5rem;
+            color: var(--accent-primary);
+            font-size: 1.25rem;
         }
         
-        /* Tableaux Améliorés */
+        /* Tableaux Minimalistes */
         .table {
             background: transparent;
-            border-radius: 15px;
+            border-radius: var(--radius-medium);
             overflow: hidden;
         }
         
         .table th {
-            background: var(--darker-bg);
-            border-color: var(--border-color);
+            background: var(--bg-secondary);
+            border-color: var(--border-lighter);
             color: var(--text-primary);
             font-weight: 600;
-            padding: 20px 15px;
-            font-size: 0.9rem;
+            padding: 20px 16px;
+            font-size: 0.875rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.05em;
         }
         
         .table td {
-            border-color: var(--border-color);
+            border-color: var(--border-lighter);
             color: var(--text-secondary);
-            padding: 20px 15px;
+            padding: 20px 16px;
             vertical-align: middle;
         }
         
         .table tbody tr {
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
         
         .table tbody tr:hover {
-            background: rgba(0, 255, 136, 0.05);
-            transform: scale(1.01);
+            background: rgba(0, 122, 255, 0.02);
         }
         
-        /* Badges de Statut Améliorés */
+        /* Badges de Statut Minimalistes */
         .status-badge {
-            padding: 8px 16px;
-            border-radius: 25px;
-            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .status-badge::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.2);
-            transition: left 0.3s ease;
-        }
-        
-        .status-badge:hover::before {
-            left: 0;
+            letter-spacing: 0.05em;
+            color: white;
         }
         
         .status-pending { 
-            background: linear-gradient(135deg, #ffc107, #ff8f00);
-            color: #000;
+            background: var(--accent-warning);
         }
         .status-processing { 
-            background: linear-gradient(135deg, #17a2b8, #138496);
-            color: #fff;
+            background: var(--accent-primary);
         }
         .status-completed { 
-            background: linear-gradient(135deg, #28a745, #20c997);
-            color: #fff;
+            background: var(--accent-success);
         }
         .status-cancelled { 
-            background: linear-gradient(135deg, #dc3545, #c82333);
-            color: #fff;
+            background: var(--accent-danger);
         }
         
-        /* Notifications Améliorées */
+        /* Notifications Minimalistes */
         .notification-item {
-            background: var(--darker-bg);
-            border-radius: 15px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-medium);
             padding: 20px;
-            margin-bottom: 15px;
-            border-left: 4px solid var(--primary-color);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .notification-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.1), transparent);
-            transition: left 0.5s ease;
-        }
-        
-        .notification-item:hover::before {
-            left: 100%;
+            margin-bottom: 16px;
+            border-left: 3px solid var(--accent-primary);
+            transition: all 0.2s ease;
         }
         
         .notification-item:hover {
-            transform: translateX(5px);
-            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.2);
+            background: var(--bg-tertiary);
+            transform: translateX(4px);
         }
         
         .notification-item.unread {
-            border-left-color: var(--warning-color);
-            background: rgba(255, 193, 7, 0.1);
+            border-left-color: var(--accent-warning);
+            background: rgba(255, 149, 0, 0.04);
         }
         
         .notification-title {
@@ -606,17 +532,17 @@ function getTicketStatusColor($status) {
         .notification-message {
             color: var(--text-secondary);
             font-size: 0.9rem;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             line-height: 1.5;
         }
         
         .notification-time {
-            color: var(--text-secondary);
+            color: var(--text-tertiary);
             font-size: 0.8rem;
             font-weight: 500;
         }
         
-        /* États Vides Améliorés */
+        /* États Vides Minimalistes */
         .empty-state {
             text-align: center;
             padding: 60px 20px;
@@ -624,14 +550,15 @@ function getTicketStatusColor($status) {
         }
         
         .empty-state i {
-            font-size: 4rem;
+            font-size: 3rem;
             margin-bottom: 20px;
-            opacity: 0.5;
+            opacity: 0.4;
+            color: var(--text-tertiary);
         }
         
         .empty-state h5 {
             color: var(--text-secondary);
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             font-weight: 600;
         }
         
@@ -640,11 +567,54 @@ function getTicketStatusColor($status) {
             line-height: 1.6;
         }
         
+        /* Boutons Minimalistes */
+        .btn {
+            border-radius: var(--radius-medium);
+            font-weight: 500;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-subtle);
+        }
+        
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .btn-primary {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+        
+        .btn-primary:hover {
+            background: #0056cc;
+            border-color: #0056cc;
+        }
+        
+        .btn-outline-primary {
+            color: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+        
+        .btn-outline-primary:hover {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+        
+        .btn-outline-danger {
+            color: var(--accent-danger);
+            border-color: var(--accent-danger);
+        }
+        
+        .btn-outline-danger:hover {
+            background: var(--accent-danger);
+            border-color: var(--accent-danger);
+        }
+        
         /* Animations d'Entrée */
         .animate-fade-in {
-            animation: fadeInUp 0.8s ease-out forwards;
+            animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(20px);
         }
         
         .animate-fade-in:nth-child(1) { animation-delay: 0.1s; }
@@ -679,58 +649,62 @@ function getTicketStatusColor($status) {
                 grid-template-columns: 1fr;
             }
             
-            .dashboard-header {
-                padding: 30px 20px;
+            .main-header {
+                padding: 32px 24px;
             }
             
-            .welcome-title {
+            .header-title {
                 font-size: 2rem;
             }
             
             .stats-card {
-                padding: 25px 20px;
+                padding: 24px 20px;
+            }
+            
+            .quick-actions {
+                padding: 32px 24px;
+            }
+            
+            .content-card {
+                padding: 24px 20px;
             }
         }
         
         /* Scrollbar Personnalisée */
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
         
         ::-webkit-scrollbar-track {
-            background: var(--border-color);
+            background: var(--bg-secondary);
         }
         
         ::-webkit-scrollbar-thumb {
-            background: var(--primary-color);
-            border-radius: 4px;
+            background: var(--border-light);
+            border-radius: 3px;
         }
         
         ::-webkit-scrollbar-thumb:hover {
-            background: var(--secondary-color);
+            background: var(--text-tertiary);
         }
     </style>
 </head>
 <body>
     <div class="client-container">
         <div class="container-fluid">
-            <!-- Header -->
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="text-white">
-                    <i class="fas fa-tachometer-alt me-3"></i>Dashboard Client
-                </h1>
-                <div class="d-flex align-items-center">
-                    <span class="text-muted me-3">
-                        <i class="fas fa-user me-2"></i><?php echo htmlspecialchars($currentUser['first_name'] . ' ' . $currentUser['last_name']); ?>
-                    </span>
-                    <a href="logout.php" class="btn btn-outline-danger">
-                        <i class="fas fa-sign-out-alt me-2"></i>Déconnexion
-                    </a>
+            <!-- Header Principal -->
+            <div class="main-header animate-fade-in">
+                <div class="header-content">
+                    <div class="header-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h1 class="header-title">Bienvenue, <?php echo htmlspecialchars($currentUser['first_name']); ?> !</h1>
+                    <p class="header-subtitle">Gérez vos commandes et suivez vos services SMM en temps réel avec notre dashboard intelligent.</p>
                 </div>
             </div>
             
             <!-- Navigation Client -->
-            <div class="client-nav">
+            <div class="client-nav animate-fade-in">
                 <nav class="nav nav-pills justify-content-center">
                     <a class="nav-link active" href="dashboard.php">
                         <i class="fas fa-tachometer-alt me-2"></i>Dashboard
@@ -748,16 +722,15 @@ function getTicketStatusColor($status) {
                         <i class="fas fa-user-cog me-2"></i>Mon Profil
                     </a>
                 </nav>
-            </div>
-            
-            <!-- Message de bienvenue -->
-            <div class="dashboard-header animate-fade-in">
-                <div class="welcome-content">
-                    <div class="welcome-icon">
-                        <i class="fas fa-rocket"></i>
-                    </div>
-                    <h2 class="welcome-title">Bienvenue, <?php echo htmlspecialchars($currentUser['first_name']); ?> !</h2>
-                    <p class="welcome-subtitle">Gérez vos commandes et suivez vos services SMM en temps réel avec notre dashboard intelligent.</p>
+                
+                <!-- Informations utilisateur -->
+                <div class="d-flex justify-content-end align-items-center mt-3">
+                    <span class="text-muted me-3">
+                        <i class="fas fa-user me-2"></i><?php echo htmlspecialchars($currentUser['first_name'] . ' ' . $currentUser['last_name']); ?>
+                    </span>
+                    <a href="logout.php" class="btn btn-outline-danger btn-sm">
+                        <i class="fas fa-sign-out-alt me-2"></i>Déconnexion
+                    </a>
                 </div>
             </div>
             
@@ -821,48 +794,40 @@ function getTicketStatusColor($status) {
             <!-- Actions rapides -->
             <div class="quick-actions animate-fade-in">
                 <h4>
-                    <i class="fas fa-bolt me-2"></i>Actions Rapides
+                    <i class="fas fa-bolt"></i>Actions Rapides
                 </h4>
                 
                 <div class="actions-grid">
                     <a href="nouvelle-commande.php" class="action-btn">
-                        <div class="action-content">
-                            <div class="action-icon">
-                                <i class="fas fa-plus"></i>
-                            </div>
-                            <h6 class="action-title">Nouvelle Commande</h6>
-                            <p class="action-description">Commander un service SMM</p>
+                        <div class="action-icon">
+                            <i class="fas fa-plus"></i>
                         </div>
+                        <h6 class="action-title">Nouvelle Commande</h6>
+                        <p class="action-description">Commander un service SMM</p>
                     </a>
                     
                     <a href="tickets.php" class="action-btn">
-                        <div class="action-content">
-                            <div class="action-icon">
-                                <i class="fas fa-ticket-alt"></i>
-                            </div>
-                            <h6 class="action-title">Support Client</h6>
-                            <p class="action-description">Créer un ticket de support</p>
+                        <div class="action-icon">
+                            <i class="fas fa-ticket-alt"></i>
                         </div>
+                        <h6 class="action-title">Support Client</h6>
+                        <p class="action-description">Créer un ticket de support</p>
                     </a>
                     
                     <a href="commandes.php" class="action-btn">
-                        <div class="action-content">
-                            <div class="action-icon">
-                                <i class="fas fa-list"></i>
-                            </div>
-                            <h6 class="action-title">Mes Commandes</h6>
-                            <p class="action-description">Voir l'historique complet</p>
+                        <div class="action-icon">
+                            <i class="fas fa-list"></i>
                         </div>
+                        <h6 class="action-title">Mes Commandes</h6>
+                        <p class="action-description">Voir l'historique complet</p>
                     </a>
                     
                     <a href="profil.php" class="action-btn">
-                        <div class="action-content">
-                            <div class="action-icon">
-                                <i class="fas fa-user-cog"></i>
-                            </div>
-                            <h6 class="action-title">Mon Profil</h6>
-                            <p class="action-description">Modifier mes informations</p>
+                        <div class="action-icon">
+                            <i class="fas fa-user-cog"></i>
                         </div>
+                        <h6 class="action-title">Mon Profil</h6>
+                        <p class="action-description">Modifier mes informations</p>
                     </a>
                 </div>
             </div>
@@ -899,7 +864,7 @@ function getTicketStatusColor($status) {
                                                 <td>
                                                     <div>
                                                         <div class="fw-bold"><?php echo htmlspecialchars($order['service_name']); ?></div>
-                                                        <small class="text-muted"><?php echo htmlspecialchars($order['category_name']); ?></small>
+                                                        <small style="color: var(--text-tertiary);"><?php echo htmlspecialchars($order['category_name'] ?? ''); ?></small>
                                                     </div>
                                                 </td>
                                                 <td class="fw-bold"><?php echo number_format($order['total_price'], 0, ',', ' '); ?> FCFA</td>
@@ -950,7 +915,7 @@ function getTicketStatusColor($status) {
                     <!-- Graphiques -->
                     <div class="charts-section animate-fade-in">
                         <h4>
-                            <i class="fas fa-chart-pie me-2"></i>Statistiques Visuelles
+                            <i class="fas fa-chart-pie"></i>Statistiques Visuelles
                         </h4>
                         
                         <div class="charts-grid">
@@ -1048,9 +1013,10 @@ function getTicketStatusColor($status) {
                 legend: {
                     position: 'bottom',
                     labels: {
-                        color: '#ffffff',
+                        color: '#1d1d1f',
                         font: {
-                            size: 12
+                            size: 12,
+                            family: 'Inter'
                         }
                     }
                 }
@@ -1068,7 +1034,7 @@ function getTicketStatusColor($status) {
                         data: orderStatusData.map(item => item.value),
                         backgroundColor: orderStatusData.map(item => item.color),
                         borderWidth: 2,
-                        borderColor: '#2a2a2a'
+                        borderColor: '#ffffff'
                     }]
                 },
                 options: chartOptions
@@ -1086,7 +1052,7 @@ function getTicketStatusColor($status) {
                         data: ticketStatusData.map(item => item.value),
                         backgroundColor: ticketStatusData.map(item => item.color),
                         borderWidth: 2,
-                        borderColor: '#2a2a2a'
+                        borderColor: '#ffffff'
                     }]
                 },
                 options: chartOptions
