@@ -642,35 +642,211 @@ try {
             }
         }
         
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .stats-overview {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            }
-            
-            .filters-row {
-                grid-template-columns: 1fr;
-            }
-            
+        /* Responsive Mobile First */
+        @media (max-width: 576px) {
             .main-header {
-                padding: 32px 24px;
+                padding: 60px 0 40px;
             }
             
             .header-title {
                 font-size: 2rem;
+                line-height: 1.2;
+            }
+            
+            .header-subtitle {
+                font-size: 1rem;
+                line-height: 1.5;
+            }
+            
+            .client-container {
+                padding: 20px 16px;
+            }
+            
+            .content-card {
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+            
+            .content-card h5 {
+                font-size: 1.125rem;
+                margin-bottom: 16px;
+            }
+            
+            .stats-overview {
+                grid-template-columns: 1fr;
+                gap: 16px;
             }
             
             .stat-card {
-                padding: 24px 20px;
+                padding: 20px;
             }
             
-            .table-responsive {
+            .stat-number {
+                font-size: 2rem;
+            }
+            
+            .stat-label {
+                font-size: 0.875rem;
+            }
+            
+            .filters-section {
+                flex-direction: column;
+                gap: 16px;
+                align-items: stretch;
+            }
+            
+            .filter-control {
+                flex: 1;
+            }
+            
+            .filter-control select,
+            .filter-control input {
+                width: 100%;
+                padding: 10px 14px;
                 font-size: 0.9rem;
             }
             
-            .filters-section,
+            .filter-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .clear-filters {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            
             .orders-table-section {
-                padding: 24px 20px;
+                overflow-x: auto;
+            }
+            
+            .table {
+                font-size: 0.875rem;
+                min-width: 600px;
+            }
+            
+            .table th,
+            .table td {
+                padding: 12px 8px;
+                white-space: nowrap;
+            }
+            
+            .status-badge {
+                font-size: 0.7rem;
+                padding: 4px 8px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                gap: 6px;
+            }
+            
+            .btn-action {
+                padding: 8px 12px;
+                font-size: 0.8rem;
+                justify-content: center;
+            }
+            
+            .pagination-section {
+                flex-direction: column;
+                gap: 16px;
+                align-items: center;
+            }
+            
+            .pagination-info {
+                text-align: center;
+                font-size: 0.875rem;
+            }
+            
+            .pagination {
+                justify-content: center;
+            }
+            
+            .page-link {
+                padding: 8px 12px;
+                font-size: 0.875rem;
+            }
+            
+            .empty-state {
+                padding: 40px 16px;
+            }
+            
+            .empty-state i {
+                font-size: 2.5rem;
+            }
+            
+            .empty-state h5 {
+                font-size: 1.125rem;
+            }
+            
+            .empty-state p {
+                font-size: 0.875rem;
+            }
+            
+            .navbar-brand {
+                font-size: 1.25rem;
+            }
+            
+            .navbar-nav .nav-link {
+                padding: 6px 12px;
+                margin: 2px;
+                font-size: 0.9rem;
+            }
+            
+            .btn {
+                padding: 8px 16px;
+                font-size: 0.875rem;
+            }
+            
+            .btn-lg {
+                padding: 12px 24px;
+                font-size: 1rem;
+            }
+        }
+        
+        @media (min-width: 577px) and (max-width: 768px) {
+            .main-header {
+                padding: 80px 0 60px;
+            }
+            
+            .header-title {
+                font-size: 2.5rem;
+            }
+            
+            .stats-overview {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .filters-section {
+                flex-wrap: wrap;
+                gap: 16px;
+            }
+            
+            .content-card {
+                padding: 24px;
+            }
+        }
+        
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .header-title {
+                font-size: 3rem;
+            }
+            
+            .stats-overview {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+            }
+        }
+        
+        @media (min-width: 1025px) {
+            .header-title {
+                font-size: 3.5rem;
+            }
+            
+            .stats-overview {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 32px;
             }
         }
         

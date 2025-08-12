@@ -592,8 +592,107 @@ $categories = getAllCategories();
             margin: 40px 0;
         }
         
-        /* Responsive */
-        @media (max-width: 768px) {
+        /* Responsive Mobile First */
+        @media (max-width: 576px) {
+            .section {
+                padding: 40px 0;
+            }
+            
+            .hero {
+                padding: 80px 0 40px;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+                line-height: 1.2;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+                line-height: 1.5;
+            }
+            
+            .section-title {
+                font-size: 1.75rem;
+            }
+            
+            .section-subtitle {
+                font-size: 1rem;
+            }
+            
+            .btn-lg {
+                padding: 12px 24px;
+                font-size: 0.9rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+            
+            .floating-icons {
+                height: 250px;
+                margin-top: 30px;
+            }
+            
+            .icon-item {
+                padding: 12px;
+                font-size: 0.8rem;
+            }
+            
+            .icon-item i {
+                font-size: 1.25rem;
+            }
+            
+            .icon-item span {
+                font-size: 0.75rem;
+            }
+            
+            .about-stats .row {
+                gap: 12px;
+            }
+            
+            .stat-item {
+                padding: 16px;
+            }
+            
+            .stat-item h3 {
+                font-size: 1.75rem;
+            }
+            
+            .stat-item p {
+                font-size: 0.875rem;
+            }
+            
+            .service-card,
+            .feature-card,
+            .contact-card {
+                padding: 20px;
+                margin-bottom: 16px;
+            }
+            
+            .service-icon,
+            .feature-icon,
+            .contact-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+                margin-bottom: 16px;
+            }
+            
+            .navbar-brand {
+                font-size: 1.25rem;
+            }
+            
+            .navbar-nav .nav-link {
+                padding: 6px 12px;
+                margin: 2px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (min-width: 577px) and (max-width: 768px) {
             .section {
                 padding: 60px 0;
             }
@@ -643,6 +742,34 @@ $categories = getAllCategories();
             
             .stat-item h3 {
                 font-size: 2rem;
+            }
+        }
+        
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .floating-icons {
+                height: 350px;
+            }
+            
+            .icon-item {
+                padding: 18px;
+            }
+            
+            .icon-item i {
+                font-size: 1.75rem;
+            }
+        }
+        
+        @media (min-width: 1025px) {
+            .hero-title {
+                font-size: 3.5rem;
+            }
+            
+            .floating-icons {
+                height: 400px;
             }
         }
     </style>

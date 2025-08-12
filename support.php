@@ -571,8 +571,96 @@ try {
             }
         }
         
-        /* Responsive */
-        @media (max-width: 768px) {
+        /* Responsive Mobile First */
+        @media (max-width: 576px) {
+            .section {
+                padding: 40px 0;
+            }
+            
+            .support-hero {
+                padding: 80px 0 40px;
+            }
+            
+            .support-hero h1 {
+                font-size: 2rem;
+                line-height: 1.2;
+            }
+            
+            .support-hero .lead {
+                font-size: 1rem;
+                line-height: 1.5;
+            }
+            
+            .section-title {
+                font-size: 1.75rem;
+            }
+            
+            .support-form {
+                padding: 20px;
+            }
+            
+            .contact-info {
+                padding: 20px;
+            }
+            
+            .faq-item {
+                padding: 16px;
+            }
+            
+            .faq-header {
+                padding: 20px;
+            }
+            
+            .faq-header h3 {
+                font-size: 1.125rem;
+            }
+            
+            .testimonial-card {
+                padding: 20px;
+                margin-bottom: 16px;
+            }
+            
+            .contact-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+                margin-bottom: 12px;
+            }
+            
+            .contact-info h4 {
+                font-size: 1.25rem;
+            }
+            
+            .contact-info h5 {
+                font-size: 1rem;
+            }
+            
+            .navbar-brand {
+                font-size: 1.25rem;
+            }
+            
+            .navbar-nav .nav-link {
+                padding: 6px 12px;
+                margin: 2px;
+                font-size: 0.9rem;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .form-control {
+                padding: 10px 14px;
+                font-size: 0.9rem;
+            }
+            
+            .form-label {
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (min-width: 577px) and (max-width: 768px) {
             .section {
                 padding: 60px 0;
             }
@@ -603,6 +691,26 @@ try {
             
             .testimonial-card {
                 padding: 24px;
+            }
+        }
+        
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .support-hero h1 {
+                font-size: 3rem;
+            }
+            
+            .support-form {
+                padding: 32px;
+            }
+            
+            .contact-info {
+                padding: 28px;
+            }
+        }
+        
+        @media (min-width: 1025px) {
+            .support-hero h1 {
+                font-size: 3.5rem;
             }
         }
     </style>

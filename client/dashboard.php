@@ -499,6 +499,158 @@ try {
             border-color: var(--accent-primary);
         }
         
+        /* Responsive Mobile First */
+        @media (max-width: 576px) {
+            .main-header {
+                padding: 60px 0 40px;
+            }
+            
+            .header-title {
+                font-size: 2rem;
+                line-height: 1.2;
+            }
+            
+            .header-subtitle {
+                font-size: 1rem;
+                line-height: 1.5;
+            }
+            
+            .client-container {
+                padding: 20px 16px;
+            }
+            
+            .content-card {
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+            
+            .content-card h5 {
+                font-size: 1.125rem;
+                margin-bottom: 16px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            
+            .stat-item {
+                padding: 20px;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+            
+            .stat-label {
+                font-size: 0.875rem;
+            }
+            
+            .orders-table {
+                font-size: 0.875rem;
+            }
+            
+            .orders-table th,
+            .orders-table td {
+                padding: 8px 6px;
+            }
+            
+            .status-badge {
+                font-size: 0.75rem;
+                padding: 4px 8px;
+            }
+            
+            .notification-item {
+                padding: 16px;
+                margin-bottom: 12px;
+            }
+            
+            .notification-title {
+                font-size: 0.9rem;
+            }
+            
+            .notification-message {
+                font-size: 0.8rem;
+            }
+            
+            .empty-state {
+                padding: 40px 16px;
+            }
+            
+            .empty-state i {
+                font-size: 2.5rem;
+            }
+            
+            .empty-state h5 {
+                font-size: 1.125rem;
+            }
+            
+            .empty-state p {
+                font-size: 0.875rem;
+            }
+            
+            .navbar-brand {
+                font-size: 1.25rem;
+            }
+            
+            .navbar-nav .nav-link {
+                padding: 6px 12px;
+                margin: 2px;
+                font-size: 0.9rem;
+            }
+            
+            .btn {
+                padding: 8px 16px;
+                font-size: 0.875rem;
+            }
+            
+            .btn-sm {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+        }
+        
+        @media (min-width: 577px) and (max-width: 768px) {
+            .main-header {
+                padding: 80px 0 60px;
+            }
+            
+            .header-title {
+                font-size: 2.5rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .content-card {
+                padding: 24px;
+            }
+        }
+        
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .header-title {
+                font-size: 3rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+            }
+        }
+        
+        @media (min-width: 1025px) {
+            .header-title {
+                font-size: 3.5rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 32px;
+            }
+        }
+        
         .btn-primary:hover {
             background: #0056cc;
             border-color: #0056cc;

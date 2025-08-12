@@ -500,6 +500,134 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             opacity: 0.8;
         }
         
+        /* Responsive Mobile First */
+        @media (max-width: 576px) {
+            .main-header {
+                padding: 60px 0 40px;
+            }
+            
+            .header-title {
+                font-size: 2rem;
+                line-height: 1.2;
+            }
+            
+            .header-subtitle {
+                font-size: 1rem;
+                line-height: 1.5;
+            }
+            
+            .payment-steps {
+                padding: 24px 16px;
+            }
+            
+            .step-item {
+                padding: 16px;
+                margin-bottom: 16px;
+            }
+            
+            .step-number {
+                width: 24px;
+                height: 24px;
+                font-size: 0.75rem;
+            }
+            
+            .step-content h5 {
+                font-size: 1rem;
+                margin-bottom: 8px;
+            }
+            
+            .step-content p {
+                font-size: 0.875rem;
+                line-height: 1.5;
+            }
+            
+            .proof-upload {
+                padding: 24px 16px;
+                margin-bottom: 24px;
+            }
+            
+            .proof-upload h4 {
+                font-size: 1.25rem;
+                margin-bottom: 24px;
+            }
+            
+            .upload-area {
+                padding: 32px 20px;
+            }
+            
+            .upload-icon {
+                font-size: 2rem;
+                margin-bottom: 16px;
+            }
+            
+            .upload-text {
+                font-size: 1rem;
+                margin-bottom: 8px;
+            }
+            
+            .upload-hint {
+                font-size: 0.8rem;
+            }
+            
+            .navbar-brand {
+                font-size: 1.25rem;
+            }
+            
+            .navbar-nav .nav-link {
+                padding: 6px 12px;
+                margin: 2px;
+                font-size: 0.9rem;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .form-control {
+                padding: 10px 14px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (min-width: 577px) and (max-width: 768px) {
+            .main-header {
+                padding: 80px 0 60px;
+            }
+            
+            .header-title {
+                font-size: 2.5rem;
+            }
+            
+            .payment-steps {
+                padding: 32px 24px;
+            }
+            
+            .proof-upload {
+                padding: 32px 24px;
+            }
+        }
+        
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .header-title {
+                font-size: 3rem;
+            }
+            
+            .payment-steps {
+                padding: 40px 32px;
+            }
+            
+            .proof-upload {
+                padding: 36px 32px;
+            }
+        }
+        
+        @media (min-width: 1025px) {
+            .header-title {
+                font-size: 3.5rem;
+            }
+        }
+        
         .file-input {
             display: none;
         }
