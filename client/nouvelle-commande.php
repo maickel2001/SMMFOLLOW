@@ -139,193 +139,273 @@ try {
     <!-- SweetAlert2 pour les notifications -->
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --dark-bg: #0a0a0a;
-            --darker-bg: #1a1a1a;
-            --card-bg: #2a2a2a;
-            --border-color: #3a3a3a;
-            --text-primary: #ffffff;
-            --text-secondary: #cccccc;
-            --primary-color: #00ff88;
-            --secondary-color: #00cc6a;
-            --success-color: #28a745;
-            --warning-color: #ffc107;
-            --danger-color: #dc3545;
-            --info-color: #17a2b8;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f7;
+            --bg-tertiary: #fafafa;
+            --text-primary: #1d1d1f;
+            --text-secondary: #86868b;
+            --text-tertiary: #6e6e73;
+            --accent-primary: #007aff;
+            --accent-secondary: #5856d6;
+            --accent-success: #34c759;
+            --accent-warning: #ff9500;
+            --accent-danger: #ff3b30;
+            --border-light: #d2d2d7;
+            --border-lighter: #e5e5e7;
+            --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.04);
+            --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.08);
+            --shadow-large: 0 8px 32px rgba(0, 0, 0, 0.12);
+            --radius-small: 8px;
+            --radius-medium: 12px;
+            --radius-large: 16px;
+            --radius-xl: 24px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
         
         body {
-            background: var(--dark-bg);
+            background: var(--bg-primary);
             color: var(--text-primary);
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-weight: 400;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
         
         .client-container {
             padding-top: 20px;
             min-height: 100vh;
-            background: var(--dark-bg);
+            background: var(--bg-primary);
         }
         
+        /* Header Principal */
+        .main-header {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+            border-radius: var(--radius-xl);
+            padding: 40px;
+            margin-bottom: 32px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-subtle);
+        }
+        
+        .header-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .header-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 32px;
+            font-size: 2rem;
+            color: white;
+            box-shadow: var(--shadow-medium);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .header-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+        
+        .header-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-bottom: 0;
+        }
+        
+        /* Navigation Client Minimaliste */
         .client-nav {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 30px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-lighter);
+            border-radius: var(--radius-large);
+            padding: 24px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-subtle);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
         }
         
         .client-nav .nav-link {
             color: var(--text-secondary);
-            padding: 10px 20px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
+            padding: 12px 20px;
+            border-radius: var(--radius-medium);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            margin: 0 4px;
         }
         
         .client-nav .nav-link:hover,
         .client-nav .nav-link.active {
-            background: var(--primary-color);
-            color: var(--dark-bg);
+            color: var(--accent-primary);
+            background: rgba(0, 122, 255, 0.04);
+            transform: translateY(-1px);
         }
         
+        /* Cartes et Formulaires Minimalistes */
         .card {
-            background: var(--card-bg);
-            border-color: var(--border-color);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: var(--bg-primary);
+            border: 1px solid var(--border-lighter);
+            border-radius: var(--radius-large);
+            box-shadow: var(--shadow-subtle);
         }
         
         .card-header {
-            background: var(--darker-bg);
-            border-color: var(--border-color);
+            background: var(--bg-secondary);
+            border-color: var(--border-lighter);
+            border-radius: var(--radius-large) var(--radius-large) 0 0;
         }
         
         .form-control, .form-select, .form-textarea {
-            background: var(--darker-bg);
-            border-color: var(--border-color);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-lighter);
             color: var(--text-primary);
-            transition: all 0.3s ease;
+            border-radius: var(--radius-medium);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 12px 16px;
+            font-size: 0.95rem;
         }
         
         .form-control:focus, .form-select:focus, .form-textarea:focus {
-            background: var(--darker-bg);
-            border-color: var(--primary-color);
+            background: var(--bg-primary);
+            border-color: var(--accent-primary);
             color: var(--text-primary);
-            box-shadow: 0 0 0 0.2rem rgba(0, 255, 136, 0.25);
-            transform: translateY(-1px);
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+            outline: none;
         }
         
         .form-label {
             color: var(--text-primary);
             font-weight: 600;
             margin-bottom: 8px;
+            font-size: 0.9rem;
         }
         
         .btn-primary {
-            background: var(--primary-color);
-            border-color: var(--primary-color);
-            color: var(--dark-bg);
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
             font-weight: 600;
             padding: 12px 30px;
-            border-radius: 10px;
-            transition: all 0.3s ease;
+            border-radius: var(--radius-medium);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-subtle);
         }
         
         .btn-primary:hover {
-            background: var(--secondary-color);
-            border-color: var(--secondary-color);
-            color: var(--dark-bg);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 255, 136, 0.3);
+            background: #0056cc;
+            border-color: #0056cc;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-medium);
         }
         
         .btn-primary:disabled {
-            background: var(--border-color);
-            border-color: var(--border-color);
+            background: var(--border-lighter);
+            border-color: var(--border-lighter);
+            color: var(--text-tertiary);
             transform: none;
             box-shadow: none;
         }
         
+        /* Résumé de Commande Minimaliste */
         .order-summary {
-            background: var(--darker-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 15px;
-            padding: 25px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-lighter);
+            border-radius: var(--radius-large);
+            padding: 32px;
             margin-top: 20px;
             position: sticky;
             top: 20px;
+            box-shadow: var(--shadow-subtle);
         }
         
         .summary-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--border-color);
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-lighter);
         }
         
         .summary-item:last-child {
             border-bottom: none;
             font-weight: 700;
-            font-size: 1.2rem;
-            color: var(--primary-color);
+            font-size: 1.25rem;
+            color: var(--accent-primary);
             padding-top: 20px;
         }
         
+        /* Cartes de Service Minimalistes */
         .service-card {
-            background: var(--darker-bg);
-            border: 2px solid var(--border-color);
-            border-radius: 15px;
-            padding: 25px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-lighter);
+            border-radius: var(--radius-large);
+            padding: 24px;
             margin-bottom: 20px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
-        }
-        
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.1), transparent);
-            transition: left 0.5s ease;
-        }
-        
-        .service-card:hover::before {
-            left: 100%;
+            box-shadow: var(--shadow-subtle);
         }
         
         .service-card:hover {
-            border-color: var(--primary-color);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.2);
+            border-color: var(--accent-primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
         }
         
         .service-card.selected {
-            border-color: var(--primary-color);
-            background: rgba(0, 255, 136, 0.1);
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+            border-color: var(--accent-primary);
+            background: rgba(0, 122, 255, 0.02);
+            box-shadow: var(--shadow-medium);
         }
         
         .service-card.selected::after {
             content: '✓';
             position: absolute;
-            top: 15px;
-            right: 15px;
-            background: var(--primary-color);
-            color: var(--dark-bg);
-            width: 30px;
-            height: 30px;
+            top: 16px;
+            right: 16px;
+            background: var(--accent-primary);
+            color: white;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 16px;
+            font-size: 14px;
         }
         
         .service-header {
@@ -411,54 +491,62 @@ try {
             transition: width 0.3s ease;
         }
         
+        /* Sections de Formulaire Minimalistes */
         .form-section {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 25px;
-            border: 1px solid var(--border-color);
+            background: var(--bg-primary);
+            border-radius: var(--radius-large);
+            padding: 32px;
+            margin-bottom: 24px;
+            border: 1px solid var(--border-lighter);
+            box-shadow: var(--shadow-subtle);
         }
         
         .form-section h5 {
-            color: var(--primary-color);
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--border-color);
+            color: var(--accent-primary);
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--border-lighter);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            font-size: 1.25rem;
+            font-weight: 600;
         }
         
         .form-section h5 i {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
         }
         
+        /* Suggestions Minimalistes */
         .suggestions {
-            background: rgba(0, 255, 136, 0.1);
-            border: 1px solid var(--primary-color);
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 25px;
+            background: rgba(0, 122, 255, 0.02);
+            border: 1px solid var(--accent-primary);
+            border-radius: var(--radius-medium);
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-subtle);
         }
         
         .suggestions h6 {
-            color: var(--primary-color);
-            margin-bottom: 15px;
+            color: var(--accent-primary);
+            margin-bottom: 16px;
+            font-weight: 600;
         }
         
         .suggestion-item {
-            background: var(--darker-bg);
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 10px;
+            background: var(--bg-primary);
+            border-radius: var(--radius-small);
+            padding: 16px;
+            margin-bottom: 12px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px solid var(--border-color);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid var(--border-lighter);
         }
         
         .suggestion-item:hover {
-            border-color: var(--primary-color);
-            background: rgba(0, 255, 136, 0.05);
+            border-color: var(--accent-primary);
+            background: rgba(0, 122, 255, 0.02);
+            transform: translateY(-1px);
         }
         
         .suggestion-item:last-child {
@@ -627,10 +715,10 @@ try {
             to { transform: translateY(0); opacity: 1; }
         }
         
-        /* Styles pour les menus déroulants impressionnants */
+        /* Menus Déroulants Minimalistes */
         .category-selector, .service-selector {
             position: relative;
-            margin-bottom: 25px;
+            margin-bottom: 24px;
         }
         
         .category-dropdown, .service-dropdown {
@@ -640,53 +728,38 @@ try {
         
         .category-dropdown-btn, .service-dropdown-btn {
             width: 100%;
-            padding: 18px 25px;
-            background: var(--darker-bg);
-            border: 2px solid var(--border-color);
-            border-radius: 15px;
+            padding: 16px 20px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-lighter);
+            border-radius: var(--radius-medium);
             color: var(--text-primary);
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 500;
             text-align: left;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: relative;
-            overflow: hidden;
-        }
-        
-        .category-dropdown-btn::before, .service-dropdown-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.1), transparent);
-            transition: left 0.5s ease;
-        }
-        
-        .category-dropdown-btn:hover::before, .service-dropdown-btn:hover::before {
-            left: 100%;
         }
         
         .category-dropdown-btn:hover, .service-dropdown-btn:hover {
-            border-color: var(--primary-color);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.2);
+            border-color: var(--accent-primary);
+            background: var(--bg-primary);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-medium);
         }
         
         .category-dropdown-btn.active, .service-dropdown-btn.active {
-            border-color: var(--primary-color);
-            background: rgba(0, 255, 136, 0.1);
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+            border-color: var(--accent-primary);
+            background: rgba(0, 122, 255, 0.02);
+            box-shadow: var(--shadow-medium);
         }
         
         .dropdown-arrow {
-            transition: transform 0.3s ease;
-            color: var(--primary-color);
+            transition: transform 0.2s ease;
+            color: var(--accent-primary);
         }
         
         .category-dropdown-btn.active .dropdown-arrow,
@@ -699,18 +772,18 @@ try {
             top: 100%;
             left: 0;
             right: 0;
-            background: var(--card-bg);
-            border: 2px solid var(--border-color);
-            border-radius: 15px;
-            margin-top: 10px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-lighter);
+            border-radius: var(--radius-medium);
+            margin-top: 8px;
             max-height: 400px;
             overflow-y: auto;
             z-index: 1000;
             opacity: 0;
             visibility: hidden;
-            transform: translateY(-10px);
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transform: translateY(-8px);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-large);
         }
         
         .category-dropdown-menu.show, .service-dropdown-menu.show {
@@ -720,59 +793,43 @@ try {
         }
         
         .category-option, .service-option {
-            padding: 20px;
+            padding: 16px 20px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            border-bottom: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+            border-bottom: 1px solid var(--border-lighter);
             position: relative;
-            overflow: hidden;
         }
         
         .category-option:last-child, .service-option:last-child {
             border-bottom: none;
         }
         
-        .category-option::before, .service-option::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.05), transparent);
-            transition: left 0.5s ease;
-        }
-        
-        .category-option:hover::before, .service-option:hover::before {
-            left: 100%;
-        }
-        
         .category-option:hover, .service-option:hover {
-            background: rgba(0, 255, 136, 0.05);
-            transform: translateX(5px);
+            background: rgba(0, 122, 255, 0.02);
+            transform: translateX(4px);
         }
         
         .category-option.active, .service-option.active {
-            background: rgba(0, 255, 136, 0.1);
-            border-left: 4px solid var(--primary-color);
+            background: rgba(0, 122, 255, 0.04);
+            border-left: 3px solid var(--accent-primary);
         }
         
         .category-option-content, .service-option-content {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 16px;
         }
         
         .category-icon, .service-option-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            border-radius: 12px;
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: var(--radius-small);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            color: var(--dark-bg);
+            font-size: 1.25rem;
+            color: white;
             flex-shrink: 0;
         }
         
@@ -784,13 +841,13 @@ try {
         .category-name, .service-option-name {
             font-weight: 600;
             color: var(--text-primary);
-            font-size: 1.1rem;
-            margin-bottom: 5px;
+            font-size: 1rem;
+            margin-bottom: 4px;
         }
         
         .category-description, .service-option-description {
             color: var(--text-secondary);
-            font-size: 0.9rem;
+            font-size: 0.875rem;
             line-height: 1.4;
         }
         
@@ -805,8 +862,8 @@ try {
         
         .price-amount {
             font-weight: 700;
-            color: var(--primary-color);
-            font-size: 1.1rem;
+            color: var(--accent-primary);
+            font-size: 1rem;
         }
         
         .price-unit {
@@ -814,19 +871,19 @@ try {
             font-size: 0.8rem;
         }
         
-        /* Affichage du service sélectionné */
+        /* Affichage du Service Sélectionné Minimaliste */
         .selected-service-display {
-            margin-top: 25px;
+            margin-top: 24px;
         }
         
         .selected-service-card {
-            background: var(--darker-bg);
-            border: 2px solid var(--primary-color);
-            border-radius: 20px;
-            padding: 30px;
+            background: var(--bg-primary);
+            border: 1px solid var(--accent-primary);
+            border-radius: var(--radius-large);
+            padding: 32px;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 0 30px rgba(0, 255, 136, 0.2);
+            box-shadow: var(--shadow-medium);
         }
         
         .selected-service-card::before {
@@ -835,35 +892,35 @@ try {
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
         }
         
         .selected-service-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 25px;
+            margin-bottom: 24px;
         }
         
         .selected-service-info h6 {
             color: var(--text-primary);
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             font-weight: 700;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
         
         .selected-service-meta {
             display: flex;
-            gap: 15px;
+            gap: 12px;
         }
         
         .service-platform, .service-type {
-            background: rgba(0, 255, 136, 0.1);
-            color: var(--primary-color);
-            padding: 5px 12px;
+            background: rgba(0, 122, 255, 0.08);
+            color: var(--accent-primary);
+            padding: 6px 12px;
             border-radius: 20px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 500;
         }
         
@@ -872,41 +929,42 @@ try {
         }
         
         .selected-service-price .price-amount {
-            font-size: 2rem;
+            font-size: 1.75rem;
             font-weight: 800;
-            color: var(--primary-color);
+            color: var(--accent-primary);
             line-height: 1;
         }
         
         .selected-service-price .price-unit {
             color: var(--text-secondary);
-            font-size: 0.9rem;
+            font-size: 0.875rem;
         }
         
         .selected-service-details {
-            margin-bottom: 25px;
+            margin-bottom: 24px;
         }
         
         .detail-row {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
         }
         
         .detail-item {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 15px;
-            background: rgba(0, 255, 136, 0.05);
-            border-radius: 10px;
-            border: 1px solid rgba(0, 255, 136, 0.1);
+            gap: 12px;
+            padding: 16px;
+            background: rgba(0, 122, 255, 0.02);
+            border-radius: var(--radius-small);
+            border: 1px solid rgba(0, 122, 255, 0.08);
         }
         
         .detail-item i {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             width: 20px;
+            color: var(--accent-primary);
         }
         
         .detail-item span {
@@ -921,31 +979,31 @@ try {
         .service-description-full {
             color: var(--text-secondary);
             line-height: 1.6;
-            margin-bottom: 25px;
+            margin-bottom: 24px;
             padding: 20px;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 10px;
-            border-left: 4px solid var(--primary-color);
+            background: rgba(0, 122, 255, 0.02);
+            border-radius: var(--radius-small);
+            border-left: 3px solid var(--accent-primary);
         }
         
         .service-features {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             flex-wrap: wrap;
-            margin-bottom: 25px;
+            margin-bottom: 24px;
         }
         
         .feature-tag {
-            background: rgba(0, 255, 136, 0.1);
-            color: var(--primary-color);
+            background: rgba(0, 122, 255, 0.08);
+            color: var(--accent-primary);
             padding: 8px 16px;
             border-radius: 20px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 500;
             display: flex;
             align-items: center;
             gap: 8px;
-            border: 1px solid rgba(0, 255, 136, 0.2);
+            border: 1px solid rgba(0, 122, 255, 0.12);
         }
         
         .change-service-btn {
@@ -953,18 +1011,18 @@ try {
             top: 20px;
             right: 20px;
             background: transparent;
-            border: 1px solid var(--primary-color);
-            color: var(--primary-color);
+            border: 1px solid var(--accent-primary);
+            color: var(--accent-primary);
             padding: 8px 16px;
             border-radius: 20px;
-            font-size: 0.85rem;
-            transition: all 0.3s ease;
+            font-size: 0.8rem;
+            transition: all 0.2s ease;
         }
         
         .change-service-btn:hover {
-            background: var(--primary-color);
-            color: var(--dark-bg);
-            transform: translateY(-2px);
+            background: var(--accent-primary);
+            color: white;
+            transform: translateY(-1px);
         }
         
         /* Scrollbar personnalisée */
@@ -1095,24 +1153,20 @@ try {
 <body>
     <div class="client-container">
         <div class="container">
-            <!-- Header -->
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="text-white">
-                    <i class="fas fa-plus me-2"></i>Nouvelle Commande
-                </h1>
-                <div class="d-flex align-items-center">
-                    <span class="text-muted me-3">
-                        <i class="fas fa-user me-2"></i><?php echo htmlspecialchars($currentUser['first_name'] . ' ' . $currentUser['last_name']); ?>
-                    </span>
-                    <a href="logout.php" class="btn btn-outline-danger">
-                        <i class="fas fa-sign-out-alt me-2"></i>Déconnexion
-                    </a>
+            <!-- Header Principal -->
+            <div class="main-header animate-fade-in">
+                <div class="header-content">
+                    <div class="header-icon">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <h1 class="header-title">Nouvelle Commande</h1>
+                    <p class="header-subtitle">Créez votre commande SMM en quelques étapes simples</p>
                 </div>
             </div>
             
             <!-- Navigation Client -->
-            <div class="client-nav">
-                <nav class="nav nav-pills">
+            <div class="client-nav animate-fade-in">
+                <nav class="nav nav-pills justify-content-center">
                     <a class="nav-link" href="dashboard.php">
                         <i class="fas fa-tachometer-alt me-2"></i>Dashboard
                     </a>
@@ -1129,6 +1183,16 @@ try {
                         <i class="fas fa-user-cog me-2"></i>Mon Profil
                     </a>
                 </nav>
+                
+                <!-- Informations utilisateur -->
+                <div class="d-flex justify-content-end align-items-center mt-3">
+                    <span class="text-muted me-3">
+                        <i class="fas fa-user me-2"></i><?php echo htmlspecialchars($currentUser['first_name'] . ' ' . $currentUser['last_name']); ?>
+                    </span>
+                    <a href="logout.php" class="btn btn-outline-danger btn-sm">
+                        <i class="fas fa-sign-out-alt me-2"></i>Déconnexion
+                    </a>
+                </div>
             </div>
             
             <?php if ($success): ?>
