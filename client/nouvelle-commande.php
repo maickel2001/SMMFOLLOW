@@ -626,6 +626,470 @@ try {
             from { transform: translateY(10px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
         }
+        
+        /* Styles pour les menus déroulants impressionnants */
+        .category-selector, .service-selector {
+            position: relative;
+            margin-bottom: 25px;
+        }
+        
+        .category-dropdown, .service-dropdown {
+            position: relative;
+            width: 100%;
+        }
+        
+        .category-dropdown-btn, .service-dropdown-btn {
+            width: 100%;
+            padding: 18px 25px;
+            background: var(--darker-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 15px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .category-dropdown-btn::before, .service-dropdown-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .category-dropdown-btn:hover::before, .service-dropdown-btn:hover::before {
+            left: 100%;
+        }
+        
+        .category-dropdown-btn:hover, .service-dropdown-btn:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.2);
+        }
+        
+        .category-dropdown-btn.active, .service-dropdown-btn.active {
+            border-color: var(--primary-color);
+            background: rgba(0, 255, 136, 0.1);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        }
+        
+        .dropdown-arrow {
+            transition: transform 0.3s ease;
+            color: var(--primary-color);
+        }
+        
+        .category-dropdown-btn.active .dropdown-arrow,
+        .service-dropdown-btn.active .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+        
+        .category-dropdown-menu, .service-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 15px;
+            margin-top: 10px;
+            max-height: 400px;
+            overflow-y: auto;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .category-dropdown-menu.show, .service-dropdown-menu.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .category-option, .service-option {
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .category-option:last-child, .service-option:last-child {
+            border-bottom: none;
+        }
+        
+        .category-option::before, .service-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.05), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .category-option:hover::before, .service-option:hover::before {
+            left: 100%;
+        }
+        
+        .category-option:hover, .service-option:hover {
+            background: rgba(0, 255, 136, 0.05);
+            transform: translateX(5px);
+        }
+        
+        .category-option.active, .service-option.active {
+            background: rgba(0, 255, 136, 0.1);
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .category-option-content, .service-option-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .category-icon, .service-option-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--dark-bg);
+            flex-shrink: 0;
+        }
+        
+        .category-info, .service-option-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .category-name, .service-option-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        
+        .category-description, .service-option-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .category-count {
+            flex-shrink: 0;
+        }
+        
+        .service-option-price {
+            text-align: right;
+            flex-shrink: 0;
+        }
+        
+        .price-amount {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+        
+        .price-unit {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+        
+        /* Affichage du service sélectionné */
+        .selected-service-display {
+            margin-top: 25px;
+        }
+        
+        .selected-service-card {
+            background: var(--darker-bg);
+            border: 2px solid var(--primary-color);
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.2);
+        }
+        
+        .selected-service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+        
+        .selected-service-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        
+        .selected-service-info h6 {
+            color: var(--text-primary);
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .selected-service-meta {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .service-platform, .service-type {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--primary-color);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .selected-service-price {
+            text-align: right;
+        }
+        
+        .selected-service-price .price-amount {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            line-height: 1;
+        }
+        
+        .selected-service-price .price-unit {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .selected-service-details {
+            margin-bottom: 25px;
+        }
+        
+        .detail-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background: rgba(0, 255, 136, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+        }
+        
+        .detail-item i {
+            font-size: 1.2rem;
+            width: 20px;
+        }
+        
+        .detail-item span {
+            color: var(--text-secondary);
+        }
+        
+        .detail-item strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        
+        .service-description-full {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .service-features {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+        
+        .feature-tag {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--primary-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+        }
+        
+        .change-service-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+        
+        .change-service-btn:hover {
+            background: var(--primary-color);
+            color: var(--dark-bg);
+            transform: translateY(-2px);
+        }
+        
+        /* Scrollbar personnalisée */
+        .category-dropdown-menu::-webkit-scrollbar,
+        .service-dropdown-menu::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .category-dropdown-menu::-webkit-scrollbar-track,
+        .service-dropdown-menu::-webkit-scrollbar-track {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+        
+        .category-dropdown-menu::-webkit-scrollbar-thumb,
+        .service-dropdown-menu::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+        
+        .category-dropdown-menu::-webkit-scrollbar-thumb:hover,
+        .service-dropdown-menu::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-color);
+        }
+        
+        /* Animations pour les options */
+        .category-option, .service-option {
+            animation: slideInRight 0.3s ease forwards;
+            opacity: 0;
+            transform: translateX(20px);
+        }
+        
+        .category-option:nth-child(1) { animation-delay: 0.1s; }
+        .category-option:nth-child(2) { animation-delay: 0.2s; }
+        .category-option:nth-child(3) { animation-delay: 0.3s; }
+        .category-option:nth-child(4) { animation-delay: 0.4s; }
+        .category-option:nth-child(5) { animation-delay: 0.5s; }
+        
+        @keyframes slideInRight {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        /* Responsive design pour les menus */
+        @media (max-width: 768px) {
+            .category-option-content, .service-option-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .category-icon, .service-option-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.8rem;
+            }
+            
+            .selected-service-header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .detail-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .service-features {
+                justify-content: center;
+            }
+            
+            .change-service-btn {
+                position: static;
+                margin-top: 20px;
+                width: 100%;
+            }
+        }
+        
+        /* Améliorations visuelles supplémentaires */
+        .category-dropdown-btn:focus, .service-dropdown-btn:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.3);
+        }
+        
+        .category-option:focus, .service-option:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.5);
+        }
+        
+        /* Animation de pulsation pour les boutons actifs */
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 255, 136, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0); }
+        }
+        
+        .category-dropdown-btn.active, .service-dropdown-btn.active {
+            animation: pulse 2s infinite;
+        }
+        
+        /* Effet de brillance sur les cartes de service */
+        .selected-service-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(0, 255, 136, 0.1),
+                transparent
+            );
+            transform: rotate(45deg);
+            animation: shine 3s ease-in-out infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+            100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+        }
     </style>
 </head>
 <body>
@@ -708,53 +1172,118 @@ try {
                 <!-- Formulaire de commande -->
                 <div class="col-lg-8">
                     <form method="POST" id="orderForm">
+                        <!-- Champ caché pour l'ID du service -->
+                        <input type="hidden" name="service_id" id="hiddenServiceId" required>
+                        
                         <!-- Sélection du service -->
                         <div class="form-section animate-fade-in">
                             <h5><i class="fas fa-cogs me-2"></i>Choisir un Service</h5>
-                            <div class="row">
-                                <?php foreach ($categories as $category): ?>
-                                    <div class="col-12 mb-3">
-                                        <h6 class="text-primary mb-3">
-                                            <i class="<?php echo htmlspecialchars($category['icon']); ?> me-2"></i>
-                                            <?php echo htmlspecialchars($category['name']); ?>
-                                        </h6>
-                                        <?php if (isset($services[$category['id']])): ?>
-                                            <?php foreach ($services[$category['id']] as $service): ?>
-                                                <div class="service-card" data-service-id="<?php echo $service['id']; ?>" 
-                                                     data-price="<?php echo $service['price_per_1000']; ?>"
-                                                     data-min="<?php echo $service['min_quantity']; ?>"
-                                                     data-max="<?php echo $service['max_quantity']; ?>">
-                                                    <div class="service-header">
-                                                        <div>
-                                                            <div class="service-name"><?php echo htmlspecialchars($service['name']); ?></div>
-                                                            <div class="service-platform"><?php echo htmlspecialchars($service['platform']); ?> - <?php echo htmlspecialchars($service['type']); ?></div>
-                                                        </div>
-                                                        <div class="service-price"><?php echo number_format($service['price_per_1000'], 0, ',', ' '); ?> FCFA/1000</div>
+                            
+                            <!-- Sélecteur de catégorie -->
+                            <div class="category-selector mb-4">
+                                <label class="form-label">Catégorie de Service</label>
+                                <div class="category-dropdown">
+                                    <button class="category-dropdown-btn" type="button" id="categoryDropdownBtn">
+                                        <span class="selected-category">
+                                            <i class="fas fa-th-large me-2"></i>Sélectionner une catégorie
+                                        </span>
+                                        <i class="fas fa-chevron-down dropdown-arrow"></i>
+                                    </button>
+                                    <div class="category-dropdown-menu" id="categoryDropdownMenu">
+                                        <?php foreach ($categories as $category): ?>
+                                            <div class="category-option" data-category-id="<?php echo $category['id']; ?>">
+                                                <div class="category-option-content">
+                                                    <div class="category-icon">
+                                                        <i class="<?php echo htmlspecialchars($category['icon']); ?>"></i>
                                                     </div>
-                                                    <div class="service-description"><?php echo htmlspecialchars($service['description']); ?></div>
-                                                    <div class="service-details">
-                                                        <div class="service-detail">
-                                                            <i class="fas fa-clock"></i>
-                                                            <span><?php echo htmlspecialchars($service['delivery_time']); ?></span>
-                                                        </div>
-                                                        <div class="service-detail">
-                                                            <i class="fas fa-chart-line"></i>
-                                                            <span>Min: <?php echo number_format($service['min_quantity'], 0, ',', ' '); ?></span>
-                                                        </div>
-                                                        <div class="service-detail">
-                                                            <i class="fas fa-chart-line"></i>
-                                                            <span>Max: <?php echo number_format($service['max_quantity'], 0, ',', ' '); ?></span>
-                                                        </div>
-                                                        <div class="service-detail">
-                                                            <i class="fas fa-star"></i>
-                                                            <span>Qualité Premium</span>
-                                                        </div>
+                                                    <div class="category-info">
+                                                        <div class="category-name"><?php echo htmlspecialchars($category['name']); ?></div>
+                                                        <div class="category-description"><?php echo htmlspecialchars($category['description'] ?? 'Services de qualité premium'); ?></div>
+                                                    </div>
+                                                    <div class="category-count">
+                                                        <span class="badge bg-primary"><?php echo count($services[$category['id']] ?? []); ?> services</span>
                                                     </div>
                                                 </div>
-                                            <?php endforeach; ?>
-                                        <?php endif; ?>
+                                            </div>
+                                        <?php endforeach; ?>
                                     </div>
-                                <?php endforeach; ?>
+                                </div>
+                            </div>
+                            
+                            <!-- Sélecteur de service -->
+                            <div class="service-selector" id="serviceSelector" style="display: none;">
+                                <label class="form-label">Service Spécifique</label>
+                                <div class="service-dropdown">
+                                    <button class="service-dropdown-btn" type="button" id="serviceDropdownBtn">
+                                        <span class="selected-service">
+                                            <i class="fas fa-cog me-2"></i>Choisir un service
+                                        </span>
+                                        <i class="fas fa-chevron-down dropdown-arrow"></i>
+                                    </button>
+                                    <div class="service-dropdown-menu" id="serviceDropdownMenu">
+                                        <!-- Les services seront chargés dynamiquement -->
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Service sélectionné - Affichage détaillé -->
+                            <div class="selected-service-display" id="selectedServiceDisplay" style="display: none;">
+                                <div class="selected-service-card">
+                                    <div class="selected-service-header">
+                                        <div class="selected-service-info">
+                                            <h6 class="selected-service-name" id="selectedServiceName"></h6>
+                                            <div class="selected-service-meta">
+                                                <span class="service-platform" id="selectedServicePlatform"></span>
+                                                <span class="service-type" id="selectedServiceType"></span>
+                                            </div>
+                                        </div>
+                                        <div class="selected-service-price">
+                                            <div class="price-amount" id="selectedServicePrice"></div>
+                                            <div class="price-unit">FCFA/1000</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="selected-service-details">
+                                        <div class="detail-row">
+                                            <div class="detail-item">
+                                                <i class="fas fa-clock text-primary"></i>
+                                                <span>Délai: </span>
+                                                <strong id="selectedServiceDelivery"></strong>
+                                            </div>
+                                            <div class="detail-item">
+                                                <i class="fas fa-chart-line text-success"></i>
+                                                <span>Min: </span>
+                                                <strong id="selectedServiceMin"></strong>
+                                            </div>
+                                            <div class="detail-item">
+                                                <i class="fas fa-chart-line text-warning"></i>
+                                                <span>Max: </span>
+                                                <strong id="selectedServiceMax"></strong>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="service-description-full" id="selectedServiceDescription"></div>
+                                        
+                                        <div class="service-features">
+                                            <div class="feature-tag">
+                                                <i class="fas fa-star text-warning"></i>
+                                                Qualité Premium
+                                            </div>
+                                            <div class="feature-tag">
+                                                <i class="fas fa-shield-alt text-success"></i>
+                                                Garantie 100%
+                                            </div>
+                                            <div class="feature-tag">
+                                                <i class="fas fa-rocket text-primary"></i>
+                                                Livraison Rapide
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <button type="button" class="btn btn-outline-primary btn-sm change-service-btn" onclick="showServiceSelector()">
+                                        <i class="fas fa-edit me-1"></i>Changer de service
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         
@@ -904,6 +1433,8 @@ try {
             initializeQuantitySlider();
             initializeQuantityPresets();
             updateProgressBar();
+            initializeCategorySelector();
+            initializeServiceSelector();
         });
         
         // Sélection du service
@@ -1185,6 +1716,187 @@ try {
         // Nettoyer le localStorage après soumission réussie
         if (document.querySelector('.alert-success')) {
             localStorage.removeItem('orderFormData');
+        }
+
+        // Initialisation du sélecteur de catégorie
+        function initializeCategorySelector() {
+            const categoryDropdownBtn = document.getElementById('categoryDropdownBtn');
+            const categoryDropdownMenu = document.getElementById('categoryDropdownMenu');
+            const serviceSelector = document.getElementById('serviceSelector');
+            const selectedServiceDisplay = document.getElementById('selectedServiceDisplay');
+
+            categoryDropdownBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                categoryDropdownMenu.classList.toggle('show');
+                categoryDropdownBtn.classList.toggle('active');
+                
+                // Masquer le sélecteur de service et l'affichage du service sélectionné
+                serviceSelector.style.display = 'none';
+                selectedServiceDisplay.style.display = 'none';
+                
+                // Reset la sélection
+                selectedService = null;
+                selectedPrice = 0;
+                selectedMin = 1000;
+                selectedMax = 100000;
+                
+                // Mettre à jour la progression
+                currentStep = 0;
+                updateProgressBar();
+                updateOrderSummary();
+            });
+
+            // Fermer le menu si on clique ailleurs
+            document.addEventListener('click', function(event) {
+                if (!categoryDropdownBtn.contains(event.target) && !categoryDropdownMenu.contains(event.target)) {
+                    categoryDropdownMenu.classList.remove('show');
+                    categoryDropdownBtn.classList.remove('active');
+                }
+            });
+
+            // Gestion de la sélection de catégorie
+            categoryDropdownMenu.addEventListener('click', function(event) {
+                const categoryOption = event.target.closest('.category-option');
+                if (categoryOption) {
+                    const categoryId = parseInt(categoryOption.dataset.categoryId);
+                    const services = <?php echo json_encode($services); ?>;
+                    const categoryName = categoryOption.querySelector('.category-name').textContent;
+                    const categoryIcon = categoryOption.querySelector('.category-icon i').className;
+
+                    // Mettre à jour l'affichage de la catégorie sélectionnée
+                    document.querySelector('.selected-category').innerHTML = `
+                        <i class="${categoryIcon} me-2"></i>${categoryName}
+                    `;
+                    
+                    // Fermer le menu de catégorie
+                    categoryDropdownMenu.classList.remove('show');
+                    categoryDropdownBtn.classList.remove('active');
+
+                    // Charger les services pour cette catégorie
+                    loadServices(categoryId, services[categoryId]);
+                    
+                    // Afficher le sélecteur de service
+                    serviceSelector.style.display = 'block';
+                    
+                    // Mettre à jour la progression
+                    currentStep = 1;
+                    updateProgressBar();
+                }
+            });
+        }
+
+        // Charger les services pour une catégorie spécifique
+        function loadServices(categoryId, services) {
+            const serviceDropdownMenu = document.getElementById('serviceDropdownMenu');
+            serviceDropdownMenu.innerHTML = ''; // Vider les services précédents
+
+            if (services && services.length > 0) {
+                services.forEach((service, index) => {
+                    const serviceOption = document.createElement('div');
+                    serviceOption.classList.add('service-option');
+                    serviceOption.style.animationDelay = `${(index + 1) * 0.1}s`;
+                    
+                    serviceOption.innerHTML = `
+                        <div class="service-option-content">
+                            <div class="service-option-icon">
+                                <i class="fas fa-cog"></i>
+                            </div>
+                            <div class="service-option-info">
+                                <div class="service-option-name">${service.name}</div>
+                                <div class="service-option-description">${service.description}</div>
+                            </div>
+                            <div class="service-option-price">
+                                <span class="price-amount">${parseInt(service.price_per_1000).toLocaleString()}</span>
+                                <span class="price-unit">FCFA/1000</span>
+                            </div>
+                        </div>
+                    `;
+                    
+                    serviceOption.addEventListener('click', function() {
+                        // Retirer la classe active de tous les services
+                        document.querySelectorAll('.service-option').forEach(opt => opt.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        // Mettre à jour les variables globales
+                        selectedService = service.id;
+                        selectedPrice = parseFloat(service.price_per_1000);
+                        selectedMin = parseInt(service.min_quantity);
+                        selectedMax = parseInt(service.max_quantity);
+                        
+                        // Mettre à jour le champ caché du formulaire
+                        document.getElementById('hiddenServiceId').value = service.id;
+                        
+                        // Mettre à jour les limites de quantité
+                        updateQuantityLimits();
+                        
+                        // Mettre à jour le résumé
+                        updateOrderSummary();
+                        
+                        // Mettre à jour l'affichage du service sélectionné
+                        document.getElementById('selectedServiceName').textContent = service.name;
+                        document.getElementById('selectedServicePlatform').textContent = service.platform || 'Réseau social';
+                        document.getElementById('selectedServiceType').textContent = service.type || 'Service SMM';
+                        document.getElementById('selectedServicePrice').textContent = parseInt(service.price_per_1000).toLocaleString();
+                        document.getElementById('selectedServiceDelivery').textContent = service.delivery_time;
+                        document.getElementById('selectedServiceMin').textContent = parseInt(service.min_quantity).toLocaleString();
+                        document.getElementById('selectedServiceMax').textContent = parseInt(service.max_quantity).toLocaleString();
+                        document.getElementById('selectedServiceDescription').textContent = service.description;
+                        
+                        // Masquer le sélecteur de service et afficher le service sélectionné
+                        document.getElementById('serviceSelector').style.display = 'none';
+                        document.getElementById('selectedServiceDisplay').style.display = 'block';
+                        
+                        // Mettre à jour la progression
+                        currentStep = 2;
+                        updateProgressBar();
+                        
+                        // Activer le bouton de soumission
+                        document.getElementById('submitBtn').disabled = false;
+                    });
+                    
+                    serviceDropdownMenu.appendChild(serviceOption);
+                });
+            } else {
+                serviceDropdownMenu.innerHTML = `
+                    <div class="service-option text-center text-muted">
+                        <i class="fas fa-exclamation-triangle fa-2x mb-2"></i>
+                        <p>Aucun service disponible pour cette catégorie.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Initialisation du sélecteur de service
+        function initializeServiceSelector() {
+            const serviceDropdownBtn = document.getElementById('serviceDropdownBtn');
+            const serviceDropdownMenu = document.getElementById('serviceDropdownMenu');
+
+            serviceDropdownBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                serviceDropdownMenu.classList.toggle('show');
+                serviceDropdownBtn.classList.toggle('active');
+            });
+
+            // Fermer le menu si on clique ailleurs
+            document.addEventListener('click', function(event) {
+                if (!serviceDropdownBtn.contains(event.target) && !serviceDropdownMenu.contains(event.target)) {
+                    serviceDropdownMenu.classList.remove('show');
+                    serviceDropdownBtn.classList.remove('active');
+                }
+            });
+        }
+
+        // Fonction pour revenir au sélecteur de service
+        function showServiceSelector() {
+            // Masquer l'affichage du service sélectionné
+            document.getElementById('selectedServiceDisplay').style.display = 'none';
+            
+            // Afficher le sélecteur de service
+            document.getElementById('serviceSelector').style.display = 'block';
+            
+            // Mettre à jour la progression
+            currentStep = 1;
+            updateProgressBar();
         }
     </script>
 </body>
