@@ -24,6 +24,27 @@ function isAdminLoggedIn() {
     return isset($_SESSION['admin_id']) && !empty($_SESSION['admin_id']);
 }
 
+// Fonction pour vérifier si l'utilisateur est connecté
+function isUserLoggedIn() {
+    return isset($_SESSION['user_id']) && !empty($_SESSION['user_id']);
+}
+
+// Fonction pour obtenir les informations de l'utilisateur connecté
+function getCurrentUser() {
+    if (!isUserLoggedIn()) {
+        return null;
+    }
+    
+    try {
+        $pdo = getDBConnection();
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ? AND is_active = 1");
+        $stmt->execute([$_SESSION['user_id']]);
+        return $stmt->fetch();
+    } catch (Exception $e) {
+        return null;
+    }
+}
+
 // Fonction pour rediriger
 function redirect($url) {
     header("Location: $url");
@@ -159,17 +180,17 @@ function getAdvancedStats() {
 }
 
 // Fonction pour créer un ticket de support
-function createSupportTicket($customerEmail, $customerName, $subject, $message, $orderId = null) {
+function createSupportTicket($customerEmail, $customerName, $subject, $message, $orderId = null, $userId = null) {
     $pdo = getDBConnection();
     
     $ticketNumber = 'TKT' . date('Ymd') . rand(1000, 9999);
     
     $stmt = $pdo->prepare("
-        INSERT INTO support_tickets (ticket_number, customer_email, customer_name, subject, message, order_id, status)
-        VALUES (?, ?, ?, ?, ?, ?, 'Ouvert')
+        INSERT INTO support_tickets (ticket_number, user_id, customer_email, customer_name, subject, message, order_id, status)
+        VALUES (?, ?, ?, ?, ?, ?, ?, 'Ouvert')
     ");
     
-    if ($stmt->execute([$ticketNumber, $customerEmail, $customerName, $subject, $message, $orderId])) {
+    if ($stmt->execute([$ticketNumber, $userId, $customerEmail, $customerName, $subject, $message, $orderId])) {
         return $pdo->lastInsertId();
     }
     
@@ -177,16 +198,28 @@ function createSupportTicket($customerEmail, $customerName, $subject, $message, 
 }
 
 // Fonction pour récupérer les tickets de support
-function getSupportTickets($status = null, $limit = null) {
+function getSupportTickets($status = null, $limit = null, $userId = null) {
     $pdo = getDBConnection();
     
-    $sql = "SELECT * FROM support_tickets ORDER BY created_at DESC";
+    $sql = "SELECT * FROM support_tickets";
     $params = [];
+    $conditions = [];
     
     if ($status) {
-        $sql = "SELECT * FROM support_tickets WHERE status = ? ORDER BY created_at DESC";
-        $params = [$status];
+        $conditions[] = "status = ?";
+        $params[] = $status;
     }
+    
+    if ($userId) {
+        $conditions[] = "user_id = ?";
+        $params[] = $userId;
+    }
+    
+    if (!empty($conditions)) {
+        $sql .= " WHERE " . implode(' AND ', $conditions);
+    }
+    
+    $sql .= " ORDER BY created_at DESC";
     
     if ($limit) {
         $sql .= " LIMIT " . (int)$limit;
@@ -211,19 +244,29 @@ function updateTicketStatus($ticketId, $status, $adminResponse = null) {
 }
 
 // Fonction pour obtenir l'historique des commandes d'un client
-function getCustomerOrderHistory($email) {
+function getCustomerOrderHistory($email, $userId = null) {
     $pdo = getDBConnection();
     
-    $stmt = $pdo->prepare("
+    $sql = "
         SELECT o.*, s.name as service_name, c.name as category_name
         FROM orders o
         JOIN services s ON o.service_id = s.id
         JOIN categories c ON s.category_id = c.id
-        WHERE o.customer_email = ?
-        ORDER BY o.created_at DESC
-    ");
+    ";
     
-    $stmt->execute([$email]);
+    $params = [];
+    if ($userId) {
+        $sql .= " WHERE o.user_id = ?";
+        $params[] = $userId;
+    } else {
+        $sql .= " WHERE o.customer_email = ?";
+        $params[] = $email;
+    }
+    
+    $sql .= " ORDER BY o.created_at DESC";
+    
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($params);
     return $stmt->fetchAll();
 }
 
@@ -292,6 +335,34 @@ function getAdminNotifications() {
     $notifications['processing_orders'] = $stmt->fetch()['count'];
     
     return $notifications;
+}
+
+// Fonction pour obtenir les notifications utilisateur
+function getUserNotifications($userId, $limit = 10) {
+    $pdo = getDBConnection();
+    
+    $stmt = $pdo->prepare("
+        SELECT * FROM notifications 
+        WHERE user_id = ? 
+        ORDER BY created_at DESC 
+        LIMIT ?
+    ");
+    
+    $stmt->execute([$userId, $limit]);
+    return $stmt->fetchAll();
+}
+
+// Fonction pour marquer une notification comme lue
+function markNotificationAsRead($notificationId, $userId) {
+    $pdo = getDBConnection();
+    
+    $stmt = $pdo->prepare("
+        UPDATE notifications 
+        SET is_read = 1 
+        WHERE id = ? AND user_id = ?
+    ");
+    
+    return $stmt->execute([$notificationId, $userId]);
 }
 
 // Fonction pour logger les actions admin
@@ -387,5 +458,178 @@ function getTimeAgo($date) {
         $days = floor($diff / 86400);
         return "Il y a $days jour" . ($days > 1 ? 's' : '');
     }
+}
+
+// Nouvelles fonctions pour la gestion des utilisateurs
+
+// Fonction pour créer un nouvel utilisateur
+function createUser($username, $email, $password, $firstName, $lastName, $phone = null, $country = null) {
+    $pdo = getDBConnection();
+    
+    // Vérifier si l'email ou le nom d'utilisateur existe déjà
+    $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ? OR username = ?");
+    $stmt->execute([$email, $username]);
+    
+    if ($stmt->fetch()) {
+        return false; // Utilisateur existe déjà
+    }
+    
+    // Hasher le mot de passe
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    
+    // Générer un token de vérification
+    $verificationToken = generateSecurityToken();
+    
+    $stmt = $pdo->prepare("
+        INSERT INTO users (username, email, password, first_name, last_name, phone, country, verification_token)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    ");
+    
+    if ($stmt->execute([$username, $email, $hashedPassword, $firstName, $lastName, $phone, $country, $verificationToken])) {
+        return $pdo->lastInsertId();
+    }
+    
+    return false;
+}
+
+// Fonction pour authentifier un utilisateur
+function authenticateUser($email, $password) {
+    $pdo = getDBConnection();
+    
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE (email = ? OR username = ?) AND is_active = 1");
+    $stmt->execute([$email, $email]);
+    $user = $stmt->fetch();
+    
+    if ($user && password_verify($password, $user['password'])) {
+        // Mettre à jour la dernière connexion
+        $stmt = $pdo->prepare("UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?");
+        $stmt->execute([$user['id']]);
+        
+        return $user;
+    }
+    
+    return false;
+}
+
+// Fonction pour obtenir les statistiques d'un utilisateur
+function getUserStats($userId) {
+    $pdo = getDBConnection();
+    
+    $stats = [];
+    
+    // Total des commandes
+    $stmt = $pdo->prepare("SELECT COUNT(*) as total FROM orders WHERE user_id = ?");
+    $stmt->execute([$userId]);
+    $stats['total_orders'] = $stmt->fetch()['total'];
+    
+    // Commandes par statut
+    $stmt = $pdo->prepare("
+        SELECT status, COUNT(*) as count 
+        FROM orders 
+        WHERE user_id = ? 
+        GROUP BY status
+    ");
+    $stmt->execute([$userId]);
+    $stats['orders_by_status'] = $stmt->fetchAll();
+    
+    // Total dépensé
+    $stmt = $pdo->prepare("
+        SELECT SUM(total_price) as total 
+        FROM orders 
+        WHERE user_id = ? AND status = 'Terminée'
+    ");
+    $stmt->execute([$userId]);
+    $stats['total_spent'] = $stmt->fetch()['total'] ?: 0;
+    
+    // Tickets de support
+    $stmt = $pdo->prepare("
+        SELECT status, COUNT(*) as count 
+        FROM support_tickets 
+        WHERE user_id = ? 
+        GROUP BY status
+    ");
+    $stmt->execute([$userId]);
+    $stats['tickets_by_status'] = $stmt->fetchAll();
+    
+    return $stats;
+}
+
+// Fonction pour mettre à jour le profil utilisateur
+function updateUserProfile($userId, $firstName, $lastName, $phone, $country) {
+    $pdo = getDBConnection();
+    
+    $stmt = $pdo->prepare("
+        UPDATE users 
+        SET first_name = ?, last_name = ?, phone = ?, country = ?, updated_at = CURRENT_TIMESTAMP 
+        WHERE id = ?
+    ");
+    
+    return $stmt->execute([$firstName, $lastName, $phone, $country, $userId]);
+}
+
+// Fonction pour changer le mot de passe
+function changeUserPassword($userId, $currentPassword, $newPassword) {
+    $pdo = getDBConnection();
+    
+    // Vérifier l'ancien mot de passe
+    $stmt = $pdo->prepare("SELECT password FROM users WHERE id = ?");
+    $stmt->execute([$userId]);
+    $user = $stmt->fetch();
+    
+    if (!$user || !password_verify($currentPassword, $user['password'])) {
+        return false;
+    }
+    
+    // Hasher le nouveau mot de passe
+    $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+    
+    $stmt = $pdo->prepare("
+        UPDATE users 
+        SET password = ?, updated_at = CURRENT_TIMESTAMP 
+        WHERE id = ?
+    ");
+    
+    return $stmt->execute([$hashedPassword, $userId]);
+}
+
+// Fonction pour récupérer les commandes d'un utilisateur
+function getUserOrders($userId, $limit = null) {
+    $pdo = getDBConnection();
+    
+    $sql = "
+        SELECT o.*, s.name as service_name, s.platform, c.name as category_name
+        FROM orders o
+        JOIN services s ON o.service_id = s.id
+        JOIN categories c ON s.category_id = c.id
+        WHERE o.user_id = ?
+        ORDER BY o.created_at DESC
+    ";
+    
+    if ($limit) {
+        $sql .= " LIMIT " . (int)$limit;
+    }
+    
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$userId]);
+    return $stmt->fetchAll();
+}
+
+// Fonction pour créer une commande avec un utilisateur connecté
+function createOrderWithUser($userId, $serviceId, $customerEmail, $customerName, $linkUrl, $quantity, $paymentMethod) {
+    $pdo = getDBConnection();
+    
+    $totalPrice = calculateTotalPrice($serviceId, $quantity);
+    $orderNumber = generateOrderNumber();
+    
+    $stmt = $pdo->prepare("
+        INSERT INTO orders (order_number, user_id, service_id, customer_email, customer_name, link_url, quantity, total_price, payment_method)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ");
+    
+    if ($stmt->execute([$orderNumber, $userId, $serviceId, $customerEmail, $customerName, $linkUrl, $quantity, $totalPrice, $paymentMethod])) {
+        return $pdo->lastInsertId();
+    }
+    
+    return false;
 }
 ?>

@@ -28,10 +28,32 @@ CREATE TABLE services (
     FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
 );
 
+-- Table des utilisateurs clients
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    phone VARCHAR(20),
+    country VARCHAR(100),
+    avatar VARCHAR(255),
+    email_verified BOOLEAN DEFAULT FALSE,
+    verification_token VARCHAR(255),
+    reset_token VARCHAR(255),
+    reset_token_expires TIMESTAMP NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    last_login TIMESTAMP NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
 -- Table des commandes
 CREATE TABLE orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
     order_number VARCHAR(20) UNIQUE NOT NULL,
+    user_id INT NULL,
     service_id INT NOT NULL,
     customer_email VARCHAR(255) NOT NULL,
     customer_name VARCHAR(100) NOT NULL,
@@ -44,6 +66,7 @@ CREATE TABLE orders (
     admin_notes TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
     FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE CASCADE
 );
 
@@ -65,6 +88,7 @@ CREATE TABLE admins (
 CREATE TABLE support_tickets (
     id INT AUTO_INCREMENT PRIMARY KEY,
     ticket_number VARCHAR(20) UNIQUE NOT NULL,
+    user_id INT NULL,
     customer_email VARCHAR(255) NOT NULL,
     customer_name VARCHAR(100) NOT NULL,
     subject VARCHAR(200) NOT NULL,
@@ -76,6 +100,7 @@ CREATE TABLE support_tickets (
     admin_id INT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
     FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE SET NULL,
     FOREIGN KEY (admin_id) REFERENCES admins(id) ON DELETE SET NULL
 );
@@ -99,10 +124,12 @@ CREATE TABLE notifications (
     title VARCHAR(200) NOT NULL,
     message TEXT NOT NULL,
     is_read BOOLEAN DEFAULT FALSE,
+    user_id INT NULL,
     admin_id INT NULL,
     order_id INT NULL,
     ticket_id INT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (admin_id) REFERENCES admins(id) ON DELETE CASCADE,
     FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
     FOREIGN KEY (ticket_id) REFERENCES support_tickets(id) ON DELETE CASCADE
@@ -154,6 +181,7 @@ CREATE TABLE promotions (
 -- Table des avis et témoignages
 CREATE TABLE testimonials (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NULL,
     customer_name VARCHAR(100) NOT NULL,
     customer_email VARCHAR(255) NOT NULL,
     rating INT NOT NULL CHECK (rating >= 1 AND rating <= 5),
@@ -162,6 +190,7 @@ CREATE TABLE testimonials (
     is_approved BOOLEAN DEFAULT FALSE,
     is_featured BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
     FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE SET NULL
 );
 
@@ -237,7 +266,9 @@ INSERT INTO system_settings (setting_key, setting_value, description) VALUES
 ('auto_approve_orders', 'false', 'Approuver automatiquement les commandes'),
 ('maintenance_mode', 'false', 'Mode maintenance'),
 ('google_analytics_id', '', 'ID Google Analytics'),
-('facebook_pixel_id', '', 'ID Facebook Pixel');
+('facebook_pixel_id', '', 'ID Facebook Pixel'),
+('enable_registration', 'true', 'Activer l\'inscription des utilisateurs'),
+('email_verification', 'false', 'Vérification email obligatoire');
 
 -- Insertion des FAQ par défaut
 INSERT INTO faq (question, answer, category, order_index) VALUES
@@ -258,11 +289,16 @@ INSERT INTO content_pages (slug, title, content, meta_description) VALUES
 CREATE INDEX idx_orders_status ON orders(status);
 CREATE INDEX idx_orders_customer_email ON orders(customer_email);
 CREATE INDEX idx_orders_created_at ON orders(created_at);
+CREATE INDEX idx_orders_user_id ON orders(user_id);
 CREATE INDEX idx_services_category ON services(category_id);
 CREATE INDEX idx_services_platform ON services(platform);
 CREATE INDEX idx_support_tickets_status ON support_tickets(status);
 CREATE INDEX idx_support_tickets_customer ON support_tickets(customer_email);
+CREATE INDEX idx_support_tickets_user_id ON support_tickets(user_id);
 CREATE INDEX idx_admin_logs_admin ON admin_logs(admin_id);
 CREATE INDEX idx_admin_logs_action ON admin_logs(action);
 CREATE INDEX idx_notifications_admin ON notifications(admin_id);
+CREATE INDEX idx_notifications_user ON notifications(user_id);
 CREATE INDEX idx_notifications_type ON notifications(type);
+CREATE INDEX idx_users_email ON users(email);
+CREATE INDEX idx_users_username ON users(username);
