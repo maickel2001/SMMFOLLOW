@@ -11,8 +11,59 @@ $currentUser = getCurrentUser();
 if (!$currentUser) {
     session_destroy();
     redirect('../connexion.php');
-?>
+}
 
+// Traitement de la création d'un ticket
+$success = '';
+$error = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $subject = trim($_POST['subject'] ?? '');
+    $message = trim($_POST['message'] ?? '');
+    $priority = $_POST['priority'] ?? 'Normale';
+    $orderId = $_POST['order_id'] ?? null;
+    
+    if (empty($subject) || empty($message)) {
+        $error = 'Veuillez remplir tous les champs obligatoires.';
+    } else {
+        try {
+            $ticketId = createSupportTicket(
+                $currentUser['email'],
+                $currentUser['first_name'] . ' ' . $currentUser['last_name'],
+                $subject,
+                $message,
+                $orderId,
+                $currentUser['id']
+            );
+            
+            if ($ticketId) {
+                $success = 'Ticket de support créé avec succès ! Notre équipe vous répondra dans les plus brefs délais.';
+                
+                // Réinitialiser le formulaire
+                $_POST = array();
+            } else {
+                $error = 'Erreur lors de la création du ticket.';
+            }
+        } catch (Exception $e) {
+            $error = 'Erreur lors de la création du ticket : ' . $e->getMessage();
+        }
+    }
+}
+
+// Récupération des tickets de l'utilisateur
+try {
+    $tickets = getSupportTickets(null, null, $currentUser['id']);
+} catch (Exception $e) {
+    $tickets = [];
+}
+
+// Récupération des commandes de l'utilisateur pour le formulaire
+try {
+    $userOrders = getUserOrders($currentUser['id']);
+} catch (Exception $e) {
+    $userOrders = [];
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -158,6 +209,27 @@ if (!$currentUser) {
             font-size: 1.2rem;
             opacity: 0.9;
             margin-bottom: 0;
+        }
+        
+        /* Messages d'alerte */
+        .alert {
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: none;
+            font-weight: 600;
+        }
+        
+        .alert-success {
+            background: rgba(40, 167, 69, 0.2);
+            color: #28a745;
+            border: 1px solid rgba(40, 167, 69, 0.3);
+        }
+        
+        .alert-danger {
+            background: rgba(220, 53, 69, 0.2);
+            color: #dc3545;
+            border: 1px solid rgba(220, 53, 69, 0.3);
         }
         
         /* Formulaire de création de ticket */
@@ -395,6 +467,21 @@ if (!$currentUser) {
             border-left: 3px solid var(--info-color);
         }
         
+        .ticket-response {
+            background: rgba(0, 255, 136, 0.1);
+            border-left: 4px solid var(--primary-color);
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .response-header {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+        
         .ticket-footer {
             display: flex;
             justify-content: space-between;
@@ -629,6 +716,19 @@ if (!$currentUser) {
                 </div>
             </div>
             
+            <!-- Messages d'alerte -->
+            <?php if ($success): ?>
+                <div class="alert alert-success animate-fade-in">
+                    <i class="fas fa-check-circle me-2"></i><?php echo htmlspecialchars($success); ?>
+                </div>
+            <?php endif; ?>
+            
+            <?php if ($error): ?>
+                <div class="alert alert-danger animate-fade-in">
+                    <i class="fas fa-exclamation-circle me-2"></i><?php echo htmlspecialchars($error); ?>
+                </div>
+            <?php endif; ?>
+            
             <!-- Formulaire de création de ticket -->
             <div class="ticket-form-section animate-fade-in">
                 <h5>
@@ -641,7 +741,8 @@ if (!$currentUser) {
                             <div class="form-group">
                                 <label for="subject" class="form-label">Sujet *</label>
                                 <input type="text" class="form-control" id="subject" name="subject" 
-                                       placeholder="Décrivez brièvement votre problème" required>
+                                       placeholder="Décrivez brièvement votre problème" required 
+                                       value="<?php echo htmlspecialchars($_POST['subject'] ?? ''); ?>">
                             </div>
                         </div>
                         
@@ -649,10 +750,10 @@ if (!$currentUser) {
                             <div class="form-group">
                                 <label for="priority" class="form-label">Priorité</label>
                                 <select class="form-select" id="priority" name="priority">
-                                    <option value="Faible">Faible</option>
-                                    <option value="Normale" selected>Normale</option>
-                                    <option value="Élevée">Élevée</option>
-                                    <option value="Urgente">Urgente</option>
+                                    <option value="Faible" <?php echo ($_POST['priority'] ?? 'Normale') === 'Faible' ? 'selected' : ''; ?>>Faible</option>
+                                    <option value="Normale" <?php echo ($_POST['priority'] ?? 'Normale') === 'Normale' ? 'selected' : ''; ?>>Normale</option>
+                                    <option value="Élevée" <?php echo ($_POST['priority'] ?? 'Normale') === 'Élevée' ? 'selected' : ''; ?>>Élevée</option>
+                                    <option value="Urgente" <?php echo ($_POST['priority'] ?? 'Normale') === 'Urgente' ? 'selected' : ''; ?>>Urgente</option>
                                 </select>
                             </div>
                         </div>
@@ -661,14 +762,19 @@ if (!$currentUser) {
                     <div class="form-group">
                         <label for="message" class="form-label">Message *</label>
                         <textarea class="form-control" id="message" name="message" rows="5" 
-                                  placeholder="Décrivez votre problème en détail..." required></textarea>
+                                  placeholder="Décrivez votre problème en détail..." required><?php echo htmlspecialchars($_POST['message'] ?? ''); ?></textarea>
                     </div>
                     
                     <div class="form-group">
                         <label for="order_id" class="form-label">Commande concernée (optionnel)</label>
                         <select class="form-select" id="order_id" name="order_id">
                             <option value="">Aucune commande spécifique</option>
-                            <!-- Les commandes seront chargées dynamiquement -->
+                            <?php foreach ($userOrders as $order): ?>
+                                <option value="<?php echo $order['id']; ?>" <?php echo ($_POST['order_id'] ?? '') == $order['id'] ? 'selected' : ''; ?>>
+                                    <?php echo htmlspecialchars($order['order_number']); ?> - 
+                                    <?php echo htmlspecialchars($order['service_name']); ?>
+                                </option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                     
@@ -686,9 +792,81 @@ if (!$currentUser) {
                     <i class="fas fa-list"></i>Mes Tickets de Support
                 </h5>
                 
-                <div id="ticketsList">
-                    <!-- Les tickets seront chargés dynamiquement -->
-                </div>
+                <?php if (!empty($tickets)): ?>
+                    <?php foreach ($tickets as $ticket): ?>
+                        <div class="ticket-item">
+                            <div class="ticket-header">
+                                <div>
+                                    <div class="ticket-subject"><?php echo htmlspecialchars($ticket['subject']); ?></div>
+                                    <div class="ticket-meta">
+                                        <?php
+                                        $priorityClass = '';
+                                        switch ($ticket['priority']) {
+                                            case 'Urgente': $priorityClass = 'priority-urgent'; break;
+                                            case 'Élevée': $priorityClass = 'priority-high'; break;
+                                            case 'Normale': $priorityClass = 'priority-normal'; break;
+                                            case 'Faible': $priorityClass = 'priority-low'; break;
+                                        }
+                                        ?>
+                                        <span class="ticket-priority <?php echo $priorityClass; ?>">
+                                            <?php echo htmlspecialchars($ticket['priority']); ?>
+                                        </span>
+                                        <?php
+                                        $statusClass = '';
+                                        switch ($ticket['status']) {
+                                            case 'Ouvert': $statusClass = 'status-open'; break;
+                                            case 'En cours': $statusClass = 'status-processing'; break;
+                                            case 'Résolu': $statusClass = 'status-resolved'; break;
+                                            case 'Fermé': $statusClass = 'status-closed'; break;
+                                        }
+                                        ?>
+                                        <span class="ticket-status <?php echo $statusClass; ?>">
+                                            <?php echo htmlspecialchars($ticket['status']); ?>
+                                        </span>
+                                        <small class="text-muted">
+                                            <i class="fas fa-calendar me-1"></i>
+                                            <?php echo date('d/m/Y H:i', strtotime($ticket['created_at'])); ?>
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="ticket-message">
+                                <?php echo nl2br(htmlspecialchars($ticket['message'])); ?>
+                            </div>
+                            
+                            <?php if ($ticket['admin_response']): ?>
+                                <div class="ticket-response">
+                                    <div class="response-header">
+                                        <i class="fas fa-reply me-2"></i>Réponse de l'équipe support
+                                    </div>
+                                    <div class="response-message">
+                                        <?php echo nl2br(htmlspecialchars($ticket['admin_response'])); ?>
+                                    </div>
+                                    <small class="text-muted mt-2 d-block">
+                                        Répondu le <?php echo date('d/m/Y H:i', strtotime($ticket['updated_at'])); ?>
+                                    </small>
+                                </div>
+                            <?php endif; ?>
+                            
+                            <?php if ($ticket['status'] === 'Ouvert'): ?>
+                                <div class="mt-3">
+                                    <small class="text-muted">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        Votre ticket est en cours de traitement par notre équipe support.
+                                    </small>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="empty-state">
+                        <i class="fas fa-ticket-alt"></i>
+                        <h5>Aucun ticket</h5>
+                        <p>Vous n'avez pas encore créé de ticket de support.</p>
+                        <p>Utilisez le formulaire ci-dessus pour créer votre premier ticket.</p>
+                    </div>
+                <?php endif; ?>
             </div>
             
             <!-- Contact d'urgence -->
@@ -738,38 +916,35 @@ if (!$currentUser) {
             observer.observe(el);
         });
         
-        // Gestion du formulaire
+        // Auto-resize du textarea
+        document.getElementById('message').addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+        
+        // Validation du formulaire
         document.getElementById('ticketForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Validation basique
             const subject = document.getElementById('subject').value.trim();
             const message = document.getElementById('message').value.trim();
             
-            if (!subject || !message) {
-                alert('Veuillez remplir tous les champs obligatoires.');
-                return;
+            if (!subject) {
+                e.preventDefault();
+                alert('Veuillez saisir un sujet pour votre ticket.');
+                return false;
             }
             
-            // Ici vous pouvez ajouter la logique d'envoi du ticket
-            alert('Ticket créé avec succès ! Notre équipe vous répondra dans les plus brefs délais.');
-            this.reset();
+            if (!message) {
+                e.preventDefault();
+                alert('Veuillez saisir un message détaillant votre problème.');
+                return false;
+            }
+            
+            if (message.length < 10) {
+                e.preventDefault();
+                alert('Veuillez saisir un message plus détaillé (au moins 10 caractères).');
+                return false;
+            }
         });
-        
-        // Chargement des tickets (simulation)
-        function loadTickets() {
-            const ticketsList = document.getElementById('ticketsList');
-            ticketsList.innerHTML = `
-                <div class="empty-state">
-                    <i class="fas fa-ticket-alt"></i>
-                    <h5>Aucun ticket</h5>
-                    <p>Vous n'avez pas encore créé de ticket de support.</p>
-                </div>
-            `;
-        }
-        
-        // Charger les tickets au chargement de la page
-        document.addEventListener('DOMContentLoaded', loadTickets);
     </script>
 </body>
 </html>
