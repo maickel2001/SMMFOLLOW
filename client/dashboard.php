@@ -13,17 +13,38 @@ if (!$currentUser) {
     redirect('../connexion.php');
 }
 
-// Récupération des statistiques utilisateur
-$userStats = getUserStats($currentUser['id']);
+// Récupération des statistiques utilisateur avec gestion d'erreur
+try {
+    $userStats = getUserStats($currentUser['id']);
+} catch (Exception $e) {
+    $userStats = [
+        'total_orders' => 0,
+        'total_spent' => 0,
+        'orders_by_status' => [],
+        'tickets_by_status' => []
+    ];
+}
 
-// Récupération des commandes récentes
-$recentOrders = getUserOrders($currentUser['id'], 5);
+// Récupération des commandes récentes avec gestion d'erreur
+try {
+    $recentOrders = getUserOrders($currentUser['id'], 5);
+} catch (Exception $e) {
+    $recentOrders = [];
+}
 
-// Récupération des tickets récents
-$recentTickets = getSupportTickets(null, 5, $currentUser['id']);
+// Récupération des tickets récents avec gestion d'erreur
+try {
+    $recentTickets = getSupportTickets(null, 5, $currentUser['id']);
+} catch (Exception $e) {
+    $recentTickets = [];
+}
 
-// Récupération des notifications
-$notifications = getUserNotifications($currentUser['id'], 5);
+// Récupération des notifications avec gestion d'erreur
+try {
+    $notifications = getUserNotifications($currentUser['id'], 5);
+} catch (Exception $e) {
+    $notifications = [];
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -36,10 +57,29 @@ $notifications = getUserNotifications($currentUser['id'], 5);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="../assets/css/style.css">
     
     <style>
+        :root {
+            --dark-bg: #0a0a0a;
+            --darker-bg: #1a1a1a;
+            --card-bg: #2a2a2a;
+            --border-color: #3a3a3a;
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --primary-color: #00ff88;
+            --secondary-color: #00cc6a;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --info-color: #17a2b8;
+        }
+        
+        body {
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: 'Poppins', sans-serif;
+        }
+        
         .client-container {
             padding-top: 20px;
             min-height: 100vh;
@@ -59,6 +99,7 @@ $notifications = getUserNotifications($currentUser['id'], 5);
             padding: 10px 20px;
             border-radius: 8px;
             transition: all 0.3s ease;
+            text-decoration: none;
         }
         
         .client-nav .nav-link:hover,
@@ -131,6 +172,16 @@ $notifications = getUserNotifications($currentUser['id'], 5);
             font-size: 2rem;
             color: var(--primary-color);
             margin-bottom: 10px;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            border-color: var(--border-color);
+        }
+        
+        .card-header {
+            background: var(--darker-bg);
+            border-color: var(--border-color);
         }
         
         .table {
@@ -216,6 +267,29 @@ $notifications = getUserNotifications($currentUser['id'], 5);
             color: var(--text-secondary);
             font-size: 0.8rem;
         }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: var(--dark-bg);
+        }
+        
+        .btn-primary:hover {
+            background: var(--secondary-color);
+            border-color: var(--secondary-color);
+            color: var(--dark-bg);
+        }
+        
+        .btn-outline-primary {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .btn-outline-primary:hover {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: var(--dark-bg);
+        }
     </style>
 </head>
 <body>
@@ -285,7 +359,7 @@ $notifications = getUserNotifications($currentUser['id'], 5);
                         <div class="stats-icon">
                             <i class="fas fa-money-bill-wave"></i>
                         </div>
-                        <div class="stats-number"><?php echo formatPrice($userStats['total_spent']); ?></div>
+                        <div class="stats-number"><?php echo number_format($userStats['total_spent'], 0, ',', ' '); ?> FCFA</div>
                         <div class="stats-label">Total Dépensé</div>
                     </div>
                 </div>
@@ -386,8 +460,8 @@ $notifications = getUserNotifications($currentUser['id'], 5);
             <div class="row">
                 <!-- Commandes récentes -->
                 <div class="col-lg-8">
-                    <div class="card" style="background: var(--card-bg); border-color: var(--border-color);">
-                        <div class="card-header" style="background: var(--darker-bg); border-color: var(--border-color);">
+                    <div class="card">
+                        <div class="card-header">
                             <h5 class="mb-0 text-white">
                                 <i class="fas fa-shopping-cart me-2"></i>Commandes Récentes
                             </h5>
@@ -418,7 +492,7 @@ $notifications = getUserNotifications($currentUser['id'], 5);
                                                             <small class="text-muted"><?php echo htmlspecialchars($order['category_name']); ?></small>
                                                         </div>
                                                     </td>
-                                                    <td class="fw-bold"><?php echo formatPrice($order['total_price']); ?></td>
+                                                    <td class="fw-bold"><?php echo number_format($order['total_price'], 0, ',', ' '); ?> FCFA</td>
                                                     <td>
                                                         <?php
                                                         $statusClass = '';
@@ -457,7 +531,7 @@ $notifications = getUserNotifications($currentUser['id'], 5);
                             <?php endif; ?>
                             
                             <?php if (!empty($recentOrders)): ?>
-                                <div class="card-footer text-center" style="background: var(--darker-bg); border-color: var(--border-color);">
+                                <div class="card-footer text-center">
                                     <a href="commandes.php" class="btn btn-sm btn-primary">
                                         <i class="fas fa-eye me-1"></i>Voir toutes mes commandes
                                     </a>
@@ -470,8 +544,8 @@ $notifications = getUserNotifications($currentUser['id'], 5);
                 <!-- Sidebar -->
                 <div class="col-lg-4">
                     <!-- Tickets de support -->
-                    <div class="card mb-4" style="background: var(--card-bg); border-color: var(--border-color);">
-                        <div class="card-header" style="background: var(--darker-bg); border-color: var(--border-color);">
+                    <div class="card mb-4">
+                        <div class="card-header">
                             <h5 class="mb-0 text-white">
                                 <i class="fas fa-ticket-alt me-2"></i>Mes Tickets
                             </h5>
@@ -497,10 +571,10 @@ $notifications = getUserNotifications($currentUser['id'], 5);
                                                 </span>
                                             </div>
                                             <p class="mb-1 text-muted small">
-                                                <?php echo htmlspecialchars($ticket['message']); ?>
+                                                <?php echo htmlspecialchars(substr($ticket['message'], 0, 100)) . '...'; ?>
                                             </p>
                                             <small class="text-muted">
-                                                <?php echo getTimeAgo($ticket['created_at']); ?>
+                                                <?php echo date('d/m/Y', strtotime($ticket['created_at'])); ?>
                                             </small>
                                         </div>
                                     <?php endforeach; ?>
@@ -512,7 +586,7 @@ $notifications = getUserNotifications($currentUser['id'], 5);
                                 </div>
                             <?php endif; ?>
                             
-                            <div class="card-footer text-center" style="background: var(--darker-bg); border-color: var(--border-color);">
+                            <div class="card-footer text-center">
                                 <a href="tickets.php" class="btn btn-sm btn-primary">
                                     <i class="fas fa-eye me-1"></i>Voir tous mes tickets
                                 </a>
@@ -521,8 +595,8 @@ $notifications = getUserNotifications($currentUser['id'], 5);
                     </div>
                     
                     <!-- Notifications -->
-                    <div class="card" style="background: var(--card-bg); border-color: var(--border-color);">
-                        <div class="card-header" style="background: var(--darker-bg); border-color: var(--border-color);">
+                    <div class="card">
+                        <div class="card-header">
                             <h5 class="mb-0 text-white">
                                 <i class="fas fa-bell me-2"></i>Notifications
                             </h5>
@@ -533,7 +607,7 @@ $notifications = getUserNotifications($currentUser['id'], 5);
                                     <div class="notification-item <?php echo $notification['is_read'] ? '' : 'unread'; ?>">
                                         <div class="notification-title"><?php echo htmlspecialchars($notification['title']); ?></div>
                                         <div class="notification-message"><?php echo htmlspecialchars($notification['message']); ?></div>
-                                        <div class="notification-time"><?php echo getTimeAgo($notification['created_at']); ?></div>
+                                        <div class="notification-time"><?php echo date('d/m/Y H:i', strtotime($notification['created_at'])); ?></div>
                                     </div>
                                 <?php endforeach; ?>
                             <?php else: ?>
