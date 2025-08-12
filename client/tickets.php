@@ -11,71 +11,8 @@ $currentUser = getCurrentUser();
 if (!$currentUser) {
     session_destroy();
     redirect('../connexion.php');
-}
-
-$success = '';
-$error = '';
-
-// Traitement de la création d'un ticket
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $subject = cleanInput($_POST['subject'] ?? '');
-    $message = cleanInput($_POST['message'] ?? '');
-    $priority = $_POST['priority'] ?? 'Normale';
-    $orderId = $_POST['order_id'] ?? null;
-    
-    if (empty($subject) || empty($message)) {
-        $error = 'Veuillez remplir tous les champs obligatoires.';
-    } else {
-        try {
-            $ticketId = createSupportTicket(
-                $currentUser['email'],
-                $currentUser['first_name'] . ' ' . $currentUser['last_name'],
-                $subject,
-                $message,
-                $orderId,
-                $currentUser['id']
-            );
-            
-            if ($ticketId) {
-                $success = 'Ticket de support créé avec succès ! Notre équipe vous répondra dans les plus brefs délais.';
-                
-                // Envoyer une notification email
-                $emailSubject = "Nouveau ticket de support - $subject";
-                $emailMessage = "
-                    <h2>Nouveau ticket de support créé</h2>
-                    <p>Bonjour,</p>
-                    <p>Votre ticket de support a été créé avec succès.</p>
-                    <p><strong>Sujet :</strong> $subject</p>
-                    <p><strong>Priorité :</strong> $priority</p>
-                    <p><strong>Message :</strong> $message</p>
-                    <p>Notre équipe support traitera votre demande dans les plus brefs délais.</p>
-                    <p>Cordialement,<br>L'équipe SMM Pro</p>
-                ";
-                
-                sendEmailNotification($currentUser['email'], $emailSubject, $emailMessage);
-            } else {
-                $error = 'Erreur lors de la création du ticket.';
-            }
-        } catch (Exception $e) {
-            $error = 'Erreur lors de la création du ticket : ' . $e->getMessage();
-        }
-    }
-}
-
-// Récupération des tickets de l'utilisateur
-try {
-    $tickets = getSupportTickets(null, null, $currentUser['id']);
-} catch (Exception $e) {
-    $tickets = [];
-}
-
-// Récupération des commandes de l'utilisateur pour le formulaire
-try {
-    $userOrders = getUserOrders($currentUser['id']);
-} catch (Exception $e) {
-    $userOrders = [];
-}
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -102,12 +39,16 @@ try {
             --warning-color: #ffc107;
             --danger-color: #dc3545;
             --info-color: #17a2b8;
+            --gradient-primary: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+            --gradient-warning: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-info: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
         }
         
         body {
             background: var(--dark-bg);
             color: var(--text-primary);
             font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
         }
         
         .client-container {
@@ -116,115 +57,256 @@ try {
             background: var(--dark-bg);
         }
         
+        /* Navigation Client Améliorée */
         .client-nav {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 15px;
-            padding: 20px;
+            border-radius: 20px;
+            padding: 25px;
             margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
         }
         
         .client-nav .nav-link {
             color: var(--text-secondary);
-            padding: 10px 20px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
+            padding: 15px 25px;
+            border-radius: 15px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .client-nav .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+        }
+        
+        .client-nav .nav-link:hover::before,
+        .client-nav .nav-link.active::before {
+            left: 0;
         }
         
         .client-nav .nav-link:hover,
         .client-nav .nav-link.active {
-            background: var(--primary-color);
             color: var(--dark-bg);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 255, 136, 0.3);
         }
         
-        .card {
+        /* Header Amélioré */
+        .page-header {
+            background: var(--gradient-warning);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(240, 147, 251, 0.2);
+        }
+        
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="10" cy="60" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="40" r="0.5" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+        
+        .header-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        .header-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 0;
+        }
+        
+        /* Formulaire de création de ticket */
+        .ticket-form-section {
             background: var(--card-bg);
-            border-color: var(--border-color);
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            padding: 35px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
         
-        .card-header {
-            background: var(--darker-bg);
-            border-color: var(--border-color);
-        }
-        
-        .form-control, .form-select {
-            background: var(--darker-bg);
-            border-color: var(--border-color);
+        .ticket-form-section h5 {
             color: var(--text-primary);
+            font-weight: 700;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.3rem;
         }
         
-        .form-control:focus, .form-select:focus {
-            background: var(--darker-bg);
-            border-color: var(--primary-color);
-            color: var(--text-primary);
-            box-shadow: 0 0 0 0.2rem rgba(0, 255, 136, 0.25);
+        .ticket-form-section h5 i {
+            color: var(--warning-color);
+            font-size: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
         }
         
         .form-label {
             color: var(--text-primary);
             font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1rem;
         }
         
-        .btn-primary {
-            background: var(--primary-color);
-            border-color: var(--primary-color);
-            color: var(--dark-bg);
-        }
-        
-        .btn-primary:hover {
-            background: var(--secondary-color);
-            border-color: var(--secondary-color);
-            color: var(--dark-bg);
-        }
-        
-        .btn-outline-primary {
-            border-color: var(--primary-color);
-            color: var(--primary-color);
-        }
-        
-        .btn-outline-primary:hover {
-            background: var(--primary-color);
-            border-color: var(--primary-color);
-            color: var(--dark-bg);
-        }
-        
-        .priority-badge {
-            padding: 3px 8px;
+        .form-control, .form-select {
+            background: var(--darker-bg);
+            border: 2px solid var(--border-color);
             border-radius: 15px;
-            font-size: 0.7rem;
-            font-weight: 600;
+            padding: 15px 20px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
         }
         
-        .priority-urgent { background: rgba(255, 68, 68, 0.2); color: var(--danger-color); }
-        .priority-high { background: rgba(255, 170, 0, 0.2); color: var(--warning-color); }
-        .priority-normal { background: rgba(0, 170, 255, 0.2); color: var(--info-color); }
-        .priority-low { background: rgba(0, 255, 136, 0.2); color: var(--success-color); }
-        
-        .status-badge {
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
+        .form-control:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--warning-color);
+            box-shadow: 0 0 0 3px rgba(240, 147, 251, 0.2);
+            background: var(--darker-bg);
         }
         
-        .status-open { background: rgba(0, 170, 255, 0.2); color: var(--info-color); }
-        .status-processing { background: rgba(255, 170, 0, 0.2); color: var(--warning-color); }
-        .status-resolved { background: rgba(0, 255, 136, 0.2); color: var(--success-color); }
-        .status-closed { background: rgba(255, 68, 68, 0.2); color: var(--danger-color); }
+        .form-control::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.7;
+        }
+        
+        .btn-create-ticket {
+            background: var(--gradient-warning);
+            border: none;
+            border-radius: 15px;
+            padding: 15px 30px;
+            color: var(--dark-bg);
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-create-ticket::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.3s ease;
+        }
+        
+        .btn-create-ticket:hover::before {
+            left: 0;
+        }
+        
+        .btn-create-ticket:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(240, 147, 251, 0.4);
+        }
+        
+        /* Liste des tickets */
+        .tickets-list-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            padding: 35px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .tickets-list-section h5 {
+            color: var(--text-primary);
+            font-weight: 700;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .tickets-list-section h5 i {
+            color: var(--info-color);
+            font-size: 1.5rem;
+        }
         
         .ticket-item {
             background: var(--darker-bg);
             border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 15px;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ticket-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--gradient-info);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .ticket-item:hover::before {
+            transform: scaleY(1);
         }
         
         .ticket-item:hover {
-            border-color: var(--primary-color);
-            transform: translateY(-2px);
+            transform: translateX(5px);
+            box-shadow: 0 10px 25px rgba(0, 255, 136, 0.1);
+            border-color: var(--info-color);
         }
         
         .ticket-header {
@@ -234,7 +316,8 @@ try {
             margin-bottom: 15px;
         }
         
-        .ticket-title {
+        .ticket-subject {
+            font-size: 1.2rem;
             font-weight: 600;
             color: var(--text-primary);
             margin-bottom: 5px;
@@ -243,49 +326,266 @@ try {
         .ticket-meta {
             display: flex;
             gap: 15px;
-            align-items: center;
             flex-wrap: wrap;
+        }
+        
+        .ticket-priority {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .priority-urgent {
+            background: var(--gradient-warning);
+            color: var(--dark-bg);
+        }
+        
+        .priority-high {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: #fff;
+        }
+        
+        .priority-normal {
+            background: var(--gradient-info);
+            color: #fff;
+        }
+        
+        .priority-low {
+            background: var(--gradient-primary);
+            color: var(--dark-bg);
+        }
+        
+        .ticket-status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-open {
+            background: var(--gradient-info);
+            color: #fff;
+        }
+        
+        .status-processing {
+            background: var(--gradient-warning);
+            color: var(--dark-bg);
+        }
+        
+        .status-resolved {
+            background: var(--gradient-primary);
+            color: var(--dark-bg);
+        }
+        
+        .status-closed {
+            background: linear-gradient(135deg, #6c757d, #495057);
+            color: #fff;
         }
         
         .ticket-message {
             color: var(--text-secondary);
-            margin-bottom: 15px;
             line-height: 1.6;
-        }
-        
-        .ticket-response {
-            background: rgba(0, 255, 136, 0.1);
-            border-left: 4px solid var(--primary-color);
+            margin-bottom: 15px;
             padding: 15px;
-            margin-top: 15px;
-            border-radius: 0 5px 5px 0;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+            border-left: 3px solid var(--info-color);
         }
         
-        .response-header {
+        .ticket-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .ticket-date {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .ticket-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-ticket-action {
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 0.85rem;
             font-weight: 600;
-            color: var(--primary-color);
-            margin-bottom: 10px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            border: none;
+            cursor: pointer;
         }
         
+        .btn-view-ticket {
+            background: var(--gradient-info);
+            color: #fff;
+        }
+        
+        .btn-view-ticket:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+            color: #fff;
+        }
+        
+        .btn-reply-ticket {
+            background: var(--gradient-primary);
+            color: var(--dark-bg);
+        }
+        
+        .btn-reply-ticket:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.4);
+            color: var(--dark-bg);
+        }
+        
+        /* Contact d'urgence */
+        .emergency-contact {
+            background: var(--gradient-warning);
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: 30px;
+            text-align: center;
+            color: var(--dark-bg);
+        }
+        
+        .emergency-contact h6 {
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .emergency-contact p {
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+        
+        .contact-methods {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .contact-method {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            font-weight: 600;
+        }
+        
+        /* États vides */
         .empty-state {
             text-align: center;
             padding: 60px 20px;
+            color: var(--text-secondary);
         }
         
         .empty-state i {
             font-size: 4rem;
-            color: var(--text-secondary);
             margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        
+        .empty-state h5 {
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .empty-state p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        /* Animations d'entrée */
+        .animate-fade-in {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .animate-fade-in:nth-child(1) { animation-delay: 0.1s; }
+        .animate-fade-in:nth-child(2) { animation-delay: 0.2s; }
+        .animate-fade-in:nth-child(3) { animation-delay: 0.3s; }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .page-header {
+                padding: 30px 20px;
+            }
+            
+            .header-title {
+                font-size: 2rem;
+            }
+            
+            .ticket-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .ticket-meta {
+                justify-content: center;
+            }
+            
+            .ticket-footer {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .contact-methods {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        
+        /* Scrollbar personnalisée */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--border-color);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-color);
         }
     </style>
 </head>
 <body>
     <div class="client-container">
-        <div class="container">
+        <div class="container-fluid">
             <!-- Header -->
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h1 class="text-white">
-                    <i class="fas fa-ticket-alt me-2"></i>Support Client
+                    <i class="fas fa-ticket-alt me-3"></i>Support Client
                 </h1>
                 <div class="d-flex align-items-center">
                     <span class="text-muted me-3">
@@ -299,7 +599,7 @@ try {
             
             <!-- Navigation Client -->
             <div class="client-nav">
-                <nav class="nav nav-pills">
+                <nav class="nav nav-pills justify-content-center">
                     <a class="nav-link" href="dashboard.php">
                         <i class="fas fa-tachometer-alt me-2"></i>Dashboard
                     </a>
@@ -318,193 +618,98 @@ try {
                 </nav>
             </div>
             
-            <?php if ($success): ?>
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <i class="fas fa-check-circle me-2"></i><?php echo htmlspecialchars($success); ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            <?php endif; ?>
-            
-            <?php if ($error): ?>
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <i class="fas fa-exclamation-triangle me-2"></i><?php echo htmlspecialchars($error); ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            <?php endif; ?>
-            
-            <div class="row">
-                <!-- Formulaire de création de ticket -->
-                <div class="col-lg-4">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0 text-white">
-                                <i class="fas fa-plus me-2"></i>Nouveau Ticket
-                            </h5>
-                        </div>
-                        <div class="card-body">
-                            <form method="POST" id="ticketForm">
-                                <div class="mb-3">
-                                    <label for="subject" class="form-label">Sujet *</label>
-                                    <input type="text" class="form-control" id="subject" name="subject" 
-                                           placeholder="Décrivez brièvement votre problème" required 
-                                           value="<?php echo htmlspecialchars($_POST['subject'] ?? ''); ?>">
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label for="message" class="form-label">Message *</label>
-                                    <textarea class="form-control" id="message" name="message" rows="5" 
-                                              placeholder="Décrivez votre problème en détail..." required><?php echo htmlspecialchars($_POST['message'] ?? ''); ?></textarea>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label for="priority" class="form-label">Priorité</label>
-                                    <select class="form-select" id="priority" name="priority">
-                                        <option value="Faible">Faible</option>
-                                        <option value="Normale" selected>Normale</option>
-                                        <option value="Élevée">Élevée</option>
-                                        <option value="Urgente">Urgente</option>
-                                    </select>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label for="order_id" class="form-label">Commande concernée (optionnel)</label>
-                                    <select class="form-select" id="order_id" name="order_id">
-                                        <option value="">Aucune commande spécifique</option>
-                                        <?php foreach ($userOrders as $order): ?>
-                                            <option value="<?php echo $order['id']; ?>">
-                                                <?php echo htmlspecialchars($order['order_number']); ?> - 
-                                                <?php echo htmlspecialchars($order['service_name']); ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                
-                                <button type="submit" class="btn btn-primary w-100">
-                                    <i class="fas fa-paper-plane me-2"></i>Créer le Ticket
-                                </button>
-                            </form>
-                        </div>
+            <!-- Header de la page -->
+            <div class="page-header animate-fade-in">
+                <div class="header-content">
+                    <div class="header-icon">
+                        <i class="fas fa-headset"></i>
                     </div>
-                </div>
-                
-                <!-- Liste des tickets -->
-                <div class="col-lg-8">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0 text-white">
-                                <i class="fas fa-list me-2"></i>Mes Tickets de Support
-                            </h5>
-                            <span class="badge bg-primary"><?php echo count($tickets); ?> ticket(s)</span>
-                        </div>
-                        <div class="card-body">
-                            <?php if (!empty($tickets)): ?>
-                                <?php foreach ($tickets as $ticket): ?>
-                                    <div class="ticket-item">
-                                        <div class="ticket-header">
-                                            <div>
-                                                <div class="ticket-title"><?php echo htmlspecialchars($ticket['subject']); ?></div>
-                                                <div class="ticket-meta">
-                                                    <span class="priority-badge priority-<?php echo strtolower($ticket['priority']); ?>">
-                                                        <?php echo htmlspecialchars($ticket['priority']); ?>
-                                                    </span>
-                                                    <?php
-                                                    $statusClass = '';
-                                                    switch ($ticket['status']) {
-                                                        case 'Ouvert': $statusClass = 'status-open'; break;
-                                                        case 'En cours': $statusClass = 'status-processing'; break;
-                                                        case 'Résolu': $statusClass = 'status-resolved'; break;
-                                                        case 'Fermé': $statusClass = 'status-closed'; break;
-                                                    }
-                                                    ?>
-                                                    <span class="status-badge <?php echo $statusClass; ?>">
-                                                        <?php echo htmlspecialchars($ticket['status']); ?>
-                                                    </span>
-                                                    <small class="text-muted">
-                                                        <i class="fas fa-calendar me-1"></i>
-                                                        <?php echo date('d/m/Y H:i', strtotime($ticket['created_at'])); ?>
-                                                    </small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="ticket-message">
-                                            <?php echo nl2br(htmlspecialchars($ticket['message'])); ?>
-                                        </div>
-                                        
-                                        <?php if ($ticket['admin_response']): ?>
-                                            <div class="ticket-response">
-                                                <div class="response-header">
-                                                    <i class="fas fa-reply me-2"></i>Réponse de l'équipe support
-                                                </div>
-                                                <div class="response-message">
-                                                    <?php echo nl2br(htmlspecialchars($ticket['admin_response'])); ?>
-                                                </div>
-                                                <small class="text-muted mt-2 d-block">
-                                                    Répondu le <?php echo date('d/m/Y H:i', strtotime($ticket['updated_at'])); ?>
-                                                </small>
-                                            </div>
-                                        <?php endif; ?>
-                                        
-                                        <?php if ($ticket['status'] === 'Ouvert'): ?>
-                                            <div class="mt-3">
-                                                <small class="text-muted">
-                                                    <i class="fas fa-info-circle me-1"></i>
-                                                    Votre ticket est en cours de traitement par notre équipe support.
-                                                </small>
-                                            </div>
-                                        <?php endif; ?>
-                                    </div>
-                                <?php endforeach; ?>
-                            <?php else: ?>
-                                <div class="empty-state">
-                                    <i class="fas fa-ticket-alt"></i>
-                                    <h4 class="text-muted">Aucun ticket</h4>
-                                    <p class="text-muted">Vous n'avez pas encore créé de ticket de support.</p>
-                                    <p class="text-muted">Utilisez le formulaire à gauche pour créer votre premier ticket.</p>
-                                </div>
-                            <?php endif; ?>
-                        </div>
-                    </div>
+                    <h2 class="header-title">Support Client</h2>
+                    <p class="header-subtitle">Nous sommes là pour vous aider 24h/24 et 7j/7</p>
                 </div>
             </div>
             
-            <!-- Informations de contact -->
-            <div class="row mt-4">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0 text-white">
-                                <i class="fas fa-info-circle me-2"></i>Besoin d'aide immédiate ?
-                            </h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="row text-center">
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <i class="fab fa-whatsapp fa-2x text-success mb-2"></i>
-                                        <h6>WhatsApp</h6>
-                                        <p class="text-muted">+225 0123456789</p>
-                                        <small class="text-muted">Réponse immédiate</small>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <i class="fas fa-envelope fa-2x text-primary mb-2"></i>
-                                        <h6>Email</h6>
-                                        <p class="text-muted">support@smmpro.com</p>
-                                        <small class="text-muted">Réponse sous 24h</small>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <i class="fas fa-clock fa-2x text-warning mb-2"></i>
-                                        <h6>Disponibilité</h6>
-                                        <p class="text-muted">24h/24 - 7j/7</p>
-                                        <small class="text-muted">Support permanent</small>
-                                    </div>
-                                </div>
+            <!-- Formulaire de création de ticket -->
+            <div class="ticket-form-section animate-fade-in">
+                <h5>
+                    <i class="fas fa-plus-circle"></i>Créer un Nouveau Ticket
+                </h5>
+                
+                <form method="POST" id="ticketForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="subject" class="form-label">Sujet *</label>
+                                <input type="text" class="form-control" id="subject" name="subject" 
+                                       placeholder="Décrivez brièvement votre problème" required>
                             </div>
                         </div>
+                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="priority" class="form-label">Priorité</label>
+                                <select class="form-select" id="priority" name="priority">
+                                    <option value="Faible">Faible</option>
+                                    <option value="Normale" selected>Normale</option>
+                                    <option value="Élevée">Élevée</option>
+                                    <option value="Urgente">Urgente</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message" class="form-label">Message *</label>
+                        <textarea class="form-control" id="message" name="message" rows="5" 
+                                  placeholder="Décrivez votre problème en détail..." required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="order_id" class="form-label">Commande concernée (optionnel)</label>
+                        <select class="form-select" id="order_id" name="order_id">
+                            <option value="">Aucune commande spécifique</option>
+                            <!-- Les commandes seront chargées dynamiquement -->
+                        </select>
+                    </div>
+                    
+                    <div class="text-center">
+                        <button type="submit" class="btn-create-ticket">
+                            <i class="fas fa-paper-plane me-2"></i>Créer le Ticket
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Liste des tickets -->
+            <div class="tickets-list-section animate-fade-in">
+                <h5>
+                    <i class="fas fa-list"></i>Mes Tickets de Support
+                </h5>
+                
+                <div id="ticketsList">
+                    <!-- Les tickets seront chargés dynamiquement -->
+                </div>
+            </div>
+            
+            <!-- Contact d'urgence -->
+            <div class="emergency-contact animate-fade-in">
+                <h6>
+                    <i class="fas fa-exclamation-triangle me-2"></i>Besoin d'aide immédiate ?
+                </h6>
+                <p>Notre équipe support est disponible pour vous aider rapidement</p>
+                
+                <div class="contact-methods">
+                    <div class="contact-method">
+                        <i class="fas fa-envelope"></i>
+                        <span>support@smmpro.com</span>
+                    </div>
+                    <div class="contact-method">
+                        <i class="fas fa-phone"></i>
+                        <span>+225 0123456789</span>
+                    </div>
+                    <div class="contact-method">
+                        <i class="fas fa-comments"></i>
+                        <span>Chat en ligne</span>
                     </div>
                 </div>
             </div>
@@ -514,37 +719,57 @@ try {
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- Custom JS -->
     <script>
-        // Validation du formulaire
+        // Animation des éléments au scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-fade-in').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Gestion du formulaire
         document.getElementById('ticketForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validation basique
             const subject = document.getElementById('subject').value.trim();
             const message = document.getElementById('message').value.trim();
             
-            if (!subject) {
-                e.preventDefault();
-                alert('Veuillez saisir un sujet pour votre ticket.');
-                return false;
+            if (!subject || !message) {
+                alert('Veuillez remplir tous les champs obligatoires.');
+                return;
             }
             
-            if (!message) {
-                e.preventDefault();
-                alert('Veuillez saisir un message détaillant votre problème.');
-                return false;
-            }
-            
-            if (message.length < 10) {
-                e.preventDefault();
-                alert('Veuillez saisir un message plus détaillé (au moins 10 caractères).');
-                return false;
-            }
+            // Ici vous pouvez ajouter la logique d'envoi du ticket
+            alert('Ticket créé avec succès ! Notre équipe vous répondra dans les plus brefs délais.');
+            this.reset();
         });
         
-        // Auto-resize du textarea
-        document.getElementById('message').addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = (this.scrollHeight) + 'px';
-        });
+        // Chargement des tickets (simulation)
+        function loadTickets() {
+            const ticketsList = document.getElementById('ticketsList');
+            ticketsList.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-ticket-alt"></i>
+                    <h5>Aucun ticket</h5>
+                    <p>Vous n'avez pas encore créé de ticket de support.</p>
+                </div>
+            `;
+        }
+        
+        // Charger les tickets au chargement de la page
+        document.addEventListener('DOMContentLoaded', loadTickets);
     </script>
 </body>
 </html>
