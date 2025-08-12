@@ -46,45 +46,7 @@ try {
     $notifications = [];
 }
 
-// Calcul des statistiques pour les graphiques
-$orderStatusData = [];
-$ticketStatusData = [];
 
-foreach ($userStats['orders_by_status'] as $status) {
-    $orderStatusData[] = [
-        'label' => $status['status'],
-        'value' => $status['count'],
-        'color' => getStatusColor($status['status'])
-    ];
-}
-
-foreach ($userStats['tickets_by_status'] as $ticket) {
-    $ticketStatusData[] = [
-        'label' => $ticket['status'],
-        'value' => $ticket['count'],
-        'color' => getTicketStatusColor($ticket['status'])
-    ];
-}
-
-function getStatusColor($status) {
-    switch ($status) {
-        case 'En attente': return '#ff9500';
-        case 'En cours': return '#007aff';
-        case 'Terminée': return '#34c759';
-        case 'Annulée': return '#ff3b30';
-        default: return '#8e8e93';
-    }
-}
-
-function getTicketStatusColor($status) {
-    switch ($status) {
-        case 'Ouvert': return '#007aff';
-        case 'En cours': return '#ff9500';
-        case 'Résolu': return '#34c759';
-        case 'Fermé': return '#8e8e93';
-        default: return '#8e8e93';
-    }
-}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -99,8 +61,6 @@ function getTicketStatusColor($status) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
         :root {
@@ -366,53 +326,7 @@ function getTicketStatusColor($status) {
             line-height: 1.5;
         }
         
-        /* Graphiques et Visualisations */
-        .charts-section {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-lighter);
-            border-radius: var(--radius-xl);
-            padding: 40px;
-            margin-bottom: 32px;
-            box-shadow: var(--shadow-subtle);
-        }
-        
-        .charts-section h4 {
-            color: var(--text-primary);
-            font-weight: 600;
-            margin-bottom: 32px;
-            text-align: center;
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-        }
-        
-        .charts-section h4 i {
-            color: var(--accent-primary);
-            font-size: 1.5rem;
-        }
-        
-        .charts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 32px;
-        }
-        
-        .chart-container {
-            background: var(--bg-secondary);
-            border-radius: var(--radius-large);
-            padding: 32px;
-            border: 1px solid var(--border-lighter);
-        }
-        
-        .chart-title {
-            color: var(--text-primary);
-            font-weight: 600;
-            margin-bottom: 24px;
-            text-align: center;
-            font-size: 1.125rem;
-        }
+
         
         /* Contenu Principal */
         .main-content {
@@ -632,10 +546,6 @@ function getTicketStatusColor($status) {
         /* Responsive Design */
         @media (max-width: 1200px) {
             .main-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .charts-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -911,25 +821,6 @@ function getTicketStatusColor($status) {
                             </div>
                         <?php endif; ?>
                     </div>
-                    
-                    <!-- Graphiques -->
-                    <div class="charts-section animate-fade-in">
-                        <h4>
-                            <i class="fas fa-chart-pie"></i>Statistiques Visuelles
-                        </h4>
-                        
-                        <div class="charts-grid">
-                            <div class="chart-container">
-                                <div class="chart-title">Répartition des Commandes par Statut</div>
-                                <canvas id="orderStatusChart" width="400" height="300"></canvas>
-                            </div>
-                            
-                            <div class="chart-container">
-                                <div class="chart-title">Répartition des Tickets par Statut</div>
-                                <canvas id="ticketStatusChart" width="400" height="300"></canvas>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 
                 <!-- Sidebar -->
@@ -999,67 +890,8 @@ function getTicketStatusColor($status) {
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- Scripts pour les graphiques -->
+    <!-- Animation des éléments au scroll -->
     <script>
-        // Données pour les graphiques
-        const orderStatusData = <?php echo json_encode($orderStatusData); ?>;
-        const ticketStatusData = <?php echo json_encode($ticketStatusData); ?>;
-        
-        // Configuration des graphiques
-        const chartOptions = {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        color: '#1d1d1f',
-                        font: {
-                            size: 12,
-                            family: 'Inter'
-                        }
-                    }
-                }
-            }
-        };
-        
-        // Graphique des commandes par statut
-        if (orderStatusData.length > 0) {
-            const orderCtx = document.getElementById('orderStatusChart').getContext('2d');
-            new Chart(orderCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: orderStatusData.map(item => item.label),
-                    datasets: [{
-                        data: orderStatusData.map(item => item.value),
-                        backgroundColor: orderStatusData.map(item => item.color),
-                        borderWidth: 2,
-                        borderColor: '#ffffff'
-                    }]
-                },
-                options: chartOptions
-            });
-        }
-        
-        // Graphique des tickets par statut
-        if (ticketStatusData.length > 0) {
-            const ticketCtx = document.getElementById('ticketStatusChart').getContext('2d');
-            new Chart(ticketCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ticketStatusData.map(item => item.label),
-                    datasets: [{
-                        data: ticketStatusData.map(item => item.value),
-                        backgroundColor: ticketStatusData.map(item => item.color),
-                        borderWidth: 2,
-                        borderColor: '#ffffff'
-                    }]
-                },
-                options: chartOptions
-            });
-        }
-        
-        // Animation des éléments au scroll
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
