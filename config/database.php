@@ -1,9 +1,9 @@
 <?php
 // Configuration de la base de données
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'smm_website');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_NAME', 'u634930929_Inn');
+define('DB_USER', 'u634930929_Inn');
+define('DB_PASS', 'Ino1234@');
 define('DB_CHARSET', 'utf8mb4');
 
 // Connexion à la base de données
