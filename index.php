@@ -42,66 +42,127 @@
             overflow-x: hidden;
         }
 
-        /* Header & Navigation */
-        .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-            padding: 1rem 0;
+        /* Hamburger Menu */
+        .hamburger-menu {
             position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
             transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
         }
 
-        .navbar-brand {
-            font-weight: 800;
-            font-size: 1.5rem;
-            color: var(--primary) !important;
+        .hamburger-menu:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-lg);
         }
 
-        .nav-link {
-            font-weight: 500;
-            color: var(--dark) !important;
-            margin: 0 0.5rem;
-            transition: all 0.3s ease;
+        .hamburger-icon {
+            width: 20px;
+            height: 2px;
+            background: var(--dark);
             position: relative;
+            transition: all 0.3s ease;
         }
 
-        .nav-link:hover {
-            color: var(--primary) !important;
-        }
-
-        .nav-link::after {
+        .hamburger-icon::before,
+        .hamburger-icon::after {
             content: '';
             position: absolute;
-            bottom: -5px;
-            left: 50%;
-            width: 0;
+            width: 20px;
             height: 2px;
-            background: var(--primary);
+            background: var(--dark);
             transition: all 0.3s ease;
-            transform: translateX(-50%);
         }
 
-        .nav-link:hover::after {
+        .hamburger-icon::before {
+            top: -6px;
+        }
+
+        .hamburger-icon::after {
+            bottom: -6px;
+        }
+
+        .hamburger-menu.active .hamburger-icon {
+            background: transparent;
+        }
+
+        .hamburger-menu.active .hamburger-icon::before {
+            transform: rotate(45deg);
+            top: 0;
+        }
+
+        .hamburger-menu.active .hamburger-icon::after {
+            transform: rotate(-45deg);
+            bottom: 0;
+        }
+
+        /* Menu Overlay */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            border: none;
-            padding: 0.75rem 2rem;
-            border-radius: 50px;
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .menu-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+        }
+
+        .menu-item {
+            display: block;
+            margin: 1.5rem 0;
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
             font-weight: 600;
             transition: all 0.3s ease;
-            box-shadow: var(--shadow);
+            backdrop-filter: blur(20px);
         }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            color: white;
+            text-decoration: none;
             box-shadow: var(--shadow-lg);
+        }
+
+        .menu-item i {
+            margin-right: 1rem;
+            width: 20px;
         }
 
         /* Hero Section */
@@ -112,7 +173,7 @@
             align-items: center;
             position: relative;
             overflow: hidden;
-            padding-top: 80px;
+            padding: 2rem 0;
         }
 
         .hero::before {
@@ -129,6 +190,7 @@
         .hero-content {
             position: relative;
             z-index: 2;
+            text-align: center;
         }
 
         .hero h1 {
@@ -151,11 +213,14 @@
             color: rgba(255, 255, 255, 0.9);
             margin-bottom: 2rem;
             max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .hero-buttons {
             display: flex;
             gap: 1rem;
+            justify-content: center;
             flex-wrap: wrap;
         }
 
@@ -195,203 +260,6 @@
             color: white;
         }
 
-        /* Features Section */
-        .features {
-            padding: 6rem 0;
-            background: white;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .section-title h2 {
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 800;
-            color: var(--dark);
-            margin-bottom: 1rem;
-        }
-
-        .section-title p {
-            font-size: 1.2rem;
-            color: var(--gray);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .feature-card {
-            background: white;
-            border-radius: 20px;
-            padding: 2.5rem 2rem;
-            text-align: center;
-            box-shadow: var(--shadow);
-            transition: all 0.3s ease;
-            height: 100%;
-            border: 1px solid var(--gray-light);
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .feature-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.5rem;
-            font-size: 2rem;
-            color: white;
-        }
-
-        .feature-card h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--dark);
-        }
-
-        .feature-card p {
-            color: var(--gray);
-            line-height: 1.6;
-        }
-
-        /* Social Networks Section */
-        .social-networks {
-            padding: 6rem 0;
-            background: linear-gradient(135deg, var(--dark) 0%, var(--darker) 100%);
-            color: white;
-        }
-
-        .social-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 2rem;
-            text-align: center;
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-            height: 100%;
-        }
-
-        .social-card:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .social-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .social-card h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .social-stats {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--secondary);
-            margin-bottom: 0.5rem;
-        }
-
-        .social-card p {
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 1.5rem;
-        }
-
-        /* CTA Section */
-        .cta {
-            padding: 6rem 0;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
-            text-align: center;
-        }
-
-        .cta h2 {
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-        }
-
-        .cta p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .btn-cta {
-            background: white;
-            color: var(--primary);
-            padding: 1rem 3rem;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow);
-        }
-
-        .btn-cta:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-lg);
-            color: var(--primary);
-        }
-
-        /* Footer */
-        .footer {
-            background: var(--darker);
-            color: white;
-            padding: 3rem 0 1rem;
-        }
-
-        .footer h5 {
-            color: var(--secondary);
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-
-        .footer a {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer a:hover {
-            color: var(--secondary);
-        }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            margin-top: 2rem;
-            padding-top: 1rem;
-            text-align: center;
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        /* Animations */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
         /* Responsive */
         @media (max-width: 768px) {
             .hero-buttons {
@@ -405,378 +273,115 @@
                 text-align: center;
             }
             
-            .navbar-nav {
-                text-align: center;
-                margin-top: 1rem;
+            .hamburger-menu {
+                top: 15px;
+                right: 15px;
+                width: 45px;
+                height: 45px;
             }
         }
 
         @media (max-width: 576px) {
             .hero {
-                padding: 2rem 0;
+                padding: 1rem 0;
                 min-height: 80vh;
             }
             
-            .features, .social-networks, .cta {
-                padding: 3rem 0;
+            .menu-content {
+                padding: 1rem;
+            }
+            
+            .menu-item {
+                margin: 1rem 0;
+                padding: 0.8rem 1.5rem;
+                font-size: 1.1rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <i class="fas fa-rocket me-2"></i>BoostSocial
+    <!-- Hamburger Menu Button -->
+    <div class="hamburger-menu" id="hamburgerMenu">
+        <div class="hamburger-icon"></div>
+    </div>
+
+    <!-- Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay">
+        <div class="menu-content">
+            <a href="services.php" class="menu-item">
+                <i class="fas fa-rocket"></i>Services
             </a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#features">Services</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#social">Réseaux</a>
-                    </li>
-                    <li class="nav-link">
-                        <a class="nav-link" href="support.php">Support</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="connexion.php">Connexion</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-primary" href="inscription.php">S'inscrire</a>
-                    </li>
-                </ul>
-            </div>
+            <a href="about.php" class="menu-item">
+                <i class="fas fa-info-circle"></i>À Propos
+            </a>
+            <a href="contact.php" class="menu-item">
+                <i class="fas fa-envelope"></i>Contact
+            </a>
+            <a href="client/dashboard.php" class="menu-item">
+                <i class="fas fa-tachometer-alt"></i>Dashboard
+            </a>
         </div>
-    </nav>
+    </div>
 
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 hero-content">
-                    <h1>
-                        Boostez vos <span class="highlight">réseaux sociaux</span> en un clic !
-                    </h1>
-                    <p>
-                        Obtenez plus de followers, likes et vues sur Instagram, TikTok, YouTube et Facebook. 
-                        Services professionnels, résultats garantis et support 24/7.
-                    </p>
-                    <div class="hero-buttons">
-                        <a href="commander.php" class="btn-hero btn-hero-primary">
-                            <i class="fas fa-rocket me-2"></i>Commander maintenant
-                        </a>
-                        <a href="#features" class="btn-hero btn-hero-secondary">
-                            <i class="fas fa-info-circle me-2"></i>En savoir plus
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-6 text-center">
-                    <div class="hero-image">
-                        <i class="fas fa-chart-line" style="font-size: 15rem; color: rgba(255,255,255,0.1);"></i>
-                    </div>
+            <div class="hero-content">
+                <h1>
+                    Boostez vos <span class="highlight">réseaux sociaux</span> en un clic !
+                </h1>
+                <p>
+                    Obtenez plus de followers, likes et vues sur Instagram, TikTok, YouTube et Facebook. 
+                    Services professionnels, résultats garantis et support 24/7.
+                </p>
+                <div class="hero-buttons">
+                    <a href="commander.php" class="btn-hero btn-hero-primary">
+                        <i class="fas fa-rocket me-2"></i>Commander maintenant
+                    </a>
+                    <a href="services.php" class="btn-hero btn-hero-secondary">
+                        <i class="fas fa-info-circle me-2"></i>Voir nos services
+                    </a>
                 </div>
             </div>
         </div>
     </section>
-
-    <!-- Features Section -->
-    <section class="features" id="features">
-        <div class="container">
-            <div class="section-title fade-in">
-                <h2>Pourquoi choisir BoostSocial ?</h2>
-                <p>Découvrez nos services professionnels et nos avantages exclusifs</p>
-            </div>
-            
-            <div class="row g-4">
-                <div class="col-lg-4 col-md-6 fade-in">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-bolt"></i>
-                        </div>
-                        <h3>Résultats rapides</h3>
-                        <p>Obtenez vos followers, likes et vues en quelques heures seulement. Pas d'attente interminable !</p>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 fade-in">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <h3>100% sécurisé</h3>
-                        <p>Vos comptes sont protégés. Nous utilisons des méthodes sûres et respectons les règles des plateformes.</p>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 fade-in">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-headset"></i>
-                        </div>
-                        <h3>Support 24/7</h3>
-                        <p>Notre équipe est disponible 24h/24 et 7j/7 pour vous accompagner et répondre à toutes vos questions.</p>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 fade-in">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-chart-bar"></i>
-                        </div>
-                        <h3>Statistiques détaillées</h3>
-                        <p>Suivez vos performances en temps réel avec nos tableaux de bord détaillés et analyses avancées.</p>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 fade-in">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-globe"></i>
-                        </div>
-                        <h3>Réseaux multiples</h3>
-                        <p>Instagram, TikTok, YouTube, Facebook... Nous couvrons tous les réseaux sociaux populaires.</p>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 fade-in">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-gift"></i>
-                        </div>
-                        <h3>Bonus gratuits</h3>
-                        <p>Profitez de bonus et réductions exclusives sur vos commandes. Plus vous commandez, plus vous économisez !</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Social Networks Section -->
-    <section class="social-networks" id="social">
-        <div class="container">
-            <div class="section-title fade-in">
-                <h2>Nos réseaux sociaux supportés</h2>
-                <p>Boostez votre présence sur toutes les plateformes populaires</p>
-            </div>
-            
-            <div class="row g-4">
-                <div class="col-lg-3 col-md-6 fade-in">
-                    <div class="social-card">
-                        <div class="social-icon">
-                            <i class="fab fa-instagram" style="color: #E4405F;"></i>
-                        </div>
-                        <h3>Instagram</h3>
-                        <div class="social-stats">50K+</div>
-                        <p>Followers boostés</p>
-                        <a href="commander.php" class="btn btn-outline-light">Commander</a>
-                    </div>
-                </div>
-                
-                <div class="col-lg-3 col-md-6 fade-in">
-                    <div class="social-card">
-                        <div class="social-icon">
-                            <i class="fab fa-tiktok" style="color: #000000;"></i>
-                        </div>
-                        <h3>TikTok</h3>
-                        <div class="social-stats">30K+</div>
-                        <p>Vues générées</p>
-                        <a href="commander.php" class="btn btn-outline-light">Commander</a>
-                    </div>
-                </div>
-                
-                <div class="col-lg-3 col-md-6 fade-in">
-                    <div class="social-card">
-                        <div class="social-icon">
-                            <i class="fab fa-youtube" style="color: #FF0000;"></i>
-                        </div>
-                        <h3>YouTube</h3>
-                        <div class="social-stats">25K+</div>
-                        <p>Abonnés gagnés</p>
-                        <a href="commander.php" class="btn btn-outline-light">Commander</a>
-                    </div>
-                </div>
-                
-                <div class="col-lg-3 col-md-6 fade-in">
-                    <div class="social-card">
-                        <div class="social-icon">
-                            <i class="fab fa-facebook" style="color: #1877F2;"></i>
-                        </div>
-                        <h3>Facebook</h3>
-                        <div class="social-stats">40K+</div>
-                        <p>Pages boostées</p>
-                        <a href="commander.php" class="btn btn-outline-light">Commander</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta">
-        <div class="container">
-            <h2>Prêt à booster votre présence en ligne ?</h2>
-            <p>
-                Rejoignez des milliers de clients satisfaits qui ont transformé leurs réseaux sociaux 
-                avec nos services professionnels.
-            </p>
-            <a href="commander.php" class="btn-cta">
-                <i class="fas fa-rocket me-2"></i>Commencer maintenant
-            </a>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row g-4">
-                <div class="col-lg-4">
-                    <h5><i class="fas fa-rocket me-2"></i>BoostSocial</h5>
-                    <p class="mb-3">Votre partenaire de confiance pour booster vos réseaux sociaux. Qualité, rapidité et sécurité garanties.</p>
-                    <div class="social-links">
-                        <a href="#" class="me-3"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="me-3"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="me-3"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="me-3"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-                
-                <div class="col-lg-2 col-md-6">
-                    <h5>Services</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="commander.php">Commander</a></li>
-                        <li><a href="support.php">Support</a></li>
-                        <li><a href="inscription.php">S'inscrire</a></li>
-                        <li><a href="connexion.php">Se connecter</a></li>
-                    </ul>
-                </div>
-                
-                <div class="col-lg-2 col-md-6">
-                    <h5>Réseaux</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#">Instagram</a></li>
-                        <li><a href="#">TikTok</a></li>
-                        <li><a href="#">YouTube</a></li>
-                        <li><a href="#">Facebook</a></li>
-                    </ul>
-                </div>
-                
-                <div class="col-lg-2 col-md-6">
-                    <h5>Support</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="support.php">Centre d'aide</a></li>
-                        <li><a href="contact.php">Contact</a></li>
-                        <li><a href="#">FAQ</a></li>
-                        <li><a href="#">Tutoriels</a></li>
-                    </ul>
-                </div>
-                
-                <div class="col-lg-2 col-md-6">
-                    <h5>Légal</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#">Mentions légales</a></li>
-                        <li><a href="#">CGV</a></li>
-                        <li><a href="#">Confidentialité</a></li>
-                        <li><a href="#">Cookies</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2024 BoostSocial. Tous droits réservés.</p>
-            </div>
-        </div>
-    </footer>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
+        // Hamburger Menu Toggle
+        const hamburgerMenu = document.getElementById('hamburgerMenu');
+        const menuOverlay = document.getElementById('menuOverlay');
+
+        hamburgerMenu.addEventListener('click', function() {
+            hamburgerMenu.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
         });
 
-        // Navbar background on scroll
-        window.addEventListener('scroll', function() {
-            const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 50) {
-                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-                navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
-            } else {
-                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-                navbar.style.boxShadow = 'none';
+        // Close menu when clicking on overlay
+        menuOverlay.addEventListener('click', function(e) {
+            if (e.target === menuOverlay) {
+                hamburgerMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
             }
         });
 
-        // Fade in animation on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.fade-in').forEach(el => {
-            observer.observe(el);
+        // Close menu when pressing Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                hamburgerMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
+            }
         });
 
-        // Counter animation for social stats
-        function animateCounters() {
-            const counters = document.querySelectorAll('.social-stats');
-            counters.forEach(counter => {
-                const target = parseInt(counter.textContent.replace(/\D/g, ''));
-                const increment = target / 100;
-                let current = 0;
-                
-                const updateCounter = () => {
-                    if (current < target) {
-                        current += increment;
-                        counter.textContent = Math.ceil(current) + 'K+';
-                        requestAnimationFrame(updateCounter);
-                    } else {
-                        counter.textContent = target + 'K+';
-                    }
-                };
-                
-                updateCounter();
+        // Close menu when clicking on menu items
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function() {
+                hamburgerMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
             });
-        }
-
-        // Trigger counter animation when social section is visible
-        const socialSection = document.querySelector('.social-networks');
-        const socialObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    animateCounters();
-                    socialObserver.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.5 });
-
-        socialObserver.observe(socialSection);
+        });
     </script>
 </body>
 </html>
