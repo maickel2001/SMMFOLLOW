@@ -22,31 +22,20 @@ $categories = getAllCategories();
     <style>
         :root {
             --bg-primary: #ffffff;
-            --bg-secondary: #f8f9fa;
-            --bg-tertiary: #f1f3f4;
-            --bg-dark: #1d1d1f;
+            --bg-secondary: #f5f5f7;
+            --bg-tertiary: #fafafa;
             --text-primary: #1d1d1f;
             --text-secondary: #86868b;
             --text-tertiary: #6e6e73;
-            --text-light: #ffffff;
             --accent-primary: #007aff;
             --accent-secondary: #5856d6;
-            --accent-success: #34c759;
-            --accent-warning: #ff9500;
-            --accent-danger: #ff3b30;
-            --accent-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --accent-gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --accent-gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             --border-light: #d2d2d7;
             --border-lighter: #e5e5e7;
-            --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.04);
-            --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.08);
-            --shadow-large: 0 8px 32px rgba(0, 0, 0, 0.12);
-            --shadow-glow: 0 0 40px rgba(0, 122, 255, 0.3);
-            --radius-small: 8px;
-            --radius-medium: 12px;
-            --radius-large: 16px;
-            --radius-xl: 24px;
+            --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --radius-small: 12px;
+            --radius-medium: 16px;
+            --radius-large: 20px;
         }
         
         * {
@@ -66,14 +55,14 @@ $categories = getAllCategories();
             overflow-x: hidden;
         }
         
-        /* Navigation Minimaliste */
+        /* Navigation Ultra-Minimaliste Apple */
         .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
             border-bottom: 1px solid var(--border-lighter);
-            padding: 16px 0;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 20px 0;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             position: fixed;
             top: 0;
             left: 0;
@@ -81,30 +70,30 @@ $categories = getAllCategories();
             z-index: 1000;
         }
         
-        /* Hero Section DINGUE */
+        /* Hero Section Ultra-Minimaliste Apple */
         .hero-section {
             min-height: 100vh;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            background: var(--bg-primary);
             position: relative;
-            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding-top: 80px;
+            padding-top: 120px;
+            overflow: hidden;
         }
         
         .hero-section::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="%23f093fb" stop-opacity="0.1"/><stop offset="100%" stop-color="%23f5576c" stop-opacity="0.05"/></radialGradient></defs><circle cx="200" cy="200" r="100" fill="url(%23a)"/><circle cx="800" cy="300" r="150" fill="url(%23a)"/><circle cx="400" cy="800" r="120" fill="url(%23a)"/></svg>') no-repeat;
-            background-size: cover;
-            opacity: 0.6;
-            animation: float 20s ease-in-out infinite;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 122, 255, 0.03) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulse 8s ease-in-out infinite;
         }
         
         .hero-content {
@@ -116,23 +105,24 @@ $categories = getAllCategories();
         }
         
         .hero-title {
-            font-size: clamp(2.5rem, 8vw, 4.5rem);
-            font-weight: 700;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1.5rem;
+            font-size: clamp(3rem, 10vw, 5rem);
+            font-weight: 300;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
             line-height: 1.1;
+            letter-spacing: -0.02em;
             animation: fadeInUp 1s ease-out 0.3s both;
         }
         
         .hero-subtitle {
-            font-size: clamp(1.1rem, 4vw, 1.5rem);
+            font-size: clamp(1.2rem, 4vw, 1.6rem);
             color: var(--text-secondary);
-            margin-bottom: 2.5rem;
+            margin-bottom: 3rem;
             font-weight: 400;
             line-height: 1.6;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
             animation: fadeInUp 1s ease-out 0.6s both;
         }
         
@@ -145,59 +135,47 @@ $categories = getAllCategories();
         }
         
         .hero-btn {
-            padding: 16px 32px;
+            padding: 18px 36px;
             border-radius: var(--radius-large);
-            font-weight: 600;
+            font-weight: 500;
             font-size: 1.1rem;
             text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             position: relative;
-            overflow: hidden;
+            display: inline-block;
+            margin: 0 12px;
         }
         
         .hero-btn-primary {
-            background: var(--accent-gradient);
+            background: var(--accent-primary);
             color: white;
             box-shadow: var(--shadow-medium);
         }
         
         .hero-btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-large);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 122, 255, 0.3);
             color: white;
         }
         
         .hero-btn-secondary {
-            background: rgba(255, 255, 255, 0.9);
+            background: transparent;
             color: var(--text-primary);
-            border: 2px solid var(--border-lighter);
-            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-light);
         }
         
         .hero-btn-secondary:hover {
-            background: var(--bg-primary);
+            background: var(--bg-secondary);
             border-color: var(--accent-primary);
             color: var(--accent-primary);
-            transform: translateY(-3px);
+            transform: translateY(-2px);
         }
         
-        /* Section Réseaux Sociaux DINGUE */
+        /* Section Réseaux Sociaux Ultra-Minimaliste */
         .social-networks-section {
-            padding: 100px 0;
-            background: var(--bg-secondary);
+            padding: 120px 0;
+            background: var(--bg-primary);
             position: relative;
-            overflow: hidden;
-        }
-        
-        .social-networks-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><linearGradient id="b" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="%234facfe" stop-opacity="0.03"/><stop offset="100%" stop-color="%2300f2fe" stop-opacity="0.03"/></linearGradient></defs><rect width="1200" height="800" fill="url(%23b)"/></svg>') no-repeat;
-            background-size: cover;
         }
         
         .section-header {
@@ -208,14 +186,11 @@ $categories = getAllCategories();
         }
         
         .section-title {
-            font-size: clamp(2rem, 6vw, 3.5rem);
-            font-weight: 700;
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 300;
             color: var(--text-primary);
-            margin-bottom: 1rem;
-            background: var(--accent-gradient-2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
         }
         
         .section-subtitle {
@@ -239,84 +214,38 @@ $categories = getAllCategories();
         
         .social-card {
             background: var(--bg-primary);
-            border-radius: var(--radius-xl);
-            padding: 40px 30px;
+            border-radius: var(--radius-large);
+            padding: 50px 30px;
             text-align: center;
-            box-shadow: var(--shadow-medium);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
             border: 1px solid var(--border-lighter);
-        }
-        
-        .social-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            transition: left 0.6s ease;
-        }
-        
-        .social-card:hover::before {
-            left: 100%;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
         }
         
         .social-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: var(--shadow-large);
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-medium);
             border-color: var(--accent-primary);
         }
         
         .social-icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 25px;
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 30px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
-            position: relative;
-            overflow: hidden;
+            font-size: 1.8rem;
+            background: var(--bg-secondary);
+            color: var(--accent-primary);
+            transition: all 0.4s ease;
         }
         
-        .social-icon.instagram {
-            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        .social-card:hover .social-icon {
+            background: var(--accent-primary);
             color: white;
-        }
-        
-        .social-icon.tiktok {
-            background: linear-gradient(45deg, #000000 0%, #25f4ee 50%, #fe2c55 100%);
-            color: white;
-        }
-        
-        .social-icon.youtube {
-            background: linear-gradient(45deg, #ff0000 0%, #ff4444 100%);
-            color: white;
-        }
-        
-        .social-icon.facebook {
-            background: linear-gradient(45deg, #1877f2 0%, #42a5f5 100%);
-            color: white;
-        }
-        
-        .social-icon::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .social-card:hover .social-icon::after {
-            opacity: 1;
+            transform: scale(1.1);
         }
         
         .social-title {
@@ -358,21 +287,20 @@ $categories = getAllCategories();
         
         .social-btn {
             display: inline-block;
-            padding: 12px 24px;
-            background: var(--accent-gradient);
-            color: white;
+            padding: 14px 28px;
+            background: transparent;
+            color: var(--accent-primary);
             text-decoration: none;
+            border: 1px solid var(--accent-primary);
             border-radius: var(--radius-medium);
-            font-weight: 600;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            font-weight: 500;
+            transition: all 0.4s ease;
         }
         
         .social-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-glow);
+            background: var(--accent-primary);
             color: white;
+            transform: translateY(-2px);
         }
         
         /* Animations */
@@ -406,23 +334,11 @@ $categories = getAllCategories();
         .social-card:nth-child(3) { animation-delay: 0.3s; }
         .social-card:nth-child(4) { animation-delay: 0.4s; }
         
-        /* Section Statistiques DINGUE */
+        /* Section Statistiques Ultra-Minimaliste */
         .stats-section {
             padding: 120px 0;
-            background: var(--bg-primary);
+            background: var(--bg-secondary);
             position: relative;
-            overflow: hidden;
-        }
-        
-        .stats-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><radialGradient id="c" cx="50%" cy="50%"><stop offset="0%" stop-color="%23f093fb" stop-opacity="0.05"/><stop offset="100%" stop-color="%23f5576c" stop-opacity="0.02"/></radialGradient></defs><circle cx="300" cy="200" r="200" fill="url(%23c)"/><circle cx="900" cy="600" r="250" fill="url(%23c)"/></svg>') no-repeat;
-            background-size: cover;
         }
         
         .stats-grid {
@@ -438,80 +354,47 @@ $categories = getAllCategories();
         
         .stat-card {
             text-align: center;
-            padding: 40px 20px;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: var(--radius-xl);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            padding: 50px 30px;
+            background: var(--bg-primary);
+            border-radius: var(--radius-large);
             border: 1px solid var(--border-lighter);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             position: relative;
-            overflow: hidden;
-        }
-        
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--accent-gradient);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            z-index: -1;
-        }
-        
-        .stat-card:hover::before {
-            opacity: 0.05;
         }
         
         .stat-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-large);
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-medium);
             border-color: var(--accent-primary);
         }
         
         .stat-icon {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 20px;
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 25px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
-            background: var(--accent-gradient);
-            color: white;
-            position: relative;
+            font-size: 1.5rem;
+            background: var(--bg-secondary);
+            color: var(--accent-primary);
+            transition: all 0.4s ease;
         }
         
-        .stat-icon::after {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            border: 2px solid transparent;
-            border-radius: 50%;
-            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary)) border-box;
-            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: destination-out;
-            mask-composite: exclude;
-            opacity: 0.3;
-            animation: pulse 2s ease-in-out infinite;
+        .stat-card:hover .stat-icon {
+            background: var(--accent-primary);
+            color: white;
+            transform: scale(1.1);
         }
         
         .stat-number {
             font-size: clamp(2.5rem, 6vw, 3.5rem);
-            font-weight: 800;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
+            font-weight: 300;
+            color: var(--text-primary);
+            margin-bottom: 15px;
             display: block;
+            letter-spacing: -0.02em;
         }
         
         .stat-label {
@@ -606,39 +489,9 @@ $categories = getAllCategories();
             }
         }
         
-        /* Effets de parallaxe et animations avancées */
-        .parallax-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-        
-        .floating-element {
-            position: absolute;
-            opacity: 0.1;
-            animation: float 15s ease-in-out infinite;
-        }
-        
-        .floating-element:nth-child(1) {
-            top: 20%;
-            left: 10%;
-            animation-delay: 0s;
-        }
-        
-        .floating-element:nth-child(2) {
-            top: 60%;
-            right: 15%;
-            animation-delay: 5s;
-        }
-        
-        .floating-element:nth-child(3) {
-            bottom: 20%;
-            left: 20%;
-            animation-delay: 10s;
+        /* Animations simples et élégantes */
+        .hero-section::before {
+            animation: pulse 8s ease-in-out infinite;
         }
         
         .navbar-brand {
@@ -1423,26 +1276,8 @@ $categories = getAllCategories();
         </div>
     </nav>
 
-    <!-- Hero Section DINGUE -->
+    <!-- Hero Section Ultra-Minimaliste -->
     <section class="hero-section" id="home">
-        <div class="parallax-bg">
-            <div class="floating-element">
-                <svg width="100" height="100" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(0,122,255,0.1)" stroke-width="2"/>
-                </svg>
-            </div>
-            <div class="floating-element">
-                <svg width="80" height="80" viewBox="0 0 80 80">
-                    <rect x="20" y="20" width="40" height="40" fill="none" stroke="rgba(88,86,214,0.1)" stroke-width="2"/>
-                </svg>
-            </div>
-            <div class="floating-element">
-                <svg width="120" height="120" viewBox="0 0 120 120">
-                    <polygon points="60,20 100,100 20,100" fill="none" stroke="rgba(240,147,251,0.1)" stroke-width="2"/>
-                </svg>
-            </div>
-        </div>
-        
         <div class="hero-content">
             <h1 class="hero-title">Boostez Votre Présence Sociale</h1>
             <p class="hero-subtitle">
@@ -1504,9 +1339,9 @@ $categories = getAllCategories();
         <section class="social-networks-section" id="services">
             <div class="container">
                 <div class="section-header">
-                    <h2 class="section-title">Nos Réseaux Sociaux</h2>
+                    <h2 class="section-title">Réseaux Sociaux</h2>
                     <p class="section-subtitle">
-                        Boostez votre présence sur les plateformes les plus populaires avec nos services SMM professionnels
+                        Boostez votre présence sur les plateformes les plus populaires
                     </p>
                 </div>
                 
@@ -1683,12 +1518,12 @@ $categories = getAllCategories();
     <!-- Section Statistiques DINGUE -->
     <section class="stats-section">
         <div class="container">
-            <div class="section-header text-center">
-                <h2 class="section-title">Nos Chiffres Impressionnants</h2>
-                <p class="section-subtitle">
-                    Découvrez pourquoi des milliers de clients nous font confiance pour leur croissance sociale
-                </p>
-            </div>
+                            <div class="section-header text-center">
+                    <h2 class="section-title">Chiffres Clés</h2>
+                    <p class="section-subtitle">
+                        Pourquoi des milliers de clients nous font confiance
+                    </p>
+                </div>
             
             <div class="stats-grid">
                 <div class="stat-card">
