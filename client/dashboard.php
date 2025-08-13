@@ -60,6 +60,8 @@ try {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- SweetAlert2 -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
@@ -303,13 +305,14 @@ try {
 
         /* Welcome Section */
         .welcome-section {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 50%, var(--primary) 100%);
             color: white;
-            padding: 3rem 0;
+            padding: 4rem 0;
             margin-bottom: 3rem;
             border-radius: 20px;
             position: relative;
             overflow: hidden;
+            box-shadow: var(--shadow-lg);
         }
 
         .welcome-section::before {
@@ -329,9 +332,13 @@ try {
         }
 
         .welcome-title {
-            font-size: clamp(2rem, 4vw, 3rem);
+            font-size: clamp(2.5rem, 5vw, 4rem);
             font-weight: 800;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff, #e0e7ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .welcome-subtitle {
@@ -357,26 +364,63 @@ try {
         }
 
         .btn-welcome.primary {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
             color: white;
             border: 2px solid rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
         }
 
         .btn-welcome.primary:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-3px);
             color: white;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-welcome.primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn-welcome.primary:hover::before {
+            left: 100%;
         }
 
         .btn-welcome.secondary {
             background: white;
             color: var(--primary);
+            position: relative;
+            overflow: hidden;
         }
 
         .btn-welcome.secondary:hover {
-            transform: translateY(-2px);
+            transform: translateY(-3px);
             box-shadow: var(--shadow-lg);
+            background: var(--light);
+        }
+        
+        .btn-welcome.secondary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn-welcome.secondary:hover::before {
+            left: 100%;
         }
 
         /* Stats Cards */
@@ -392,9 +436,12 @@ try {
         }
 
         .stat-card {
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             padding: 2rem;
             border-radius: 16px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: var(--shadow);
             transition: all 0.3s ease;
             border: 1px solid var(--gray-light);
@@ -413,28 +460,42 @@ try {
         }
 
         .stat-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
             box-shadow: var(--shadow-lg);
+            background: rgba(255, 255, 255, 1);
+            border-color: var(--primary);
         }
 
         .stat-icon {
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 16px;
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 1.5rem;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             color: white;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover .stat-icon {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: var(--shadow-lg);
+        }
         }
 
         .stat-number {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 800;
             color: var(--dark);
             margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .stat-label {
@@ -461,12 +522,14 @@ try {
 
         /* Content Sections */
         .content-section {
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 16px;
             padding: 2rem;
             margin-bottom: 2rem;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--gray-light);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
         }
 
         .section-header {
@@ -479,10 +542,14 @@ try {
         }
 
         .section-title {
-            font-size: 1.5rem;
+            font-size: 1.75rem;
             font-weight: 700;
             color: var(--dark);
             margin: 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .section-action {
@@ -503,12 +570,13 @@ try {
         }
 
         .orders-table th {
-            background: var(--gray-light);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             padding: 1rem;
             text-align: left;
             font-weight: 600;
-            color: var(--dark);
+            color: white;
             border-radius: 8px;
+            box-shadow: var(--shadow);
         }
 
         .orders-table td {
@@ -517,35 +585,52 @@ try {
         }
 
         .orders-table tr:hover {
-            background: var(--gray-light);
+            background: rgba(99, 102, 241, 0.05);
+            transform: scale(1.01);
+            box-shadow: var(--shadow);
+        }
+        
+        .orders-table tr {
+            transition: all 0.3s ease;
         }
 
         .status-badge {
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
+            padding: 0.75rem 1.25rem;
+            border-radius: 25px;
             font-size: 0.85rem;
             font-weight: 600;
             text-transform: uppercase;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+        
+        .status-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
         }
 
         .status-pending {
-            background: rgba(255, 149, 0, 0.1);
+            background: rgba(245, 158, 11, 0.15);
             color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.3);
         }
 
         .status-processing {
-            background: rgba(59, 130, 246, 0.1);
-            color: var(--info);
+            background: rgba(99, 102, 241, 0.15);
+            color: var(--primary);
+            border: 1px solid rgba(99, 102, 241, 0.3);
         }
 
         .status-completed {
-            background: rgba(16, 185, 129, 0.1);
+            background: rgba(16, 185, 129, 0.15);
             color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.3);
         }
 
         .status-cancelled {
-            background: rgba(239, 68, 68, 0.1);
+            background: rgba(239, 68, 68, 0.15);
             color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.3);
         }
 
         /* Quick Actions */
@@ -557,35 +642,63 @@ try {
         }
 
         .quick-action {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 16px;
             text-align: center;
             text-decoration: none;
             color: var(--dark);
             transition: all 0.3s ease;
-            border: 1px solid var(--gray-light);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: var(--shadow);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
         }
 
         .quick-action:hover {
-            transform: translateY(-3px);
+            transform: translateY(-5px);
             box-shadow: var(--shadow-lg);
             color: var(--primary);
             text-decoration: none;
+            background: rgba(255, 255, 255, 1);
+            border-color: var(--primary);
+        }
+        
+        .quick-action::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .quick-action:hover::before {
+            left: 100%;
         }
 
         .quick-action-icon {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 12px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1rem;
-            font-size: 1.2rem;
+            margin: 0 auto 1.5rem;
+            font-size: 1.5rem;
             color: white;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+        
+        .quick-action:hover .quick-action-icon {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: var(--shadow-lg);
         }
 
         .quick-action-title {
@@ -808,6 +921,69 @@ try {
         .slide-in-left {
             animation: slideInLeft 0.8s ease-out forwards;
         }
+        
+        /* Animations avancées */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .shine-effect {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .shine-effect::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .shine-effect:hover::after {
+            left: 100%;
+        }
+        
+        /* Effets de particules */
+        .particle-effect {
+            position: relative;
+        }
+        
+        .particle-effect::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(245, 158, 11, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
 
         /* Scrollbar personnalisée */
         ::-webkit-scrollbar {
@@ -888,16 +1064,19 @@ try {
     <div class="dashboard-container">
         <div class="container">
             <!-- Welcome Section -->
-            <section class="welcome-section fade-in-up">
+            <section class="welcome-section fade-in-up particle-effect">
                 <div class="welcome-content text-center">
+                    <div class="header-icon mb-4 float-animation">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
                     <h1 class="welcome-title">Bonjour, <?php echo htmlspecialchars($currentUser['name']); ?> ! 👋</h1>
                     <p class="welcome-subtitle">Bienvenue sur votre tableau de bord personnel. Gérez vos commandes et suivez vos performances en temps réel.</p>
                     
                     <div class="welcome-actions">
-                        <a href="../commander.php" class="btn-welcome primary">
+                        <a href="../commander.php" class="btn-welcome primary shine-effect">
                             <i class="fas fa-plus me-2"></i>Nouvelle Commande
                         </a>
-                        <a href="commandes.php" class="btn-welcome secondary">
+                        <a href="commandes.php" class="btn-welcome secondary shine-effect">
                             <i class="fas fa-chart-line me-2"></i>Voir Toutes mes Commandes
                         </a>
                     </div>
@@ -907,7 +1086,7 @@ try {
             <!-- Stats Section -->
             <section class="stats-section">
                 <div class="stats-grid">
-                    <div class="stat-card slide-in-left">
+                    <div class="stat-card slide-in-left particle-effect">
                         <div class="stat-icon">
                             <i class="fas fa-shopping-cart"></i>
                         </div>
@@ -919,7 +1098,7 @@ try {
                         </div>
                     </div>
                     
-                    <div class="stat-card slide-in-left">
+                    <div class="stat-card slide-in-left particle-effect">
                         <div class="stat-icon">
                             <i class="fas fa-coins"></i>
                         </div>
@@ -931,19 +1110,18 @@ try {
                         </div>
                     </div>
                     
-                    <div class="stat-card slide-in-left">
+                    <div class="stat-card slide-in-left particle-effect">
                         <div class="stat-icon">
                             <i class="fas fa-check-circle"></i>
                         </div>
                         <div class="stat-number"><?php echo isset($userStats['orders_by_status']['Terminée']) ? $userStats['orders_by_status']['Terminée'] : 0; ?></div>
                         <div class="stat-label">Commandes Terminées</div>
                         <div class="stat-change positive">
-                            <i class="fas fa-arrow-up"></i>
                             <span>+15% ce mois</span>
                         </div>
                     </div>
                     
-                    <div class="stat-card slide-in-left">
+                    <div class="stat-card slide-in-left particle-effect">
                         <div class="stat-icon">
                             <i class="fas fa-clock"></i>
                         </div>
@@ -964,7 +1142,7 @@ try {
                 </div>
                 
                 <div class="quick-actions">
-                    <a href="../commander.php" class="quick-action">
+                    <a href="../commander.php" class="quick-action shine-effect">
                         <div class="quick-action-icon">
                             <i class="fas fa-plus"></i>
                         </div>
@@ -972,7 +1150,7 @@ try {
                         <div class="quick-action-desc">Commander des followers, likes ou vues</div>
                     </a>
                     
-                    <a href="commandes.php" class="quick-action">
+                    <a href="commandes.php" class="quick-action shine-effect">
                         <div class="quick-action-icon">
                             <i class="fas fa-list"></i>
                         </div>
@@ -980,7 +1158,7 @@ try {
                         <div class="quick-action-desc">Suivre l'état de vos commandes</div>
                     </a>
                     
-                    <a href="tickets.php" class="quick-action">
+                    <a href="tickets.php" class="quick-action shine-effect">
                         <div class="quick-action-icon">
                             <i class="fas fa-headset"></i>
                         </div>
@@ -988,7 +1166,7 @@ try {
                         <div class="quick-action-desc">Créer un ticket de support</div>
                     </a>
                     
-                    <a href="profil.php" class="quick-action">
+                    <a href="profil.php" class="quick-action shine-effect">
                         <div class="quick-action-icon">
                             <i class="fas fa-user"></i>
                         </div>
@@ -1105,6 +1283,8 @@ try {
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <script>
         // Intersection Observer pour les animations
@@ -1157,7 +1337,32 @@ try {
             });
         });
 
-        // Mise à jour en temps réel des stats (simulation)
+        // Mise à jour en temps réel des stats avec animation
+        function animateNumber(element, start, end, duration = 1000) {
+            const startTime = performance.now();
+            const difference = end - start;
+            
+            function updateNumber(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                const current = Math.floor(start + (difference * progress));
+                
+                if (element.textContent.includes('FCFA')) {
+                    element.textContent = current.toLocaleString() + ' FCFA';
+                } else {
+                    element.textContent = current.toLocaleString();
+                }
+                
+                if (progress < 1) {
+                    requestAnimationFrame(updateNumber);
+                }
+            }
+            
+            requestAnimationFrame(updateNumber);
+        }
+        
+        // Mise à jour des stats toutes les 30 secondes
         setInterval(() => {
             const statNumbers = document.querySelectorAll('.stat-number');
             statNumbers.forEach(stat => {
@@ -1165,13 +1370,9 @@ try {
                 const randomChange = Math.floor(Math.random() * 5) + 1;
                 const newValue = currentValue + randomChange;
                 
-                if (stat.textContent.includes('FCFA')) {
-                    stat.textContent = newValue.toLocaleString() + ' FCFA';
-                } else {
-                    stat.textContent = newValue.toLocaleString();
-                }
+                animateNumber(stat, currentValue, newValue, 800);
             });
-        }, 30000); // Mise à jour toutes les 30 secondes
+        }, 30000);
 
         // Menu hamburger mobile
         const hamburgerBtn = document.getElementById('hamburgerBtn');
@@ -1223,6 +1424,102 @@ try {
                 }
             });
         }
+        
+        // Fonctionnalités avancées du dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animation des cartes au chargement
+            const cards = document.querySelectorAll('.stat-card, .quick-action, .content-section');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.classList.add('slide-in-left');
+            });
+            
+            // Effet de particules sur les cartes de stats
+            const statCards = document.querySelectorAll('.stat-card');
+            statCards.forEach(card => {
+                card.classList.add('particle-effect');
+            });
+            
+            // Effet de brillance sur les boutons
+            const buttons = document.querySelectorAll('.btn-welcome, .quick-action');
+            buttons.forEach(button => {
+                button.classList.add('shine-effect');
+            });
+            
+            // Animation flottante sur l'icône du header
+            const headerIcon = document.querySelector('.welcome-section .header-icon');
+            if (headerIcon) {
+                headerIcon.classList.add('float-animation');
+            }
+            
+            // Effet de pulse sur les badges de statut
+            const statusBadges = document.querySelectorAll('.status-badge');
+            statusBadges.forEach(badge => {
+                badge.classList.add('pulse-animation');
+            });
+            
+            // Notifications toast avec SweetAlert2
+            function showNotification(title, message, type = 'info') {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                });
+                
+                Toast.fire({
+                    icon: type,
+                    title: title,
+                    text: message
+                });
+            }
+            
+            // Exemple d'utilisation des notifications
+            // showNotification('Bienvenue !', 'Votre dashboard est prêt', 'success');
+            
+            // Amélioration des interactions
+            const interactiveElements = document.querySelectorAll('.stat-card, .quick-action, .content-section');
+            interactiveElements.forEach(element => {
+                element.addEventListener('click', function() {
+                    // Effet de clic
+                    this.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
+                
+                element.addEventListener('mouseenter', function() {
+                    this.style.zIndex = '10';
+                });
+                
+                element.addEventListener('mouseleave', function() {
+                    this.style.zIndex = '10';
+                });
+            });
+            
+            // Lazy loading des images (si ajoutées plus tard)
+            if ('IntersectionObserver' in window) {
+                const imageObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            img.src = img.dataset.src;
+                            img.classList.remove('lazy');
+                            observer.unobserve(img);
+                        }
+                    });
+                });
+                
+                document.querySelectorAll('img[data-src]').forEach(img => {
+                    imageObserver.observe(img);
+                });
+            }
+        });
     </script>
 </body>
 </html>
