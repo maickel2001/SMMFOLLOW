@@ -621,64 +621,356 @@ try {
             color: var(--primary-color);
         }
         
+        /* ===== QUANTITY SLIDER MODERNE & INTUITIF ===== */
         .quantity-slider {
             width: 100%;
-            margin: 20px 0;
+            margin: 30px 0;
+            position: relative;
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+            border-radius: var(--radius-large);
+            padding: 30px;
+            border: 1px solid var(--border-lighter);
+            box-shadow: var(--shadow-subtle);
         }
         
+        .quantity-slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .quantity-label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .quantity-label i {
+            color: var(--accent-primary);
+            font-size: 1.2rem;
+        }
+        
+        .quantity-value-display {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: var(--shadow-medium);
+            min-width: 80px;
+            text-align: center;
+        }
+        
+        /* Slider Range Moderne */
         .quantity-slider input[type="range"] {
             width: 100%;
-            height: 8px;
-            border-radius: 5px;
-            background: var(--border-color);
+            height: 12px;
+            border-radius: 10px;
+            background: linear-gradient(90deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
             outline: none;
             -webkit-appearance: none;
+            cursor: grab;
+            position: relative;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .quantity-slider input[type="range"]:hover {
+            transform: scale(1.02);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 0 0 3px rgba(0, 122, 255, 0.1);
+        }
+        
+        .quantity-slider input[type="range"]:focus {
+            outline: none;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 0 0 4px rgba(0, 122, 255, 0.2);
         }
         
         .quantity-slider input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 20px;
-            height: 20px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
-            background: var(--primary-color);
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
             cursor: pointer;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.4), 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: 3px solid var(--accent-primary);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: scale(1);
+        }
+        
+        .quantity-slider input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 122, 255, 0.6), 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .quantity-slider input[type="range"]::-webkit-slider-thumb:active {
+            transform: scale(0.95);
         }
         
         .quantity-slider input[type="range"]::-moz-range-thumb {
-            width: 20px;
-            height: 20px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
-            background: var(--primary-color);
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
             cursor: pointer;
-            border: none;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            border: 3px solid var(--accent-primary);
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.4), 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
+        .quantity-slider input[type="range"]::-moz-range-thumb:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 122, 255, 0.6), 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Track Progress */
+        .quantity-slider input[type="range"]::-webkit-slider-runnable-track {
+            height: 12px;
+            border-radius: 10px;
+            background: linear-gradient(90deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+        }
+        
+        .quantity-slider input[type="range"]::-moz-range-track {
+            height: 12px;
+            border-radius: 10px;
+            background: linear-gradient(90deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+        }
+        
+        /* Presets de Quantité Modernes */
         .quantity-presets {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 15px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 12px;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid var(--border-lighter);
         }
         
         .quantity-preset {
-            padding: 8px 16px;
-            background: var(--border-color);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
+            padding: 12px 16px;
+            background: var(--bg-primary);
+            border: 2px solid var(--border-lighter);
+            border-radius: var(--radius-medium);
             color: var(--text-secondary);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             font-size: 0.9rem;
+            font-weight: 600;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
         }
         
-        .quantity-preset:hover,
+        .quantity-preset::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 122, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .quantity-preset:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            background: rgba(0, 122, 255, 0.05);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .quantity-preset:hover::before {
+            left: 100%;
+        }
+        
         .quantity-preset.active {
-            background: var(--primary-color);
-            border-color: var(--primary-color);
-            color: var(--dark-bg);
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-color: var(--accent-primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+            position: relative;
+        }
+        
+        .quantity-preset.active::before {
+            display: none;
+        }
+        
+        .quantity-preset.active::after {
+            content: '✓';
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--accent-success);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+            animation: checkmarkAppear 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        
+        @keyframes checkmarkAppear {
+            from {
+                opacity: 0;
+                transform: scale(0) rotate(-180deg);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+        
+        /* Tooltips intelligents */
+        .smart-tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            z-index: 10000;
+            pointer-events: none;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        .smart-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: rgba(0, 0, 0, 0.9);
+        }
+        
+        /* Marqueurs du slider */
+        .slider-marker {
+            position: absolute;
+            width: 2px;
+            height: 20px;
+            background: var(--accent-secondary);
+            border-radius: 1px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+        
+        .marker-label {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            font-weight: 500;
+        }
+        
+        /* Indicateurs de Limites */
+        .quantity-limits {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: var(--text-tertiary);
+        }
+        
+        .limit-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .limit-item i {
+            font-size: 0.8rem;
+            color: var(--accent-warning);
+        }
+        
+        /* Animation du Slider */
+        .quantity-slider.animate {
+            animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive pour le Slider */
+        @media (max-width: 768px) {
+            .quantity-slider {
+                padding: 20px;
+                margin: 20px 0;
+            }
+            
+            .quantity-slider-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .quantity-presets {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+            
+            .quantity-preset {
+                padding: 10px 12px;
+                font-size: 0.8rem;
+            }
+            
+            .quantity-value-display {
+                font-size: 1rem;
+                padding: 6px 12px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .quantity-slider {
+                padding: 15px;
+                margin: 15px 0;
+            }
+            
+            .quantity-presets {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+            
+            .quantity-preset {
+                padding: 8px 10px;
+                font-size: 0.75rem;
+            }
+            
+            .quantity-limits {
+                flex-direction: column;
+                gap: 8px;
+                text-align: center;
+            }
         }
         
         @media (max-width: 768px) {
@@ -1375,9 +1667,31 @@ try {
                                         <div class="form-text">Quantité minimale : 1 000</div>
                                     </div>
                                     
-                                    <!-- Slider de quantité -->
-                                    <div class="quantity-slider">
+                                    <!-- Slider de quantité moderne et intuitif -->
+                                    <div class="quantity-slider animate">
+                                        <div class="quantity-slider-header">
+                                            <div class="quantity-label">
+                                                <i class="fas fa-sliders-h"></i>
+                                                Ajustez la quantité
+                                            </div>
+                                            <div class="quantity-value-display" id="quantityDisplay">
+                                                1,000
+                                            </div>
+                                        </div>
+                                        
                                         <input type="range" id="quantitySlider" min="1000" max="100000" step="1000" value="1000">
+                                        
+                                        <div class="quantity-limits">
+                                            <div class="limit-item">
+                                                <i class="fas fa-arrow-down"></i>
+                                                <span id="minLimit">1,000</span>
+                                            </div>
+                                            <div class="limit-item">
+                                                <i class="fas fa-arrow-up"></i>
+                                                <span id="maxLimit">100,000</span>
+                                            </div>
+                                        </div>
+                                        
                                         <div class="quantity-presets">
                                             <span class="quantity-preset" data-value="1000">1K</span>
                                             <span class="quantity-preset" data-value="5000">5K</span>
@@ -1580,32 +1894,148 @@ try {
             }
         }
         
-        // Initialisation du slider de quantité
+        // Initialisation du slider de quantité moderne
         function initializeQuantitySlider() {
             const slider = document.getElementById('quantitySlider');
             const input = document.getElementById('quantity');
+            const quantityDisplay = document.getElementById('quantityDisplay');
+            const minLimit = document.getElementById('minLimit');
+            const maxLimit = document.getElementById('maxLimit');
             
+            // Fonction de formatage des nombres
+            function formatNumber(num) {
+                return new Intl.NumberFormat('fr-FR').format(num);
+            }
+            
+            // Mise à jour de l'affichage de la quantité avec animation fluide
+            function updateQuantityDisplay(value) {
+                const oldValue = parseInt(quantityDisplay.textContent.replace(/\D/g, ''));
+                const newValue = value;
+                
+                // Animation de comptage si la valeur change
+                if (oldValue !== newValue) {
+                    animateNumber(oldValue, newValue, 500);
+                }
+                
+                // Animation de mise à jour
+                quantityDisplay.style.transform = 'scale(1.1)';
+                quantityDisplay.style.color = '#ff6b35';
+                setTimeout(() => {
+                    quantityDisplay.style.transform = 'scale(1)';
+                    quantityDisplay.style.color = 'white';
+                }, 300);
+            }
+            
+            // Animation de comptage fluide
+            function animateNumber(start, end, duration) {
+                const startTime = performance.now();
+                const difference = end - start;
+                
+                function updateNumber(currentTime) {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    
+                    // Fonction d'easing cubic-bezier
+                    const easeProgress = progress < 0.5 
+                        ? 4 * progress * progress * progress 
+                        : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+                    
+                    const currentValue = Math.round(start + (difference * easeProgress));
+                    quantityDisplay.textContent = formatNumber(currentValue);
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(updateNumber);
+                    }
+                }
+                
+                requestAnimationFrame(updateNumber);
+            }
+            
+            // Mise à jour des limites
+            function updateLimits() {
+                if (selectedService) {
+                    minLimit.textContent = formatNumber(selectedService.min_quantity);
+                    maxLimit.textContent = formatNumber(selectedService.max_quantity);
+                }
+            }
+            
+            // Événement de changement du slider
             slider.addEventListener('input', function() {
-                input.value = this.value;
+                const value = parseInt(this.value);
+                input.value = value;
+                updateQuantityDisplay(value);
                 updateOrderSummary();
                 currentStep = 2;
                 updateProgressBar();
+                
+                // Mise à jour du preset actif
+                updateActivePreset(value);
             });
+            
+            // Événement de fin de glissement
+            slider.addEventListener('change', function() {
+                // Animation de fin
+                slider.style.transform = 'scale(1.02)';
+                setTimeout(() => {
+                    slider.style.transform = 'scale(1)';
+                }, 200);
+            });
+            
+            // Initialisation
+            updateQuantityDisplay(parseInt(slider.value));
+            updateLimits();
         }
         
-        // Initialisation des presets de quantité
+        // Initialisation des presets de quantité modernes
         function initializeQuantityPresets() {
             document.querySelectorAll('.quantity-preset').forEach(preset => {
                 preset.addEventListener('click', function() {
                     const value = parseInt(this.dataset.value);
                     
+                    // Vérifier les limites du service sélectionné
+                    if (selectedService) {
+                        if (value < selectedService.min_quantity) {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Quantité trop faible',
+                                text: `La quantité minimale pour ce service est de ${new Intl.NumberFormat('fr-FR').format(selectedService.min_quantity)}.`,
+                                confirmButtonColor: '#00ff88'
+                            });
+                            return;
+                        }
+                        if (value > selectedService.max_quantity) {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Quantité trop élevée',
+                                text: `La quantité maximale pour ce service est de ${new Intl.NumberFormat('fr-FR').format(selectedService.max_quantity)}.`,
+                                confirmButtonColor: '#00ff88'
+                            });
+                            return;
+                        }
+                    }
+                    
                     // Mettre à jour l'input et le slider
                     document.getElementById('quantity').value = value;
                     document.getElementById('quantitySlider').value = value;
                     
-                    // Mettre à jour les presets actifs
-                    document.querySelectorAll('.quantity-preset').forEach(p => p.classList.remove('active'));
+                    // Mettre à jour l'affichage
+                    updateQuantityDisplay(value);
+                    
+                    // Mettre à jour les presets actifs avec animation
+                    document.querySelectorAll('.quantity-preset').forEach(p => {
+                        p.classList.remove('active');
+                        p.style.transform = 'scale(1)';
+                    });
+                    
                     this.classList.add('active');
+                    this.style.transform = 'scale(1.05)';
+                    
+                    // Effet de particules
+                    addPresetParticleEffect(this);
+                    
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 200);
                     
                     updateOrderSummary();
                     currentStep = 2;
@@ -1614,29 +2044,99 @@ try {
             });
         }
         
-        // Mise à jour des limites de quantité
+        // Mise à jour du preset actif
+        function updateActivePreset(value) {
+            document.querySelectorAll('.quantity-preset').forEach(preset => {
+                const presetValue = parseInt(preset.dataset.value);
+                if (presetValue === value) {
+                    preset.classList.add('active');
+                } else {
+                    preset.classList.remove('active');
+                }
+            });
+        }
+        
+        // Mise à jour des limites de quantité modernes
         function updateQuantityLimits() {
             const slider = document.getElementById('quantitySlider');
             const input = document.getElementById('quantity');
+            const minLimit = document.getElementById('minLimit');
+            const maxLimit = document.getElementById('maxLimit');
             
+            // Mise à jour des attributs min/max
             slider.min = selectedMin;
             slider.max = selectedMax;
             input.min = selectedMin;
             input.max = selectedMax;
             
-            // Ajuster la valeur si nécessaire
-            if (parseInt(input.value) < selectedMin) {
-                input.value = selectedMin;
-                slider.value = selectedMin;
-            } else if (parseInt(input.value) > selectedMax) {
-                input.value = selectedMax;
-                slider.value = selectedMax;
+            // Mise à jour de l'affichage des limites
+            minLimit.textContent = new Intl.NumberFormat('fr-FR').format(selectedMin);
+            maxLimit.textContent = new Intl.NumberFormat('fr-FR').format(selectedMax);
+            
+            // Mise à jour de l'accessibilité du slider
+            const slider = document.getElementById('quantitySlider');
+            slider.setAttribute('aria-valuemin', selectedMin);
+            slider.setAttribute('aria-valuemax', selectedMax);
+            slider.setAttribute('aria-valuenow', slider.value);
+            slider.setAttribute('aria-valuetext', `${formatNumber(slider.value)} followers`);
+            
+            // Ajuster la valeur si nécessaire avec animation
+            let currentValue = parseInt(input.value);
+            let newValue = currentValue;
+            
+            if (currentValue < selectedMin) {
+                newValue = selectedMin;
+            } else if (currentValue > selectedMax) {
+                newValue = selectedMax;
             }
+            
+            if (newValue !== currentValue) {
+                // Animation de mise à jour
+                input.value = newValue;
+                slider.value = newValue;
+                updateQuantityDisplay(newValue);
+                
+                // Mise à jour du preset actif
+                updateActivePreset(newValue);
+                
+                // Notification visuelle
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Quantité ajustée',
+                    text: `La quantité a été ajustée à ${new Intl.NumberFormat('fr-FR').format(newValue)} selon les limites du service.`,
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    confirmButtonColor: '#00ff88'
+                });
+            }
+            
+            // Mise à jour de l'ordre
+            updateOrderSummary();
         }
         
-        // Mise à jour du slider de quantité
+        // Mise à jour du slider de quantité moderne
         function updateQuantitySlider(value) {
-            document.getElementById('quantitySlider').value = value;
+            const slider = document.getElementById('quantitySlider');
+            const input = document.getElementById('quantity');
+            
+            // Mise à jour des valeurs
+            slider.value = value;
+            input.value = value;
+            
+            // Mise à jour de l'affichage
+            updateQuantityDisplay(value);
+            
+            // Mise à jour du preset actif
+            updateActivePreset(value);
+            
+            // Animation de mise à jour
+            slider.style.transform = 'scale(1.02)';
+            setTimeout(() => {
+                slider.style.transform = 'scale(1)';
+            }, 200);
         }
         
         // Mise à jour de la barre de progression
@@ -1645,26 +2145,56 @@ try {
             document.getElementById('progressFill').style.width = progress + '%';
         }
         
-        // Remplir depuis une suggestion
+        // Remplir depuis une suggestion avec animation
         function fillFromSuggestion(linkUrl, quantity) {
-            document.getElementById('link_url').value = linkUrl;
-            document.getElementById('quantity').value = quantity;
-            document.getElementById('quantitySlider').value = quantity;
+            // Animation de remplissage
+            const linkInput = document.getElementById('link_url');
+            const quantityInput = document.getElementById('quantity');
+            const quantitySlider = document.getElementById('quantitySlider');
             
-            // Mettre à jour le preset actif
+            // Remplir les champs avec animation
+            linkInput.value = linkUrl;
+            quantityInput.value = quantity;
+            quantitySlider.value = quantity;
+            
+            // Mise à jour de l'affichage de la quantité
+            updateQuantityDisplay(quantity);
+            
+            // Mettre à jour le preset actif avec animation
             document.querySelectorAll('.quantity-preset').forEach(preset => {
                 preset.classList.remove('active');
                 if (parseInt(preset.dataset.value) === quantity) {
                     preset.classList.add('active');
+                    preset.style.transform = 'scale(1.1)';
+                    setTimeout(() => {
+                        preset.style.transform = 'scale(1)';
+                    }, 300);
                 }
             });
             
+            // Mise à jour de l'ordre
             updateOrderSummary();
             currentStep = 3;
             updateProgressBar();
             
-            // Scroll vers le formulaire
-            document.getElementById('link_url').scrollIntoView({ behavior: 'smooth' });
+            // Animation de confirmation
+            Swal.fire({
+                icon: 'success',
+                title: 'Suggestion appliquée !',
+                text: `Quantité: ${new Intl.NumberFormat('fr-FR').format(quantity)}`,
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true,
+                confirmButtonColor: '#00ff88'
+            });
+            
+            // Scroll vers le formulaire avec animation
+            document.getElementById('link_url').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'center'
+            });
         }
         
         // Validation du formulaire
@@ -1962,6 +2492,426 @@ try {
             currentStep = 1;
             updateProgressBar();
         }
+        
+        // ===== EFFETS VISUELS AVANCÉS DU SLIDER =====
+        
+        // Animation de pulsation pour le slider
+        function addSliderPulseEffect() {
+            const slider = document.getElementById('quantitySlider');
+            const thumb = slider.querySelector('::-webkit-slider-thumb');
+            
+            // Ajouter un effet de pulsation subtil
+            setInterval(() => {
+                if (document.activeElement === slider) {
+                    slider.style.boxShadow = '0 0 0 4px rgba(0, 122, 255, 0.1)';
+                    setTimeout(() => {
+                        slider.style.boxShadow = 'none';
+                    }, 200);
+                }
+            }, 3000);
+        }
+        
+        // Effet de particules pour les presets
+        function addPresetParticleEffect(preset) {
+            // Créer des particules d'étoiles
+            for (let i = 0; i < 5; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'preset-particle';
+                particle.style.cssText = `
+                    position: absolute;
+                    width: 4px;
+                    height: 4px;
+                    background: var(--accent-primary);
+                    border-radius: 50%;
+                    pointer-events: none;
+                    z-index: 1000;
+                    animation: particleFloat 1s ease-out forwards;
+                `;
+                
+                // Position aléatoire autour du preset
+                const rect = preset.getBoundingClientRect();
+                particle.style.left = (rect.left + rect.width / 2) + 'px';
+                particle.style.top = (rect.top + rect.height / 2) + 'px';
+                
+                document.body.appendChild(particle);
+                
+                // Supprimer la particule après l'animation
+                setTimeout(() => {
+                    if (particle.parentNode) {
+                        particle.parentNode.removeChild(particle);
+                    }
+                }, 1000);
+            }
+        }
+        
+        // CSS pour les particules
+        const particleStyle = document.createElement('style');
+        particleStyle.textContent = `
+            @keyframes particleFloat {
+                0% {
+                    opacity: 1;
+                    transform: translate(0, 0) scale(1);
+                }
+                100% {
+                    opacity: 0;
+                    transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px) scale(0);
+                }
+            }
+        `;
+        document.head.appendChild(particleStyle);
+        
+        // Amélioration de l'expérience tactile et accessibilité
+        function enhanceTouchExperience() {
+            const slider = document.getElementById('quantitySlider');
+            
+            // Effet de feedback tactile
+            slider.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(1.02)';
+            });
+            
+            slider.addEventListener('touchend', function() {
+                this.style.transform = 'scale(1)';
+            });
+            
+            // Effet de glissement fluide
+            let isDragging = false;
+            
+            slider.addEventListener('mousedown', function() {
+                isDragging = true;
+                this.style.cursor = 'grabbing';
+                this.setAttribute('aria-pressed', 'true');
+            });
+            
+            document.addEventListener('mouseup', function() {
+                isDragging = false;
+                slider.style.cursor = 'grab';
+                slider.setAttribute('aria-pressed', 'false');
+            });
+            
+            document.addEventListener('mousemove', function(e) {
+                if (isDragging) {
+                    // Calculer la nouvelle valeur basée sur la position de la souris
+                    const rect = slider.getBoundingClientRect();
+                    const percent = (e.clientX - rect.left) / rect.width;
+                    const newValue = Math.round(percent * (selectedMax - selectedMin) + selectedMin);
+                    
+                    if (newValue >= selectedMin && newValue <= selectedMax) {
+                        updateQuantitySlider(newValue);
+                    }
+                }
+            });
+            
+            // Support du clavier pour l'accessibilité
+            slider.addEventListener('keydown', function(e) {
+                let newValue = parseInt(this.value);
+                
+                switch(e.key) {
+                    case 'ArrowRight':
+                    case 'ArrowUp':
+                        e.preventDefault();
+                        newValue = Math.min(newValue + 1000, selectedMax);
+                        break;
+                    case 'ArrowLeft':
+                    case 'ArrowDown':
+                        e.preventDefault();
+                        newValue = Math.max(newValue - 1000, selectedMin);
+                        break;
+                    case 'Home':
+                        e.preventDefault();
+                        newValue = selectedMin;
+                        break;
+                    case 'End':
+                        e.preventDefault();
+                        newValue = selectedMax;
+                        break;
+                    case 'PageUp':
+                        e.preventDefault();
+                        newValue = Math.min(newValue + 10000, selectedMax);
+                        break;
+                    case 'PageDown':
+                        e.preventDefault();
+                        newValue = Math.max(newValue - 10000, selectedMin);
+                        break;
+                }
+                
+                if (newValue !== parseInt(this.value)) {
+                    updateQuantitySlider(newValue);
+                }
+            });
+            
+            // Amélioration de l'accessibilité
+            slider.setAttribute('role', 'slider');
+            slider.setAttribute('aria-valuemin', selectedMin);
+            slider.setAttribute('aria-valuemax', selectedMax);
+            slider.setAttribute('aria-valuenow', slider.value);
+            slider.setAttribute('aria-valuetext', `${formatNumber(slider.value)} followers`);
+            slider.setAttribute('aria-label', 'Sélectionner la quantité de followers');
+        }
+        
+        // Initialisation des effets avancés
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                addSliderPulseEffect();
+                enhanceTouchExperience();
+                addSmartTooltips();
+                addSliderMarkers();
+            }, 1000);
+        });
+        
+        // Ajout de tooltips intelligents
+        function addSmartTooltips() {
+            const slider = document.getElementById('quantitySlider');
+            const presets = document.querySelectorAll('.quantity-preset');
+            
+            // Tooltip pour le slider
+            slider.addEventListener('mouseenter', function() {
+                showTooltip(this, 'Glissez pour ajuster la quantité ou utilisez les flèches du clavier');
+            });
+            
+            slider.addEventListener('mouseleave', function() {
+                hideTooltip();
+            });
+            
+            // Tooltips pour les presets
+            presets.forEach(preset => {
+                const value = parseInt(preset.dataset.value);
+                const tooltipText = `${formatNumber(value)} followers - Cliquez pour sélectionner rapidement`;
+                
+                preset.addEventListener('mouseenter', function() {
+                    showTooltip(this, tooltipText);
+                });
+                
+                preset.addEventListener('mouseleave', function() {
+                    hideTooltip();
+                });
+            });
+        }
+        
+        // Affichage des tooltips
+        function showTooltip(element, text) {
+            hideTooltip();
+            
+            const tooltip = document.createElement('div');
+            tooltip.className = 'smart-tooltip';
+            tooltip.textContent = text;
+            tooltip.style.cssText = `
+                position: absolute;
+                background: rgba(0, 0, 0, 0.9);
+                color: white;
+                padding: 8px 12px;
+                border-radius: 6px;
+                font-size: 0.85rem;
+                z-index: 10000;
+                pointer-events: none;
+                white-space: nowrap;
+                opacity: 0;
+                transform: translateY(10px);
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            `;
+            
+            document.body.appendChild(tooltip);
+            
+            // Positionner le tooltip
+            const rect = element.getBoundingClientRect();
+            tooltip.style.left = (rect.left + rect.width / 2 - tooltip.offsetWidth / 2) + 'px';
+            tooltip.style.top = (rect.top - tooltip.offsetHeight - 10) + 'px';
+            
+            // Animation d'apparition
+            setTimeout(() => {
+                tooltip.style.opacity = '1';
+                tooltip.style.transform = 'translateY(0)';
+            }, 10);
+        }
+        
+        function hideTooltip() {
+            const existingTooltip = document.querySelector('.smart-tooltip');
+            if (existingTooltip) {
+                existingTooltip.remove();
+            }
+        }
+        
+        // Ajout de marqueurs visuels sur le slider
+        function addSliderMarkers() {
+            const slider = document.getElementById('quantitySlider');
+            const sliderContainer = slider.parentElement;
+            
+            // Créer des marqueurs pour les valeurs importantes
+            const markers = [1000, 10000, 25000, 50000, 100000];
+            
+            markers.forEach((value, index) => {
+                const marker = document.createElement('div');
+                marker.className = 'slider-marker';
+                marker.style.cssText = `
+                    position: absolute;
+                    width: 2px;
+                    height: 20px;
+                    background: var(--accent-secondary);
+                    border-radius: 1px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    z-index: 1;
+                    opacity: 0.6;
+                    transition: all 0.3s ease;
+                `;
+                
+                // Positionner le marqueur
+                const percent = ((value - selectedMin) / (selectedMax - selectedMin)) * 100;
+                marker.style.left = `${percent}%`;
+                
+                // Ajouter le label du marqueur
+                const label = document.createElement('div');
+                label.className = 'marker-label';
+                label.textContent = formatNumber(value);
+                label.style.cssText = `
+                    position: absolute;
+                    top: -30px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    font-size: 0.75rem;
+                    color: var(--text-tertiary);
+                    white-space: nowrap;
+                    opacity: 0;
+                    transition: opacity 0.3s ease;
+                `;
+                
+                marker.appendChild(label);
+                sliderContainer.appendChild(marker);
+                
+                // Afficher le label au hover
+                marker.addEventListener('mouseenter', function() {
+                    this.style.opacity = '1';
+                    this.style.height = '25px';
+                    this.style.background = 'var(--accent-primary)';
+                    label.style.opacity = '1';
+                });
+                
+                marker.addEventListener('mouseleave', function() {
+                    this.style.opacity = '0.6';
+                    this.style.height = '20px';
+                    this.style.background = 'var(--accent-secondary)';
+                    label.style.opacity = '0';
+                });
+            });
+        }
+        
+        // Amélioration de l'expérience haptique
+        function addHapticFeedback() {
+            const slider = document.getElementById('quantitySlider');
+            
+            // Vérifier si l'API Vibration est supportée
+            if ('vibrate' in navigator) {
+                let lastValue = parseInt(slider.value);
+                
+                slider.addEventListener('input', function() {
+                    const currentValue = parseInt(this.value);
+                    
+                    // Vibration pour les changements de valeur
+                    if (currentValue !== lastValue) {
+                        // Vibration courte pour les petits changements
+                        if (Math.abs(currentValue - lastValue) <= 5000) {
+                            navigator.vibrate(10);
+                        } else {
+                            // Vibration plus longue pour les gros changements
+                            navigator.vibrate([10, 50, 10]);
+                        }
+                        lastValue = currentValue;
+                    }
+                });
+                
+                // Vibration pour les presets
+                document.querySelectorAll('.quantity-preset').forEach(preset => {
+                    preset.addEventListener('click', function() {
+                        navigator.vibrate(20);
+                    });
+                });
+            }
+        }
+        
+        // Initialisation des effets haptiques
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                addHapticFeedback();
+                addSliderParticleEffects();
+            }, 1500);
+        });
+        
+        // Effets de particules lors du glissement
+        function addSliderParticleEffects() {
+            const slider = document.getElementById('quantitySlider');
+            let isDragging = false;
+            let lastValue = parseInt(slider.value);
+            
+            slider.addEventListener('mousedown', function() {
+                isDragging = true;
+            });
+            
+            document.addEventListener('mouseup', function() {
+                isDragging = false;
+            });
+            
+            slider.addEventListener('input', function() {
+                if (isDragging) {
+                    const currentValue = parseInt(this.value);
+                    
+                    // Créer des particules lors du glissement
+                    if (currentValue !== lastValue) {
+                        createSliderParticles(this, currentValue);
+                        lastValue = currentValue;
+                    }
+                }
+            });
+        }
+        
+        // Création de particules pour le slider
+        function createSliderParticles(slider, value) {
+            const rect = slider.getBoundingClientRect();
+            const percent = ((value - selectedMin) / (selectedMax - selectedMin)) * 100;
+            const x = rect.left + (rect.width * percent / 100);
+            const y = rect.top + rect.height / 2;
+            
+            // Créer 3 particules
+            for (let i = 0; i < 3; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'slider-particle';
+                particle.style.cssText = `
+                    position: fixed;
+                    width: 4px;
+                    height: 4px;
+                    background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+                    border-radius: 50%;
+                    pointer-events: none;
+                    z-index: 1000;
+                    left: ${x}px;
+                    top: ${y}px;
+                    animation: sliderParticleFloat 0.8s ease-out forwards;
+                `;
+                
+                document.body.appendChild(particle);
+                
+                // Supprimer la particule après l'animation
+                setTimeout(() => {
+                    if (particle.parentNode) {
+                        particle.parentNode.removeChild(particle);
+                    }
+                }, 800);
+            }
+        }
+        
+        // CSS pour les particules du slider
+        const sliderParticleStyle = document.createElement('style');
+        sliderParticleStyle.textContent = `
+            @keyframes sliderParticleFloat {
+                0% {
+                    opacity: 1;
+                    transform: translate(0, 0) scale(1);
+                }
+                100% {
+                    opacity: 0;
+                    transform: translate(${Math.random() * 60 - 30}px, ${Math.random() * 60 - 30}px) scale(0);
+                }
+            }
+        `;
+        document.head.appendChild(sliderParticleStyle);
     </script>
 </body>
 </html>
