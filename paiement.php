@@ -1292,7 +1292,7 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
                         
                         <!-- Input file principal -->
                         <input type="file" class="file-input" name="payment_proof" id="paymentProof" 
-                               accept=".jpg,.jpeg,.png" required>
+                               accept=".jpg,.jpeg,.png" capture="environment" required>
                         
                         <!-- Boutons d'upload pour mobile et desktop -->
                         <div class="upload-buttons">
@@ -1300,10 +1300,10 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
                                 <i class="fas fa-folder-open me-2"></i>Sélectionner un fichier
                             </button>
                             
-                            <!-- Bouton spécifique pour mobile -->
-                            <label for="paymentProof" class="upload-btn mobile-upload-btn">
+                            <!-- Bouton spécifique pour mobile avec appareil photo -->
+                            <button type="button" class="upload-btn mobile-upload-btn" onclick="triggerCameraInput()">
                                 <i class="fas fa-camera me-2"></i>Prendre une photo
-                            </label>
+                            </button>
                         </div>
                         
                         <!-- Instructions spécifiques mobile -->
@@ -1416,6 +1416,7 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
             uploadArea.addEventListener('click', (e) => {
                 // Éviter de déclencher si on clique sur un bouton
                 if (!e.target.closest('button') && !e.target.closest('label')) {
+                    console.log('Clic sur la zone d\'upload');
                     triggerFileInput();
                 }
             });
@@ -1432,6 +1433,7 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
                 // Petit délai pour éviter les doubles déclenchements
                 setTimeout(() => {
                     if (!e.target.closest('button') && !e.target.closest('label')) {
+                        console.log('Touch sur la zone d\'upload');
                         triggerFileInput();
                     }
                 }, 100);
@@ -1452,15 +1454,24 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
                 uploadArea.classList.remove('dragover');
                 const files = e.dataTransfer.files;
                 if (files.length > 0) {
+                    console.log('Fichier déposé:', files[0].name);
                     handleFileSelect(files[0]);
                 }
             });
             
             // Sélection de fichier
             fileInput.addEventListener('change', (e) => {
+                console.log('Fichier sélectionné via input:', e.target.files[0]?.name);
                 if (e.target.files.length > 0) {
                     handleFileSelect(e.target.files[0]);
                 }
+            });
+            
+            // Ajouter des événements de clic sur les boutons pour le debugging
+            document.querySelectorAll('.upload-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    console.log('Bouton cliqué:', btn.textContent.trim());
+                });
             });
         }
         
@@ -1638,6 +1649,15 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
 
         // Fonction pour déclencher le clic sur l'input file
         function triggerFileInput() {
+            console.log('Déclenchement sélection de fichier');
+            fileInput.removeAttribute('capture'); // Retire capture pour permettre la galerie
+            fileInput.click();
+        }
+        
+        // Fonction pour déclencher le clic sur l'input file pour la caméra
+        function triggerCameraInput() {
+            console.log('Déclenchement appareil photo');
+            fileInput.setAttribute('capture', 'environment'); // Force l'utilisation de la caméra
             fileInput.click();
         }
 

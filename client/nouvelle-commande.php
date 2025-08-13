@@ -102,10 +102,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'payment_method' => $paymentMethod
                 ];
                 
-                $success = 'Commande créée avec succès ! Redirection vers la page de paiement...';
-                
-                // Rediriger vers la page de paiement après 3 secondes
-                header("refresh:3;url=../paiement.php?order_id=" . $orderId);
+                // Redirection immédiate vers la page de paiement
+                header("Location: ../paiement.php?order_id=" . $orderId);
+                exit();
             } else {
                 $error = 'Erreur lors de la création de la commande. Veuillez réessayer.';
             }
