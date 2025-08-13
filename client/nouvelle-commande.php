@@ -143,26 +143,21 @@ try {
     
     <style>
         :root {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f5f5f7;
-            --bg-tertiary: #fafafa;
-            --text-primary: #1d1d1f;
-            --text-secondary: #86868b;
-            --text-tertiary: #6e6e73;
-            --accent-primary: #007aff;
-            --accent-secondary: #5856d6;
-            --accent-success: #34c759;
-            --accent-warning: #ff9500;
-            --accent-danger: #ff3b30;
-            --border-light: #d2d2d7;
-            --border-lighter: #e5e5e7;
-            --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.04);
-            --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.08);
-            --shadow-large: 0 8px 32px rgba(0, 0, 0, 0.12);
-            --radius-small: 8px;
-            --radius-medium: 12px;
-            --radius-large: 16px;
-            --radius-xl: 24px;
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
         }
         
         * {
@@ -172,31 +167,246 @@ try {
         }
         
         body {
-            background: var(--bg-primary);
-            color: var(--text-primary);
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-weight: 400;
+            background: linear-gradient(135deg, var(--light) 0%, var(--gray-light) 100%);
+            min-height: 100vh;
+            color: var(--dark);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
         
-        .client-container {
-            padding-top: 20px;
-            min-height: 100vh;
-            background: var(--bg-primary);
+        /* Navigation Apple-like avec transparence */
+        .navbar {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
         }
-        
-        /* Header Principal */
-        .main-header {
-            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
-            border-radius: var(--radius-xl);
-            padding: 40px;
-            margin-bottom: 32px;
-            text-align: center;
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .navbar-brand span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Bouton hamburger personnalisé avec transparence */
+        .hamburger-btn {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1001;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .hamburger-line {
+            width: 100%;
+            height: 3px;
+            background: var(--dark);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+
+        .hamburger-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: var(--primary);
+        }
+
+        .hamburger-btn:hover .hamburger-line {
+            background: var(--primary);
+        }
+
+        /* Animation du hamburger */
+        .hamburger-btn.active .hamburger-line:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .hamburger-btn.active .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-btn.active .hamburger-line:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        /* Menu de navigation avec transparence */
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(25px);
+            border-radius: 0 0 16px 16px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-top: none;
+            overflow: hidden;
+            transform: translateY(-100%);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 999;
+        }
+
+        .mobile-menu.active {
+            display: block;
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .mobile-menu .navbar-nav {
+            padding: 1rem;
+        }
+
+        .mobile-menu .nav-item {
+            margin: 0.5rem 0;
+        }
+
+        .mobile-menu .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--dark);
+            text-decoration: none;
+        }
+
+        .mobile-menu .nav-link:hover {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+            transform: translateX(10px);
+        }
+
+        .mobile-menu .nav-link.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .nav-link {
+            color: var(--dark);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .nav-link:hover {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .btn-logout {
+            background: transparent;
+            border: 2px solid var(--danger);
+            color: var(--danger);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-logout:hover {
+            background: var(--danger);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Container principal */
+        .main-container {
+            padding: 2rem 0;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* Header de la page */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 3rem;
+            border-radius: 20px;
             position: relative;
             overflow: hidden;
-            box-shadow: var(--shadow-subtle);
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="%23ffffff" stop-opacity="0.1"/><stop offset="100%" stop-color="%23ffffff" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="100" fill="url(%23a)"/><circle cx="800" cy="300" r="150" fill="url(%23a)"/><circle cx="400" cy="700" r="120" fill="url(%23a)"/></svg>') no-repeat;
+            opacity: 0.3;
+        }
+
+        .page-header-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
         }
         
         .header-content {
@@ -240,34 +450,254 @@ try {
             margin-bottom: 0;
         }
         
-        /* Navigation Client Minimaliste */
-        .client-nav {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-lighter);
-            border-radius: var(--radius-large);
-            padding: 24px;
-            margin-bottom: 32px;
-            box-shadow: var(--shadow-subtle);
+        /* Formulaire de commande */
+        .order-form-section {
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
-        
-        .client-nav .nav-link {
-            color: var(--text-secondary);
-            padding: 12px 20px;
-            border-radius: var(--radius-medium);
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            margin: 0 4px;
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
         }
-        
-        .client-nav .nav-link:hover,
-        .client-nav .nav-link.active {
-            color: var(--accent-primary);
-            background: rgba(0, 122, 255, 0.04);
-            transform: translateY(-1px);
+
+        .form-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .form-subtitle {
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--gray-light);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+            background: white;
+        }
+
+        .form-control:hover {
+            border-color: var(--primary);
+            background: white;
+        }
+
+        .form-select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m1 6 7 7 7-7'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 16px 12px;
+            padding-right: 2.5rem;
+        }
+
+        /* Sélecteur de service */
+        .service-selector {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(15px);
+        }
+
+        .service-selector h4 {
+            color: var(--dark);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .category-card {
+            background: white;
+            border: 2px solid var(--gray-light);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .category-card.selected {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(16, 185, 129, 0.05));
+        }
+
+        .category-card.selected::before {
+            content: '✓';
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 30px;
+            height: 30px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .category-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .category-name {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .category-description {
+            color: var(--gray);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Sélecteur de quantité */
+        .quantity-section {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(15px);
+        }
+
+        .quantity-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .quantity-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .quantity-subtitle {
+            color: var(--gray);
+        }
+
+        .quantity-input-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .quantity-input {
+            flex: 1;
+            min-width: 200px;
+            max-width: 300px;
+        }
+
+        .quantity-display {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            text-align: center;
+            min-width: 150px;
+        }
+
+        .quantity-presets {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .quantity-preset {
+            background: white;
+            border: 2px solid var(--gray-light);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .quantity-preset:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .quantity-preset.selected {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
         }
         
         /* Cartes et Formulaires Minimalistes */
@@ -1235,49 +1665,76 @@ try {
     </style>
 </head>
 <body>
-    <div class="client-container">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <!-- Header Principal -->
-            <div class="main-header animate-fade-in">
-                <div class="header-content">
-                    <div class="header-icon">
-                        <i class="fas fa-plus"></i>
-                    </div>
-                    <h1 class="header-title">Nouvelle Commande</h1>
-                    <p class="header-subtitle">Créez votre commande SMM en quelques étapes simples</p>
-                </div>
+            <a class="navbar-brand" href="../index.php">
+                <i class="fas fa-rocket me-2"></i>Boost<span>Social</span>
+            </a>
+            
+            <!-- Bouton hamburger personnalisé -->
+            <button class="hamburger-btn" type="button" id="hamburgerBtn" aria-label="Toggle navigation">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+            
+            <!-- Menu de navigation -->
+            <div class="mobile-menu" id="mobileMenu">
+                <button class="close-menu-btn" id="closeMenuBtn" aria-label="Fermer le menu">
+                    <i class="fas fa-times"></i>
+                </button>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.php">
+                            <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="commandes.php">
+                            <i class="fas fa-list me-2"></i>Mes Commandes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="nouvelle-commande.php">
+                            <i class="fas fa-plus me-2"></i>Nouvelle Commande
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tickets.php">
+                            <i class="fas fa-headset me-2"></i>Support
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="profil.php">
+                            <i class="fas fa-user me-2"></i>Profil
+                        </a>
+                    </li>
+                </ul>
             </div>
             
-            <!-- Navigation Client -->
-            <div class="client-nav animate-fade-in">
-                <nav class="nav nav-pills justify-content-center">
-                    <a class="nav-link" href="dashboard.php">
-                        <i class="fas fa-tachometer-alt me-2"></i>Dashboard
-                    </a>
-                    <a class="nav-link" href="commandes.php">
-                        <i class="fas fa-shopping-cart me-2"></i>Mes Commandes
-                    </a>
-                    <a class="nav-link active" href="nouvelle-commande.php">
-                        <i class="fas fa-plus me-2"></i>Nouvelle Commande
-                    </a>
-                    <a class="nav-link" href="tickets.php">
-                        <i class="fas fa-ticket-alt me-2"></i>Support
-                    </a>
-                    <a class="nav-link" href="profil.php">
-                        <i class="fas fa-user-cog me-2"></i>Mon Profil
-                    </a>
-                </nav>
-                
-                <!-- Informations utilisateur -->
-                <div class="d-flex justify-content-end align-items-center mt-3">
-                    <span class="text-muted me-3">
-                        <i class="fas fa-user me-2"></i><?php echo htmlspecialchars($currentUser['first_name'] . ' ' . $currentUser['last_name']); ?>
-                    </span>
-                    <a href="logout.php" class="btn btn-outline-danger btn-sm">
-                        <i class="fas fa-sign-out-alt me-2"></i>Déconnexion
-                    </a>
+            <div class="user-menu">
+                <div class="user-avatar">
+                    <?php echo strtoupper(substr($currentUser['name'], 0, 1)); ?>
                 </div>
+                <span class="d-none d-md-inline"><?php echo htmlspecialchars($currentUser['name']); ?></span>
+                <a href="logout.php" class="btn-logout">
+                    <i class="fas fa-sign-out-alt me-2"></i>Déconnexion
+                    </a>
             </div>
+        </div>
+    </nav>
+
+    <!-- Container principal -->
+    <div class="main-container">
+        <div class="container">
+            <!-- Header de la page -->
+            <section class="page-header fade-in-up">
+                <div class="page-header-content">
+                    <h1 class="page-title">Nouvelle Commande 🚀</h1>
+                    <p class="page-subtitle">Créez votre commande SMM en quelques étapes simples et boostez votre présence sur les réseaux sociaux.</p>
+                </div>
+            </section>
             
             <?php if ($success): ?>
                 <div class="alert alert-success alert-dismissible fade show animate-fade-in" role="alert">
@@ -2548,6 +3005,77 @@ try {
             }
         `;
         document.head.appendChild(sliderParticleStyle);
+
+        // Menu hamburger mobile
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const closeMenuBtn = document.getElementById('closeMenuBtn');
+        const body = document.body;
+
+        if (hamburgerBtn && mobileMenu) {
+            // Ouvrir/fermer le menu
+            hamburgerBtn.addEventListener('click', () => {
+                hamburgerBtn.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+                body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+            });
+
+            // Fermer avec le bouton X
+            if (closeMenuBtn) {
+                closeMenuBtn.addEventListener('click', () => {
+                    hamburgerBtn.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                    body.style.overflow = '';
+                });
+            }
+
+            // Fermer en cliquant sur un lien
+            const mobileLinks = mobileMenu.querySelectorAll('.nav-link');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburgerBtn.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                    body.style.overflow = '';
+                });
+            });
+
+            // Fermer en cliquant à l'extérieur
+            document.addEventListener('click', (e) => {
+                if (!hamburgerBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+                    hamburgerBtn.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                    body.style.overflow = '';
+                }
+            });
+
+            // Fermer avec la touche Escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+                    hamburgerBtn.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                    body.style.overflow = '';
+                }
+            });
+        }
+
+        // Intersection Observer pour les animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in-up');
+                }
+            });
+        }, observerOptions);
+
+        // Observer tous les éléments avec la classe fade-in-up
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            observer.observe(el);
+        });
     </script>
 </body>
 </html>
