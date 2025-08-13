@@ -1671,25 +1671,48 @@ try {
             }
         }
         
+        // Fonction globale pour formater les nombres
+        function formatNumber(num) {
+            return new Intl.NumberFormat('fr-FR').format(num);
+        }
+        
+        // Fonction globale pour mettre à jour l'affichage de la quantité
+        function updateQuantityDisplay(value) {
+            const quantityValue = document.getElementById('quantityValue');
+            if (quantityValue) {
+                quantityValue.textContent = formatNumber(value);
+            }
+        }
+        
         // Initialisation du slider de quantité
         function initializeQuantitySlider() {
             const slider = document.getElementById('quantitySlider');
             const input = document.getElementById('quantity');
-            const quantityValue = document.getElementById('quantityValue');
             
-            // Fonction pour formater les nombres
-            function formatNumber(num) {
-                return new Intl.NumberFormat('fr-FR').format(num);
-            }
-            
-            // Mise à jour de l'affichage
-            function updateQuantityDisplay(value) {
-                quantityValue.textContent = formatNumber(value);
-            }
-            
+            // Événement sur le slider
             slider.addEventListener('input', function() {
                 const value = parseInt(this.value);
                 input.value = value;
+                updateQuantityDisplay(value);
+                updateOrderSummary();
+                currentStep = 2;
+                updateProgressBar();
+            });
+            
+            // Événement sur l'input direct
+            input.addEventListener('input', function() {
+                const value = parseInt(this.value) || 0;
+                slider.value = value;
+                updateQuantityDisplay(value);
+                updateOrderSummary();
+                currentStep = 2;
+                updateProgressBar();
+            });
+            
+            // Événement sur l'input direct (quand on tape et quitte le champ)
+            input.addEventListener('change', function() {
+                const value = parseInt(this.value) || 0;
+                slider.value = value;
                 updateQuantityDisplay(value);
                 updateOrderSummary();
                 currentStep = 2;
@@ -1735,21 +1758,9 @@ try {
                     // Mettre à jour l'affichage
                     updateQuantityDisplay(value);
                     
-                    // Mettre à jour les presets actifs avec animation
-                    document.querySelectorAll('.quantity-preset').forEach(p => {
-                        p.classList.remove('active');
-                        p.style.transform = 'scale(1)';
-                    });
-                    
+                    // Mettre à jour les presets actifs
+                    document.querySelectorAll('.quantity-preset').forEach(p => p.classList.remove('active'));
                     this.classList.add('active');
-                    this.style.transform = 'scale(1.05)';
-                    
-                    // Effet de particules
-                    addPresetParticleEffect(this);
-                    
-                    setTimeout(() => {
-                        this.style.transform = 'scale(1)';
-                    }, 200);
                     
                     updateOrderSummary();
                     currentStep = 2;
@@ -1772,15 +1783,18 @@ try {
             if (parseInt(input.value) < selectedMin) {
                 input.value = selectedMin;
                 slider.value = selectedMin;
+                updateQuantityDisplay(selectedMin);
             } else if (parseInt(input.value) > selectedMax) {
                 input.value = selectedMax;
                 slider.value = selectedMax;
+                updateQuantityDisplay(selectedMax);
             }
         }
         
         // Mise à jour du slider de quantité
         function updateQuantitySlider(value) {
             document.getElementById('quantitySlider').value = value;
+            updateQuantityDisplay(value);
         }
         
         // Mise à jour de la barre de progression
@@ -1789,14 +1803,13 @@ try {
             document.getElementById('progressFill').style.width = progress + '%';
         }
         
-        // Remplir depuis une suggestion avec animation
+        // Remplir depuis une suggestion
         function fillFromSuggestion(linkUrl, quantity) {
-            // Animation de remplissage
             const linkInput = document.getElementById('link_url');
             const quantityInput = document.getElementById('quantity');
             const quantitySlider = document.getElementById('quantitySlider');
             
-            // Remplir les champs avec animation
+            // Remplir les champs
             linkInput.value = linkUrl;
             quantityInput.value = quantity;
             quantitySlider.value = quantity;
@@ -1804,15 +1817,11 @@ try {
             // Mise à jour de l'affichage de la quantité
             updateQuantityDisplay(quantity);
             
-            // Mettre à jour le preset actif avec animation
+            // Mettre à jour le preset actif
             document.querySelectorAll('.quantity-preset').forEach(preset => {
                 preset.classList.remove('active');
                 if (parseInt(preset.dataset.value) === quantity) {
                     preset.classList.add('active');
-                    preset.style.transform = 'scale(1.1)';
-                    setTimeout(() => {
-                        preset.style.transform = 'scale(1)';
-                    }, 300);
                 }
             });
             
@@ -1821,24 +1830,8 @@ try {
             currentStep = 3;
             updateProgressBar();
             
-            // Animation de confirmation
-            Swal.fire({
-                icon: 'success',
-                title: 'Suggestion appliquée !',
-                text: `Quantité: ${new Intl.NumberFormat('fr-FR').format(quantity)}`,
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 2000,
-                timerProgressBar: true,
-                confirmButtonColor: '#00ff88'
-            });
-            
-            // Scroll vers le formulaire avec animation
-            document.getElementById('link_url').scrollIntoView({ 
-                behavior: 'smooth',
-                block: 'center'
-            });
+            // Scroll vers le formulaire
+            document.getElementById('link_url').scrollIntoView({ behavior: 'smooth' });
         }
         
         // Validation du formulaire
