@@ -5,17 +5,39 @@ require_once 'includes/functions.php';
 $categories = getAllCategories();
 $selectedCategory = isset($_GET['category']) ? (int)$_GET['category'] : null;
 
+// Vérifier si l'utilisateur est connecté
+$isUserLoggedIn = isUserLoggedIn();
+$userInfo = null;
+
+if ($isUserLoggedIn) {
+    $userInfo = [
+        'name' => $_SESSION['user_name'] ?? '',
+        'email' => $_SESSION['user_email'] ?? ''
+    ];
+}
+
 // Traitement du formulaire
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $serviceId = cleanInput($_POST['service_id']);
-    $customerName = cleanInput($_POST['customer_name']);
-    $customerEmail = cleanInput($_POST['customer_email']);
     $linkUrl = cleanInput($_POST['link_url']);
     $quantity = (int)$_POST['quantity'];
     $paymentMethod = cleanInput($_POST['payment_method']);
     
+    // Récupérer les informations utilisateur selon le statut de connexion
+    if ($isUserLoggedIn) {
+        $customerName = $userInfo['name'];
+        $customerEmail = $userInfo['email'];
+        $userId = $_SESSION['user_id'] ?? null;
+    } else {
+        $customerName = cleanInput($_POST['customer_name']);
+        $customerEmail = cleanInput($_POST['customer_email']);
+        $userId = null;
+    }
+    
     // Validation
-    if (empty($serviceId) || empty($customerName) || empty($customerEmail) || empty($linkUrl) || $quantity < 1000 || empty($paymentMethod)) {
+    if (empty($serviceId) || empty($linkUrl) || $quantity < 1000 || empty($paymentMethod)) {
+        showAlert('Veuillez remplir tous les champs correctement.', 'danger');
+    } elseif (!$isUserLoggedIn && (empty($customerName) || empty($customerEmail))) {
         showAlert('Veuillez remplir tous les champs correctement.', 'danger');
     } else {
         // Calcul du prix total
@@ -27,12 +49,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             try {
                 $pdo = getDBConnection();
-                $stmt = $pdo->prepare("
-                    INSERT INTO orders (order_number, service_id, customer_email, customer_name, link_url, quantity, total_price, payment_method)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                ");
                 
-                if ($stmt->execute([$orderNumber, $serviceId, $customerEmail, $customerName, $linkUrl, $quantity, $totalPrice, $paymentMethod])) {
+                if ($isUserLoggedIn && $userId) {
+                    // Utilisateur connecté - utiliser user_id
+                    $stmt = $pdo->prepare("
+                        INSERT INTO orders (order_number, service_id, user_id, customer_email, customer_name, link_url, quantity, total_price, payment_method)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    ");
+                    $params = [$orderNumber, $serviceId, $userId, $customerEmail, $customerName, $linkUrl, $quantity, $totalPrice, $paymentMethod];
+                } else {
+                    // Utilisateur non connecté - pas de user_id
+                    $stmt = $pdo->prepare("
+                        INSERT INTO orders (order_number, service_id, customer_email, customer_name, link_url, quantity, total_price, payment_method)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                    ");
+                    $params = [$orderNumber, $serviceId, $customerEmail, $customerName, $linkUrl, $quantity, $totalPrice, $paymentMethod];
+                }
+                
+                if ($stmt->execute($params)) {
                     $orderId = $pdo->lastInsertId();
                     redirect("paiement.php?order_id=" . $orderId);
                 } else {
@@ -563,6 +597,77 @@ if ($selectedCategory) {
             font-size: 0.9rem;
         }
 
+        /* User Info Card */
+        .user-info-card {
+            background: #f0fdf4; /* Light green background */
+            border: 1px solid #a7f3d0; /* Green border */
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .user-info-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #16a34a; /* Green text */
+            margin-bottom: 1rem;
+        }
+
+        .user-info-header i {
+            font-size: 2rem;
+            margin-right: 0.5rem;
+        }
+
+        .user-info-details {
+            text-align: left;
+        }
+
+        .user-info-item {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            color: var(--dark);
+        }
+
+        .user-info-item strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Guest Info Card */
+        .guest-info-card {
+            background: #fffbeb; /* Light yellow background */
+            border: 1px solid #fde68a; /* Yellow border */
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .guest-info-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #d97706; /* Orange text */
+            margin-bottom: 1rem;
+        }
+
+        .guest-info-header i {
+            font-size: 2rem;
+            margin-right: 0.5rem;
+        }
+
+        .guest-info-details p {
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        .guest-info-details .btn {
+            font-size: 0.875rem;
+            padding: 0.5rem 1rem;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .hamburger-menu {
@@ -712,10 +817,46 @@ if ($selectedCategory) {
                             <i class="fas fa-shopping-cart"></i>Détails de la Commande
                         </h4>
                         
+                        <?php if ($isUserLoggedIn): ?>
+                        <!-- Informations utilisateur connecté -->
+                        <div class="user-info-card">
+                            <div class="user-info-header">
+                                <i class="fas fa-user-check text-success"></i>
+                                <span>Vous êtes connecté</span>
+                            </div>
+                            <div class="user-info-details">
+                                <div class="user-info-item">
+                                    <strong>Nom :</strong> <?php echo htmlspecialchars($userInfo['name']); ?>
+                                </div>
+                                <div class="user-info-item">
+                                    <strong>Email :</strong> <?php echo htmlspecialchars($userInfo['email']); ?>
+                                </div>
+                            </div>
+                        </div>
+                        <?php else: ?>
+                        <!-- Message pour utilisateurs non connectés -->
+                        <div class="guest-info-card">
+                            <div class="guest-info-header">
+                                <i class="fas fa-user-clock text-warning"></i>
+                                <span>Commande en tant qu'invité</span>
+                            </div>
+                            <div class="guest-info-details">
+                                <p>Vous n'êtes pas connecté. Vos informations seront utilisées uniquement pour cette commande.</p>
+                                <a href="connexion.php" class="btn btn-outline-primary btn-sm">
+                                    <i class="fas fa-sign-in-alt me-1"></i>Se connecter
+                                </a>
+                                <a href="inscription.php" class="btn btn-outline-secondary btn-sm ms-2">
+                                    <i class="fas fa-user-plus me-1"></i>S'inscrire
+                                </a>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+                        
                         <form method="POST" action="" id="orderForm">
                             <!-- Champ caché pour service_id -->
                             <input type="hidden" name="service_id" id="hiddenServiceId" required>
                             
+                            <?php if (!$isUserLoggedIn): ?>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -731,6 +872,7 @@ if ($selectedCategory) {
                                     </div>
                                 </div>
                             </div>
+                            <?php endif; ?>
                             
                             <div class="form-group">
                                 <label class="form-label">Lien à promouvoir *</label>
@@ -1025,8 +1167,6 @@ if ($selectedCategory) {
         document.getElementById('orderForm').addEventListener('submit', function(e) {
             const serviceId = hiddenServiceId.value;
             const quantity = parseInt(quantityInput.value);
-            const customerName = document.querySelector('input[name="customer_name"]').value.trim();
-            const customerEmail = document.querySelector('input[name="customer_email"]').value.trim();
             const linkUrl = document.querySelector('input[name="link_url"]').value.trim();
             const paymentMethod = document.querySelector('select[name="payment_method"]').value;
             
@@ -1036,6 +1176,11 @@ if ($selectedCategory) {
                 alert('Veuillez sélectionner un service.');
                 return false;
             }
+            
+            <?php if (!$isUserLoggedIn): ?>
+            // Validation des champs utilisateur pour les invités
+            const customerName = document.querySelector('input[name="customer_name"]').value.trim();
+            const customerEmail = document.querySelector('input[name="customer_email"]').value.trim();
             
             if (!customerName) {
                 e.preventDefault();
@@ -1048,6 +1193,7 @@ if ($selectedCategory) {
                 alert('Veuillez saisir une adresse email valide.');
                 return false;
             }
+            <?php endif; ?>
             
             if (!linkUrl) {
                 e.preventDefault();
