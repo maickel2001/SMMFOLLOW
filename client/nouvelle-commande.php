@@ -362,6 +362,145 @@ try {
             transform: translateY(-2px);
         }
 
+        /* Sélecteur de catégorie et service */
+        .category-selector, .service-selector {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .category-dropdown, .service-dropdown {
+            position: relative;
+        }
+
+        .category-dropdown-btn, .service-dropdown-btn {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background: white;
+            border: 2px solid var(--gray-light);
+            border-radius: 12px;
+            text-align: left;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .category-dropdown-btn:hover, .service-dropdown-btn:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        .category-dropdown-btn.active, .service-dropdown-btn.active {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        .dropdown-arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .category-dropdown-btn.active .dropdown-arrow,
+        .service-dropdown-btn.active .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .category-dropdown-menu, .service-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid var(--gray-light);
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            margin-top: 0.5rem;
+        }
+
+        .category-dropdown-menu.show, .service-dropdown-menu.show {
+            display: block;
+        }
+
+        .category-option, .service-option {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .category-option:last-child, .service-option:last-child {
+            border-bottom: none;
+        }
+
+        .category-option:hover, .service-option:hover {
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .category-option-content, .service-option-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .category-icon, .service-option-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .category-info, .service-option-info {
+            flex: 1;
+        }
+
+        .category-name, .service-option-name {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .category-description, .service-option-description {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .category-count, .service-option-price {
+            text-align: right;
+        }
+
+        .badge {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .price-amount {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .price-unit {
+            color: var(--gray);
+            font-size: 0.8rem;
+        }
+
         /* Container principal */
         .main-container {
             padding: 2rem 0;
@@ -1617,28 +1756,262 @@ try {
             }
         }
         
+        /* Sections de formulaire */
+        .form-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .form-section h5 {
+            color: var(--dark);
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .form-section h5 i {
+            color: var(--primary);
+            margin-right: 0.5rem;
+        }
+
+        /* Champs de formulaire */
+        .floating-label {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: 2px solid var(--gray-light);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+            background: white;
+        }
+
+        .form-control:hover {
+            border-color: var(--primary);
+            background: white;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+        }
+
+        /* Boutons */
+        .btn {
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+            padding: 1rem 2rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: var(--shadow);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: linear-gradient(135deg, #059669, var(--success));
+            color: white;
+        }
+
+        /* Affichage du service sélectionné */
+        .selected-service-display {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .selected-service-card {
+            position: relative;
+        }
+
+        .selected-service-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--gray-light);
+        }
+
+        .selected-service-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .selected-service-meta {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .service-platform, .service-type {
+            background: var(--gray-light);
+            color: var(--dark);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .selected-service-price {
+            text-align: right;
+        }
+
+        .price-amount {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .price-unit {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .selected-service-details {
+            margin-bottom: 2rem;
+        }
+
+        .detail-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gray);
+        }
+
+        .detail-item strong {
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .service-description-full {
+            color: var(--gray);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: rgba(99, 102, 241, 0.05);
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .service-features {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .feature-tag {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .change-service-btn {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .change-service-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
         /* Améliorations visuelles supplémentaires */
         .category-dropdown-btn:focus, .service-dropdown-btn:focus {
             outline: none;
-            box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.3);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
         }
-        
+
         .category-option:focus, .service-option:focus {
             outline: none;
-            box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.5);
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.5);
         }
-        
+
         /* Animation de pulsation pour les boutons actifs */
         @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(0, 255, 136, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0); }
+            0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(99, 102, 241, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
         }
-        
+
         .category-dropdown-btn.active, .service-dropdown-btn.active {
             animation: pulse 2s infinite;
         }
-        
+
         /* Effet de brillance sur les cartes de service */
         .selected-service-card::after {
             content: '';
@@ -1650,13 +2023,13 @@ try {
             background: linear-gradient(
                 45deg,
                 transparent,
-                rgba(0, 255, 136, 0.1),
+                rgba(99, 102, 241, 0.1),
                 transparent
             );
             transform: rotate(45deg);
             animation: shine 3s ease-in-out infinite;
         }
-        
+
         @keyframes shine {
             0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
             50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
@@ -1715,12 +2088,12 @@ try {
             
             <div class="user-menu">
                 <div class="user-avatar">
-                    <?php echo strtoupper(substr($currentUser['name'], 0, 1)); ?>
+                    <?php echo strtoupper(substr($currentUser['first_name'] ?? $currentUser['name'] ?? 'U', 0, 1)); ?>
                 </div>
-                <span class="d-none d-md-inline"><?php echo htmlspecialchars($currentUser['name']); ?></span>
+                <span class="d-none d-md-inline"><?php echo htmlspecialchars($currentUser['first_name'] . ' ' . $currentUser['last_name']); ?></span>
                 <a href="logout.php" class="btn-logout">
                     <i class="fas fa-sign-out-alt me-2"></i>Déconnexion
-                    </a>
+                </a>
             </div>
         </div>
     </nav>
@@ -3006,6 +3379,13 @@ try {
         `;
         document.head.appendChild(sliderParticleStyle);
 
+        // Variables globales
+        let selectedService = null;
+        let selectedPrice = 0;
+        let selectedMin = 1000;
+        let selectedMax = 100000;
+        let currentStep = 0;
+
         // Menu hamburger mobile
         const hamburgerBtn = document.getElementById('hamburgerBtn');
         const mobileMenu = document.getElementById('mobileMenu');
@@ -3058,23 +3438,212 @@ try {
             });
         }
 
-        // Intersection Observer pour les animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+        // Initialisation du sélecteur de catégorie
+        function initializeCategorySelector() {
+            const categoryDropdownBtn = document.getElementById('categoryDropdownBtn');
+            const categoryDropdownMenu = document.getElementById('categoryDropdownMenu');
+            const serviceSelector = document.getElementById('serviceSelector');
+            const selectedServiceDisplay = document.getElementById('selectedServiceDisplay');
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('fade-in-up');
-                }
+            if (categoryDropdownBtn && categoryDropdownMenu) {
+                categoryDropdownBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    categoryDropdownMenu.classList.toggle('show');
+                    categoryDropdownBtn.classList.toggle('active');
+                    
+                    // Masquer le sélecteur de service et l'affichage du service sélectionné
+                    if (serviceSelector) serviceSelector.style.display = 'none';
+                    if (selectedServiceDisplay) selectedServiceDisplay.style.display = 'none';
+                    
+                    // Reset la sélection
+                    selectedService = null;
+                    selectedPrice = 0;
+                    selectedMin = 1000;
+                    selectedMax = 100000;
+                    
+                    // Mettre à jour la progression
+                    currentStep = 0;
+                    updateProgressBar();
+                    updateOrderSummary();
+                });
+
+                // Fermer le menu si on clique ailleurs
+                document.addEventListener('click', function(event) {
+                    if (!categoryDropdownBtn.contains(event.target) && !categoryDropdownMenu.contains(event.target)) {
+                        categoryDropdownMenu.classList.remove('show');
+                        categoryDropdownBtn.classList.remove('active');
+                    }
+                });
+
+                // Gestion de la sélection de catégorie
+                categoryDropdownMenu.addEventListener('click', function(event) {
+                    const categoryOption = event.target.closest('.category-option');
+                    if (categoryOption) {
+                        const categoryId = parseInt(categoryOption.dataset.categoryId);
+                        const services = <?php echo json_encode($services); ?>;
+                        const categoryName = categoryOption.querySelector('.category-name').textContent;
+                        const categoryIcon = categoryOption.querySelector('.category-icon i').className;
+
+                        // Mettre à jour l'affichage de la catégorie sélectionnée
+                        const selectedCategorySpan = document.querySelector('.selected-category');
+                        if (selectedCategorySpan) {
+                            selectedCategorySpan.innerHTML = `
+                                <i class="${categoryIcon} me-2"></i>${categoryName}
+                            `;
+                        }
+                        
+                        // Fermer le menu de catégorie
+                        categoryDropdownMenu.classList.remove('show');
+                        categoryDropdownBtn.classList.remove('active');
+
+                        // Charger les services pour cette catégorie
+                        loadServices(categoryId, services[categoryId]);
+                        
+                        // Afficher le sélecteur de service
+                        if (serviceSelector) serviceSelector.style.display = 'block';
+                        
+                        // Mettre à jour la progression
+                        currentStep = 1;
+                        updateProgressBar();
+                    }
+                });
+            }
+        }
+
+        // Charger les services pour une catégorie spécifique
+        function loadServices(categoryId, services) {
+            const serviceDropdownMenu = document.getElementById('serviceDropdownMenu');
+            if (!serviceDropdownMenu) return;
+
+            serviceDropdownMenu.innerHTML = ''; // Vider les services précédents
+
+            if (services && services.length > 0) {
+                services.forEach((service, index) => {
+                    const serviceOption = document.createElement('div');
+                    serviceOption.classList.add('service-option');
+                    serviceOption.style.animationDelay = `${(index + 1) * 0.1}s`;
+                    
+                    serviceOption.innerHTML = `
+                        <div class="service-option-content">
+                            <div class="service-option-icon">
+                                <i class="fas fa-cog"></i>
+                            </div>
+                            <div class="service-option-info">
+                                <div class="service-option-name">${service.name}</div>
+                                <div class="service-option-description">${service.description}</div>
+                            </div>
+                            <div class="service-option-price">
+                                <span class="price-amount">${parseInt(service.price_per_1000).toLocaleString()}</span>
+                                <span class="price-unit">FCFA/1000</span>
+                            </div>
+                        </div>
+                    `;
+                    
+                    serviceOption.addEventListener('click', function() {
+                        selectService(service);
+                    });
+                    
+                    serviceDropdownMenu.appendChild(serviceOption);
+                });
+            } else {
+                serviceDropdownMenu.innerHTML = '<div class="text-center p-3 text-muted">Aucun service disponible pour cette catégorie</div>';
+            }
+        }
+
+        // Sélectionner un service
+        function selectService(service) {
+            selectedService = service;
+            selectedPrice = service.price_per_1000;
+            selectedMin = service.min_quantity;
+            selectedMax = service.max_quantity;
+            
+            // Mettre à jour l'affichage du service sélectionné
+            updateSelectedServiceDisplay(service);
+            
+            // Masquer le sélecteur de service
+            const serviceSelector = document.getElementById('serviceSelector');
+            if (serviceSelector) serviceSelector.style.display = 'none';
+            
+            // Afficher l'affichage du service sélectionné
+            const selectedServiceDisplay = document.getElementById('selectedServiceDisplay');
+            if (selectedServiceDisplay) selectedServiceDisplay.style.display = 'block';
+            
+            // Mettre à jour la progression
+            currentStep = 2;
+            updateProgressBar();
+            updateOrderSummary();
+        }
+
+        // Mettre à jour l'affichage du service sélectionné
+        function updateSelectedServiceDisplay(service) {
+            const selectedServiceName = document.getElementById('selectedServiceName');
+            const selectedServicePlatform = document.getElementById('selectedServicePlatform');
+            const selectedServiceType = document.getElementById('selectedServiceType');
+            const selectedServicePrice = document.getElementById('selectedServicePrice');
+            const selectedServiceDelivery = document.getElementById('selectedServiceDelivery');
+            const selectedServiceMin = document.getElementById('selectedServiceMin');
+            const selectedServiceMax = document.getElementById('selectedServiceMax');
+            const selectedServiceDescription = document.getElementById('selectedServiceDescription');
+
+            if (selectedServiceName) selectedServiceName.textContent = service.name;
+            if (selectedServicePlatform) selectedServicePlatform.textContent = service.platform || 'Tous réseaux';
+            if (selectedServiceType) selectedServiceType.textContent = service.type || 'Standard';
+            if (selectedServicePrice) selectedServicePrice.textContent = parseInt(service.price_per_1000).toLocaleString();
+            if (selectedServiceDelivery) selectedServiceDelivery.textContent = service.delivery_time || '24-48h';
+            if (selectedServiceMin) selectedServiceMin.textContent = service.min_quantity.toLocaleString();
+            if (selectedServiceMax) selectedServiceMax.textContent = service.max_quantity.toLocaleString();
+            if (selectedServiceDescription) selectedServiceDescription.textContent = service.description || 'Service de qualité premium';
+
+            // Mettre à jour le champ caché
+            const hiddenServiceId = document.getElementById('hiddenServiceId');
+            if (hiddenServiceId) hiddenServiceId.value = service.id;
+        }
+
+        // Initialiser le sélecteur de service
+        function initializeServiceSelector() {
+            const serviceDropdownBtn = document.getElementById('serviceDropdownBtn');
+            const serviceDropdownMenu = document.getElementById('serviceDropdownMenu');
+
+            if (serviceDropdownBtn && serviceDropdownMenu) {
+                serviceDropdownBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    serviceDropdownMenu.classList.toggle('show');
+                    serviceDropdownBtn.classList.toggle('active');
+                });
+
+                // Fermer le menu si on clique ailleurs
+                document.addEventListener('click', function(event) {
+                    if (!serviceDropdownBtn.contains(event.target) && !serviceDropdownMenu.contains(event.target)) {
+                        serviceDropdownMenu.classList.remove('show');
+                        serviceDropdownBtn.classList.remove('active');
+                    }
+                });
+            }
+        }
+
+        // Initialisation au chargement de la page
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCategorySelector();
+            initializeServiceSelector();
+            
+            // Intersection Observer pour les animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in-up');
+                    }
+                });
+            }, observerOptions);
+
+            // Observer tous les éléments avec la classe fade-in-up
+            document.querySelectorAll('.fade-in-up').forEach(el => {
+                observer.observe(el);
             });
-        }, observerOptions);
-
-        // Observer tous les éléments avec la classe fade-in-up
-        document.querySelectorAll('.fade-in-up').forEach(el => {
-            observer.observe(el);
         });
     </script>
 </body>
