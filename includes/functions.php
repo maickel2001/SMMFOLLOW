@@ -93,24 +93,75 @@ function calculateTotalPrice($serviceId, $quantity) {
 
 // Fonction pour uploader une image
 function uploadImage($file, $targetDir = 'uploads/') {
-    if (!file_exists($targetDir)) {
-        mkdir($targetDir, 0777, true);
-    }
-    
-    $fileName = uniqid() . '_' . basename($file['name']);
-    $targetPath = $targetDir . $fileName;
-    
-    $allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
-    
-    if (!in_array($file['type'], $allowedTypes)) {
+    // Vérification des paramètres
+    if (!$file || !is_array($file) || !isset($file['tmp_name'])) {
+        error_log("uploadImage: Invalid file parameter");
         return false;
     }
     
-    if (move_uploaded_file($file['tmp_name'], $targetPath)) {
-        return $fileName;
+    // Vérification que le fichier a été uploadé
+    if (!is_uploaded_file($file['tmp_name'])) {
+        error_log("uploadImage: File not uploaded via HTTP POST");
+        return false;
     }
     
-    return false;
+    // Création du dossier s'il n'existe pas
+    if (!file_exists($targetDir)) {
+        if (!mkdir($targetDir, 0755, true)) {
+            error_log("uploadImage: Failed to create directory: " . $targetDir);
+            return false;
+        }
+    }
+    
+    // Vérification des permissions du dossier
+    if (!is_writable($targetDir)) {
+        error_log("uploadImage: Directory not writable: " . $targetDir);
+        return false;
+    }
+    
+    // Génération d'un nom de fichier unique
+    $fileExtension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+    $fileName = uniqid('payment_proof_', true) . '.' . $fileExtension;
+    $targetPath = $targetDir . $fileName;
+    
+    // Vérification des types de fichiers autorisés
+    $allowedExtensions = ['jpg', 'jpeg', 'png'];
+    if (!in_array($fileExtension, $allowedExtensions)) {
+        error_log("uploadImage: Invalid file extension: " . $fileExtension);
+        return false;
+    }
+    
+    // Vérification du type MIME
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    $mimeType = finfo_file($finfo, $file['tmp_name']);
+    finfo_close($finfo);
+    
+    $allowedMimeTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+    if (!in_array($mimeType, $allowedMimeTypes)) {
+        error_log("uploadImage: Invalid MIME type: " . $mimeType);
+        return false;
+    }
+    
+    // Vérification de la taille (5MB max)
+    if ($file['size'] > 5 * 1024 * 1024) {
+        error_log("uploadImage: File too large: " . $file['size'] . " bytes");
+        return false;
+    }
+    
+    // Tentative de déplacement du fichier
+    if (move_uploaded_file($file['tmp_name'], $targetPath)) {
+        // Vérification que le fichier existe après le déplacement
+        if (file_exists($targetPath)) {
+            error_log("uploadImage: File uploaded successfully: " . $targetPath);
+            return $fileName;
+        } else {
+            error_log("uploadImage: File not found after move: " . $targetPath);
+            return false;
+        }
+    } else {
+        error_log("uploadImage: Failed to move uploaded file from " . $file['tmp_name'] . " to " . $targetPath);
+        return false;
+    }
 }
 
 // Nouvelles fonctions ajoutées

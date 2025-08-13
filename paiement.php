@@ -30,28 +30,84 @@ try {
 
 // Traitement de l'upload de la preuve de paiement
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_FILES['payment_proof']) && $_FILES['payment_proof']['error'] === UPLOAD_ERR_OK) {
-        $uploadedFile = uploadImage($_FILES['payment_proof']);
+    // Debug: Afficher les informations du fichier
+    error_log("POST request received for order ID: " . $orderId);
+    error_log("FILES array: " . print_r($_FILES, true));
+    
+    if (isset($_FILES['payment_proof'])) {
+        $file = $_FILES['payment_proof'];
+        error_log("File details - Name: " . $file['name'] . ", Size: " . $file['size'] . ", Error: " . $file['error']);
         
-        if ($uploadedFile) {
-            try {
-                $stmt = $pdo->prepare("UPDATE orders SET payment_proof = ?, status = 'En attente' WHERE id = ?");
-                if ($stmt->execute([$uploadedFile, $orderId])) {
-                    $success = 'Preuve de paiement uploadée avec succès ! Votre commande sera traitée dans les plus brefs délais.';
-                    $order['payment_proof'] = $uploadedFile;
-                    $order['status'] = 'En attente';
+        // Vérification des erreurs d'upload
+        if ($file['error'] === UPLOAD_ERR_OK) {
+            // Vérification du type de fichier
+            $allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+            $fileType = mime_content_type($file['tmp_name']);
+            error_log("Detected MIME type: " . $fileType);
+            
+            if (!in_array($fileType, $allowedTypes)) {
+                $error = 'Type de fichier non autorisé. Seuls JPG et PNG sont acceptés.';
+                error_log("Invalid file type: " . $fileType);
+            } elseif ($file['size'] > 5 * 1024 * 1024) { // 5MB max
+                $error = 'Fichier trop volumineux. Taille maximum: 5MB.';
+                error_log("File too large: " . $file['size'] . " bytes");
+            } else {
+                // Tentative d'upload
+                $uploadedFile = uploadImage($file);
+                error_log("Upload result: " . ($uploadedFile ? $uploadedFile : 'false'));
+                
+                if ($uploadedFile) {
+                    try {
+                        // Mise à jour de la base de données
+                        $stmt = $pdo->prepare("UPDATE orders SET payment_proof = ?, status = 'En attente', updated_at = NOW() WHERE id = ?");
+                        if ($stmt->execute([$uploadedFile, $orderId])) {
+                            $success = 'Preuve de paiement uploadée avec succès ! Votre commande sera traitée dans les plus brefs délais.';
+                            $order['payment_proof'] = $uploadedFile;
+                            $order['status'] = 'En attente';
+                            
+                            // Log du succès
+                            error_log("Payment proof uploaded successfully for order " . $orderId . ": " . $uploadedFile);
+                            
+                            // Redirection pour éviter la soumission multiple
+                            header("Location: paiement.php?order_id=" . $orderId . "&success=1");
+                            exit();
+                        } else {
+                            $error = 'Erreur lors de la mise à jour de la commande dans la base de données.';
+                            error_log("Database update failed for order " . $orderId);
+                        }
+                    } catch (Exception $e) {
+                        $error = 'Erreur de base de données: ' . $e->getMessage();
+                        error_log("Database exception for order " . $orderId . ": " . $e->getMessage());
+                    }
                 } else {
-                    $error = 'Erreur lors de la mise à jour de la commande.';
+                    $error = 'Erreur lors de l\'upload du fichier. Vérifiez les permissions du dossier uploads/.';
+                    error_log("File upload failed for order " . $orderId);
                 }
-            } catch (Exception $e) {
-                $error = 'Erreur de base de données.';
             }
         } else {
-            $error = 'Erreur lors de l\'upload du fichier. Vérifiez le format (JPG/PNG).';
+            // Gestion des erreurs d'upload
+            $uploadErrors = [
+                UPLOAD_ERR_INI_SIZE => 'Fichier trop volumineux (limite PHP)',
+                UPLOAD_ERR_FORM_SIZE => 'Fichier trop volumineux (limite formulaire)',
+                UPLOAD_ERR_PARTIAL => 'Upload partiel du fichier',
+                UPLOAD_ERR_NO_FILE => 'Aucun fichier sélectionné',
+                UPLOAD_ERR_NO_TMP_DIR => 'Dossier temporaire manquant',
+                UPLOAD_ERR_CANT_WRITE => 'Erreur d\'écriture sur le disque',
+                UPLOAD_ERR_EXTENSION => 'Extension non autorisée'
+            ];
+            
+            $error = isset($uploadErrors[$file['error']]) ? $uploadErrors[$file['error']] : 'Erreur d\'upload inconnue';
+            error_log("Upload error " . $file['error'] . " for order " . $orderId . ": " . $error);
         }
     } else {
-        $error = 'Veuillez sélectionner un fichier valide.';
+        $error = 'Aucun fichier reçu.';
+        error_log("No file received for order " . $orderId);
     }
+}
+
+// Afficher le message de succès si redirection avec paramètre
+if (isset($_GET['success']) && $_GET['success'] == '1') {
+    $success = 'Preuve de paiement uploadée avec succès ! Votre commande sera traitée dans les plus brefs délais.';
 }
 ?>
 <!DOCTYPE html>
@@ -676,6 +732,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             box-shadow: var(--shadow-md);
         }
         
+        .file-info {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(0, 122, 255, 0.1);
+            border-radius: var(--radius-md);
+            color: var(--primary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .upload-status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: var(--radius-lg);
+            font-weight: 500;
+            display: none;
+        }
+        
+        .upload-status.info {
+            background: rgba(90, 200, 250, 0.1);
+            border: 1px solid rgba(90, 200, 250, 0.3);
+            color: var(--info);
+        }
+        
+        .upload-status.success {
+            background: rgba(52, 199, 89, 0.1);
+            border: 1px solid rgba(52, 199, 89, 0.3);
+            color: var(--success);
+        }
+        
+        .upload-status.error {
+            background: rgba(255, 59, 48, 0.1);
+            border: 1px solid rgba(255, 59, 48, 0.3);
+            color: var(--danger);
+        }
+        
+        .status-message {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
         /* Actions */
         .action-buttons {
             text-align: center;
@@ -1056,12 +1155,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     
                     <div class="file-preview" id="filePreview">
                         <img id="previewImage" src="" alt="Aperçu">
+                        <div class="file-info" id="fileInfo"></div>
                     </div>
                     
                     <div class="text-center mt-4">
-                        <button type="submit" class="upload-btn">
+                        <button type="submit" class="upload-btn" id="submitBtn" disabled>
                             <i class="fas fa-paper-plane me-2"></i>Envoyer la Preuve
                         </button>
+                        <div class="upload-status" id="uploadStatus"></div>
                     </div>
                 </form>
             <?php endif; ?>
@@ -1138,6 +1239,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         const fileInput = document.getElementById('paymentProof');
         const filePreview = document.getElementById('filePreview');
         const previewImage = document.getElementById('previewImage');
+        const submitBtn = document.getElementById('submitBtn');
+        const uploadStatus = document.getElementById('uploadStatus');
         
         if (uploadArea && fileInput) {
             // Clic sur la zone d'upload
@@ -1178,33 +1281,108 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     previewImage.src = e.target.result;
                     filePreview.style.display = 'block';
                     uploadArea.style.display = 'none';
+                    updateFileInfo(file);
+                    
+                    // Activer le bouton de soumission
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Envoyer la Preuve';
+                    
+                    // Masquer les messages d'erreur précédents
+                    showUploadStatus('', '');
                 };
                 reader.readAsDataURL(file);
             } else {
-                alert('Veuillez sélectionner un fichier image valide (JPG, PNG).');
+                showUploadStatus('Veuillez sélectionner un fichier image valide (JPG, PNG).', 'error');
+                previewImage.src = ''; // Clear preview
+                filePreview.style.display = 'none';
+                uploadArea.style.display = 'block';
+                updateFileInfo('');
+                
+                // Désactiver le bouton de soumission
+                submitBtn.disabled = true;
             }
+        }
+
+        function updateFileInfo(file) {
+            const fileInfo = document.getElementById('fileInfo');
+            if (file) {
+                fileInfo.textContent = `Fichier sélectionné: ${file.name} (${formatBytes(file.size)})`;
+            } else {
+                fileInfo.textContent = '';
+            }
+        }
+
+        function formatBytes(bytes, decimals = 2) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
         }
         
         // Validation du formulaire
         document.getElementById('uploadForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
             const file = fileInput.files[0];
             if (!file) {
-                e.preventDefault();
-                alert('Veuillez sélectionner un fichier.');
+                showUploadStatus('Veuillez sélectionner un fichier.', 'error');
                 return false;
             }
             
             if (!file.type.startsWith('image/')) {
-                e.preventDefault();
-                alert('Veuillez sélectionner un fichier image valide.');
+                showUploadStatus('Veuillez sélectionner un fichier image valide.', 'error');
                 return false;
             }
             
             if (file.size > 5 * 1024 * 1024) {
-                e.preventDefault();
-                alert('Le fichier est trop volumineux. Taille maximum: 5MB.');
+                showUploadStatus('Le fichier est trop volumineux. Taille maximum: 5MB.', 'error');
                 return false;
             }
+            
+            // Désactiver le bouton et afficher le statut
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Envoi en cours...';
+            showUploadStatus('Envoi de la preuve de paiement...', 'info');
+            
+            // Soumettre le formulaire
+            this.submit();
+        });
+        
+        function showUploadStatus(message, type = 'info') {
+            const statusDiv = document.getElementById('uploadStatus');
+            if (statusDiv) {
+                statusDiv.className = `upload-status ${type}`;
+                statusDiv.innerHTML = `
+                    <div class="status-message">
+                        <i class="fas fa-${type === 'error' ? 'exclamation-circle' : type === 'success' ? 'check-circle' : 'info-circle'} me-2"></i>
+                        ${message}
+                    </div>
+                `;
+                statusDiv.style.display = 'block';
+                
+                // Auto-hide après 5 secondes pour les messages de succès
+                if (type === 'success') {
+                    setTimeout(() => {
+                        statusDiv.style.display = 'none';
+                    }, 5000);
+                }
+            }
+        }
+        
+        // Prévenir la soumission multiple
+        let formSubmitted = false;
+        document.getElementById('uploadForm')?.addEventListener('submit', function() {
+            if (formSubmitted) {
+                return false;
+            }
+            formSubmitted = true;
+        });
+        
+        // Réinitialiser le statut si une nouvelle page est chargée
+        window.addEventListener('beforeunload', function() {
+            formSubmitted = false;
         });
         
         // Effet de parallaxe sur les formes flottantes
