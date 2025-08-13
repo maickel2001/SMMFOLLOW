@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test AJAX - BoostSocial</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        button {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #4f46e5;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 5px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test AJAX - BoostSocial</h1>
+    
+    <div class="test-section">
+        <h3>Test de récupération des services</h3>
+        <p>Testez la récupération des services par catégorie via AJAX :</p>
+        
+        <button onclick="testGetServices(1)">Test Catégorie 1 (Instagram)</button>
+        <button onclick="testGetServices(2)">Test Catégorie 2 (TikTok)</button>
+        <button onclick="testGetServices(3)">Test Catégorie 3 (YouTube)</button>
+        <button onclick="testGetServices(4)">Test Catégorie 4 (Facebook)</button>
+        <button onclick="testGetServices(999)">Test Catégorie Invalide</button>
+        
+        <div id="testResult" class="result">Cliquez sur un bouton pour tester...</div>
+    </div>
+
+    <script>
+        function testGetServices(categoryId) {
+            const resultDiv = document.getElementById('testResult');
+            resultDiv.textContent = `🔄 Test en cours pour la catégorie ${categoryId}...`;
+            
+            fetch(`get_services.php?category_id=${categoryId}`, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                resultDiv.textContent = `✅ Succès!\n\nRéponse reçue:\n${JSON.stringify(data, null, 2)}`;
+            })
+            .catch(error => {
+                resultDiv.textContent = `❌ Erreur:\n\n${error.message}`;
+            });
+        }
+    </script>
+</body>
+</html>

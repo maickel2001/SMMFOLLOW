@@ -487,6 +487,82 @@ if ($selectedCategory) {
             border-left: 4px solid #16a34a;
         }
 
+        /* Loading States */
+        .loading-spinner {
+            display: inline-block;
+            width: 2rem;
+            height: 2rem;
+            border: 3px solid var(--gray-light);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-container {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .loading-container p {
+            margin-top: 1rem;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Error States */
+        .error-container {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .error-container i {
+            font-size: 2rem;
+            color: #ef4444;
+            margin-bottom: 1rem;
+        }
+
+        .error-container p {
+            color: #ef4444;
+            margin-bottom: 1rem;
+        }
+
+        .retry-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .retry-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Empty State */
+        .empty-container {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .empty-container i {
+            font-size: 2rem;
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        .empty-container p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .hamburger-menu {
@@ -762,13 +838,136 @@ if ($selectedCategory) {
             });
         });
 
+        // Initialisation de la page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Si une catégorie est présélectionnée, charger ses services
+            const categorySelect = document.getElementById('categorySelect');
+            if (categorySelect && categorySelect.value) {
+                loadServicesByCategory(categorySelect.value);
+            }
+        });
+        
         // Gestion de la sélection de catégorie
         document.getElementById('categorySelect').addEventListener('change', function() {
             const categoryId = this.value;
             if (categoryId) {
-                window.location.href = 'commander.php?category=' + categoryId;
+                loadServicesByCategory(categoryId);
+            } else {
+                // Réinitialiser la liste des services
+                document.getElementById('servicesList').innerHTML = '';
+                resetOrderSummary();
             }
         });
+        
+        // Fonction pour charger les services par catégorie via AJAX
+        function loadServicesByCategory(categoryId) {
+            const servicesList = document.getElementById('servicesList');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            // Afficher un indicateur de chargement
+            servicesList.innerHTML = `
+                <div class="loading-container">
+                    <div class="loading-spinner"></div>
+                    <p>Chargement des services...</p>
+                </div>
+            `;
+            
+            // Désactiver le bouton pendant le chargement
+            submitBtn.disabled = true;
+            
+            // Appel AJAX pour récupérer les services
+            fetch(`get_services.php?category_id=${categoryId}`, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success && data.services.length > 0) {
+                    // Construire la liste des services
+                    let servicesHTML = `
+                        <div class="form-group">
+                            <label class="form-label">Service</label>
+                            <select class="form-control form-select" id="serviceSelect" required>
+                                <option value="">Sélectionner un service</option>
+                    `;
+                    
+                    data.services.forEach(service => {
+                        servicesHTML += `
+                            <option value="${service.id}" 
+                                    data-price="${service.price_per_1000}"
+                                    data-min="${service.min_quantity}"
+                                    data-max="${service.max_quantity}">
+                                ${service.name} - ${formatPrice(service.price_per_1000)}/1000
+                            </option>
+                        `;
+                    });
+                    
+                    servicesHTML += `
+                            </select>
+                        </div>
+                    `;
+                    
+                    servicesList.innerHTML = servicesHTML;
+                    
+                    // Réattacher l'événement change au nouveau select
+                    const newServiceSelect = document.getElementById('serviceSelect');
+                    if (newServiceSelect) {
+                        newServiceSelect.addEventListener('change', updateOrderSummary);
+                    }
+                    
+                    // Réinitialiser le résumé
+                    resetOrderSummary();
+                    
+                } else {
+                    // Aucun service trouvé
+                    servicesList.innerHTML = `
+                        <div class="empty-container">
+                            <i class="fas fa-info-circle"></i>
+                            <p>Aucun service disponible pour cette catégorie</p>
+                        </div>
+                    `;
+                    resetOrderSummary();
+                }
+            })
+            .catch(error => {
+                console.error('Erreur lors du chargement des services:', error);
+                servicesList.innerHTML = `
+                    <div class="error-container">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Erreur lors du chargement des services</p>
+                        <button class="retry-btn" onclick="loadServicesByCategory(${categoryId})">
+                            <i class="fas fa-redo me-1"></i>Réessayer
+                        </button>
+                    </div>
+                `;
+                resetOrderSummary();
+            });
+        }
+        
+        // Fonction pour réinitialiser le résumé de commande
+        function resetOrderSummary() {
+            document.getElementById('hiddenServiceId').value = '';
+            document.getElementById('selectedService').textContent = '-';
+            document.getElementById('selectedQuantity').textContent = '-';
+            document.getElementById('totalPrice').textContent = '-';
+            document.getElementById('submitBtn').disabled = true;
+            
+            // Réinitialiser les presets de quantité
+            document.querySelectorAll('.quantity-preset').forEach(p => p.classList.remove('active'));
+        }
+        
+        // Fonction pour formater le prix
+        function formatPrice(price) {
+            return new Intl.NumberFormat('fr-FR').format(price) + ' FCFA';
+        }
         
         // Gestion des presets de quantité
         document.querySelectorAll('.quantity-preset').forEach(preset => {
