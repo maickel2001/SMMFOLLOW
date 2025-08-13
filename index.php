@@ -421,72 +421,6 @@ $categories = getAllCategories();
             line-height: 1.6;
         }
         
-        /* Section FAQ Moderne */
-        .faq-section {
-            padding: 120px 0;
-            background: var(--bg-secondary);
-            position: relative;
-        }
-        
-        .faq-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        .faq-item {
-            background: var(--bg-primary);
-            border-radius: var(--radius-large);
-            margin-bottom: 20px;
-            border: 1px solid var(--border-light);
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        .faq-item:hover {
-            box-shadow: var(--shadow-medium);
-            border-color: var(--accent-primary);
-        }
-        
-        .faq-question {
-            padding: 25px 30px;
-            background: var(--bg-primary);
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 600;
-            color: var(--text-primary);
-            transition: all 0.3s ease;
-        }
-        
-        .faq-question:hover {
-            background: var(--bg-tertiary);
-        }
-        
-        .faq-question i {
-            color: var(--accent-primary);
-            transition: transform 0.3s ease;
-        }
-        
-        .faq-item.active .faq-question i {
-            transform: rotate(180deg);
-        }
-        
-        .faq-answer {
-            padding: 0 30px;
-            max-height: 0;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-        
-        .faq-item.active .faq-answer {
-            padding: 0 30px 25px;
-            max-height: 200px;
-        }
-        
         .section-title {
             font-size: clamp(3rem, 10vw, 4.5rem);
             font-weight: 700;
@@ -1909,9 +1843,9 @@ $categories = getAllCategories();
     <section class="presentation-section" id="presentation">
         <div class="container">
             <div class="section-header text-center">
-                <h2 class="section-title">Nos Services SMM</h2>
+                <h2 class="section-title">Pourquoi Choisir SMM Pro ?</h2>
                 <p class="section-subtitle">
-                    Découvrez comment nous transformons votre présence sur les réseaux sociaux
+                    Découvrez les avantages qui nous distinguent de la concurrence
                 </p>
             </div>
             
@@ -1959,6 +1893,12 @@ $categories = getAllCategories();
                         sociaux populaires avec des services adaptés.
                     </p>
                 </div>
+            </div>
+            
+            <div class="text-center mt-5">
+                <a href="services.php" class="btn btn-primary btn-lg">
+                    <i class="fas fa-arrow-right me-2"></i>Voir Tous nos Services
+                </a>
             </div>
         </div>
     </section>
@@ -2037,69 +1977,7 @@ $categories = getAllCategories();
                 </div>
     </section>
     
-    <!-- Section FAQ Moderne -->
-    <section class="faq-section" id="faq">
-        <div class="container">
-            <div class="section-header text-center">
-                <h2 class="section-title">Questions Fréquentes</h2>
-                <p class="section-subtitle">
-                    Tout ce que vous devez savoir sur nos services SMM
-                </p>
-            </div>
-            
-            <div class="faq-container">
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Comment fonctionnent vos services SMM ?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        Nos services SMM utilisent des méthodes professionnelles et sécurisées pour augmenter votre visibilité sur les réseaux sociaux. Nous travaillons avec des partenaires de confiance pour garantir des résultats authentiques et durables.
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Combien de temps pour voir les résultats ?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        La plupart de nos services commencent à livrer dans les 1-2 heures suivant la commande. La livraison complète se fait généralement entre 24h et 72h selon le service choisi.
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Vos services sont-ils sûrs pour mon compte ?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        Absolument ! Nous utilisons des méthodes respectueuses des plateformes et des comptes de haute qualité. Vos comptes sont protégés et il n'y a aucun risque de bannissement.
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Quels réseaux sociaux supportez-vous ?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        Nous supportons Instagram, TikTok, YouTube et Facebook. Chaque plateforme a ses spécificités et nous adaptons nos services en conséquence pour des résultats optimaux.
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Que se passe-t-il si je ne suis pas satisfait ?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        Nous offrons une garantie de satisfaction. Si vous n'êtes pas satisfait de nos services, nous vous remboursons ou relivrons gratuitement jusqu'à votre satisfaction.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+
     
     <!-- Section Réseaux Sociaux -->
     <section class="social-networks-section" id="services">
@@ -2646,24 +2524,6 @@ $categories = getAllCategories();
         
         document.querySelectorAll('.social-card, .stat-card, .presentation-card').forEach(card => {
             cardObserver.observe(card);
-        });
-        
-        // FAQ Interactive
-        document.querySelectorAll('.faq-question').forEach(question => {
-            question.addEventListener('click', () => {
-                const faqItem = question.parentElement;
-                const isActive = faqItem.classList.contains('active');
-                
-                // Fermer toutes les autres FAQ
-                document.querySelectorAll('.faq-item').forEach(item => {
-                    item.classList.remove('active');
-                });
-                
-                // Ouvrir/fermer la FAQ cliquée
-                if (!isActive) {
-                    faqItem.classList.add('active');
-                }
-            });
         });
         
         // Navigation active
