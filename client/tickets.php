@@ -69,18 +69,35 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Support Client - SMM Pro</title>
+    <title>Support Client - BoostSocial</title>
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- SweetAlert2 -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
         :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
             --bg-primary: #ffffff;
             --bg-secondary: #f5f5f7;
             --bg-tertiary: #fafafa;
@@ -110,8 +127,8 @@ try {
         }
         
         body {
-            background: var(--bg-primary);
-            color: var(--text-primary);
+            background: linear-gradient(135deg, var(--light) 0%, var(--gray-light) 100%);
+            color: var(--dark);
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             font-weight: 400;
             line-height: 1.6;
@@ -127,14 +144,15 @@ try {
         
         /* Header Principal */
         .main-header {
-            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 50%, var(--primary) 100%);
             border-radius: var(--radius-xl);
             padding: 40px;
             margin-bottom: 32px;
             text-align: center;
             position: relative;
             overflow: hidden;
-            box-shadow: var(--shadow-subtle);
+            box-shadow: var(--shadow-lg);
+            color: white;
         }
         
         .header-content {
@@ -166,46 +184,68 @@ try {
             font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 16px;
-            color: var(--text-primary);
+            color: white;
             letter-spacing: -0.02em;
             line-height: 1.1;
+            background: linear-gradient(135deg, #ffffff, #e0e7ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         .header-subtitle {
             font-size: 1.25rem;
-            color: var(--text-secondary);
+            color: rgba(255, 255, 255, 0.9);
             font-weight: 400;
             margin-bottom: 0;
         }
         
         /* Navigation Client Minimaliste */
         .client-nav {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-lighter);
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: var(--radius-large);
             padding: 24px;
             margin-bottom: 32px;
-            box-shadow: var(--shadow-subtle);
+            box-shadow: var(--shadow-lg);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
         }
         
         .client-nav .nav-link {
-            color: var(--text-secondary);
+            color: var(--dark);
             padding: 12px 20px;
             border-radius: var(--radius-medium);
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             text-decoration: none;
             font-weight: 500;
             font-size: 0.95rem;
             margin: 0 4px;
+            position: relative;
+            overflow: hidden;
         }
         
         .client-nav .nav-link:hover,
         .client-nav .nav-link.active {
-            color: var(--accent-primary);
-            background: rgba(0, 122, 255, 0.04);
-            transform: translateY(-1px);
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .client-nav .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .client-nav .nav-link:hover::before {
+            left: 100%;
         }
         
         /* Messages d'alerte */
@@ -231,27 +271,31 @@ try {
         
         /* Formulaire de Création de Ticket Minimaliste */
         .ticket-form-section {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-lighter);
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: var(--radius-xl);
             padding: 32px;
             margin-bottom: 32px;
-            box-shadow: var(--shadow-subtle);
+            box-shadow: var(--shadow-lg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
         }
         
         .ticket-form-section h5 {
-            color: var(--text-primary);
-            font-weight: 600;
+            color: var(--dark);
+            font-weight: 700;
             margin-bottom: 24px;
             display: flex;
             align-items: center;
             gap: 12px;
-            font-size: 1.25rem;
+            font-size: 1.5rem;
+            text-align: center;
+            justify-content: center;
         }
         
         .ticket-form-section h5 i {
-            color: var(--accent-warning);
-            font-size: 1.25rem;
+            color: var(--warning);
+            font-size: 1.5rem;
         }
         
         .form-group {
@@ -266,20 +310,23 @@ try {
         }
         
         .form-control, .form-select {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-lighter);
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid var(--gray-light);
             border-radius: var(--radius-medium);
-            padding: 12px 16px;
-            color: var(--text-primary);
-            font-size: 0.95rem;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 16px 20px;
+            color: var(--dark);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
         
         .form-control:focus, .form-select:focus {
             outline: none;
-            border-color: var(--accent-warning);
-            box-shadow: 0 0 0 3px rgba(255, 149, 0, 0.1);
-            background: var(--bg-primary);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+            background: white;
+            transform: translateY(-1px);
         }
         
         .form-control::placeholder {
@@ -288,63 +335,87 @@ try {
         }
         
         .btn-create-ticket {
-            background: var(--accent-warning);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             border: none;
             border-radius: var(--radius-medium);
-            padding: 12px 24px;
+            padding: 16px 32px;
             color: white;
             font-weight: 600;
             font-size: 1rem;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             cursor: pointer;
-            box-shadow: var(--shadow-subtle);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
         }
         
         .btn-create-ticket:hover {
-            background: #e6850e;
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-medium);
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-create-ticket::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn-create-ticket:hover::before {
+            left: 100%;
         }
         
         /* Liste des Tickets Minimaliste */
         .tickets-list-section {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-lighter);
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: var(--radius-xl);
             padding: 32px;
-            box-shadow: var(--shadow-subtle);
+            box-shadow: var(--shadow-lg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
         }
         
         .tickets-list-section h5 {
-            color: var(--text-primary);
-            font-weight: 600;
+            color: var(--dark);
+            font-weight: 700;
             margin-bottom: 24px;
             display: flex;
             align-items: center;
             gap: 12px;
-            font-size: 1.25rem;
+            font-size: 1.5rem;
+            text-align: center;
+            justify-content: center;
         }
         
         .tickets-list-section h5 i {
-            color: var(--accent-primary);
-            font-size: 1.25rem;
+            color: var(--primary);
+            font-size: 1.5rem;
         }
         
         .ticket-item {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-lighter);
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid var(--gray-light);
             border-radius: var(--radius-large);
             padding: 24px;
             margin-bottom: 20px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             position: relative;
-            box-shadow: var(--shadow-subtle);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
         
         .ticket-item:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-medium);
-            border-color: var(--accent-primary);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.95);
         }
         
         .ticket-header {
@@ -377,7 +448,7 @@ try {
         }
         
         .priority-urgent {
-            background: var(--accent-danger);
+            background: var(--danger);
         }
         
         .priority-high {
@@ -385,51 +456,52 @@ try {
         }
         
         .priority-normal {
-            background: var(--accent-primary);
+            background: var(--primary);
         }
         
         .priority-low {
-            background: var(--accent-success);
+            background: var(--success);
         }
         
         .ticket-status {
-            padding: 6px 12px;
+            padding: 8px 16px;
             border-radius: 20px;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 600;
             text-transform: uppercase;
             color: white;
+            box-shadow: var(--shadow);
         }
         
         .status-open {
-            background: var(--accent-primary);
+            background: var(--primary);
         }
         
         .status-processing {
-            background: var(--accent-warning);
+            background: var(--warning);
         }
         
         .status-resolved {
-            background: var(--accent-success);
+            background: var(--success);
         }
         
         .status-closed {
-            background: var(--text-tertiary);
+            background: var(--gray);
         }
         
         .ticket-message {
-            color: var(--text-secondary);
+            color: var(--gray);
             line-height: 1.6;
             margin-bottom: 16px;
             padding: 16px;
-            background: rgba(0, 122, 255, 0.02);
+            background: rgba(99, 102, 241, 0.05);
             border-radius: var(--radius-small);
-            border-left: 3px solid var(--accent-primary);
+            border-left: 3px solid var(--primary);
         }
         
         .ticket-response {
-            background: rgba(52, 199, 89, 0.08);
-            border-left: 3px solid var(--accent-success);
+            background: rgba(16, 185, 129, 0.08);
+            border-left: 3px solid var(--success);
             padding: 16px;
             margin-top: 16px;
             border-radius: 0 var(--radius-small) var(--radius-small) 0;
@@ -437,7 +509,7 @@ try {
         
         .response-header {
             font-weight: 600;
-            color: var(--accent-success);
+            color: var(--success);
             margin-bottom: 8px;
             font-size: 0.875rem;
         }
@@ -451,7 +523,7 @@ try {
         }
         
         .ticket-date {
-            color: var(--text-secondary);
+            color: var(--gray);
             font-size: 0.875rem;
             font-weight: 500;
         }
@@ -476,38 +548,39 @@ try {
         }
         
         .btn-view-ticket {
-            background: var(--accent-primary);
+            background: var(--primary);
             color: white;
         }
         
         .btn-view-ticket:hover {
-            background: #0056cc;
-            transform: translateY(-1px);
+            background: var(--primary-dark);
+            transform: translateY(-2px);
             color: white;
             text-decoration: none;
+            box-shadow: var(--shadow);
         }
         
         .btn-reply-ticket {
-            background: var(--accent-success);
+            background: var(--success);
             color: white;
         }
         
         .btn-reply-ticket:hover {
-            background: #28a745;
-            transform: translateY(-1px);
+            background: #059669;
+            transform: translateY(-2px);
             color: white;
             text-decoration: none;
         }
         
         /* Contact d'Urgence Minimaliste */
         .emergency-contact {
-            background: linear-gradient(135deg, var(--accent-warning) 0%, var(--accent-danger) 100%);
+            background: linear-gradient(135deg, var(--warning) 0%, var(--danger) 100%);
             border-radius: var(--radius-large);
             padding: 32px;
             margin-top: 32px;
             text-align: center;
             color: white;
-            box-shadow: var(--shadow-medium);
+            box-shadow: var(--shadow-lg);
         }
         
         .emergency-contact h6 {
@@ -543,18 +616,18 @@ try {
         .empty-state {
             text-align: center;
             padding: 60px 20px;
-            color: var(--text-secondary);
+            color: var(--gray);
         }
         
         .empty-state i {
             font-size: 4rem;
             margin-bottom: 20px;
             opacity: 0.4;
-            color: var(--text-tertiary);
+            color: var(--gray);
         }
         
         .empty-state h5 {
-            color: var(--text-secondary);
+            color: var(--dark);
             margin-bottom: 16px;
             font-weight: 600;
             font-size: 1.25rem;
@@ -564,41 +637,44 @@ try {
             margin-bottom: 20px;
             line-height: 1.6;
             font-size: 1.1rem;
+            color: var(--gray);
         }
         
         /* Boutons Minimalistes */
         .btn {
             border-radius: var(--radius-medium);
             font-weight: 500;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: var(--shadow-subtle);
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
         }
         
         .btn:hover {
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-medium);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
         }
         
         .btn-outline-danger {
-            color: var(--accent-danger);
-            border-color: var(--accent-danger);
+            color: var(--danger);
+            border-color: var(--danger);
         }
         
         .btn-outline-danger:hover {
-            background: var(--accent-danger);
-            border-color: var(--accent-danger);
+            background: var(--danger);
+            border-color: var(--danger);
         }
         
         /* Animations d'Entrée */
-        .animate-fade-in {
-            animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(30px);
         }
         
-        .animate-fade-in:nth-child(1) { animation-delay: 0.1s; }
-        .animate-fade-in:nth-child(2) { animation-delay: 0.2s; }
-        .animate-fade-in:nth-child(3) { animation-delay: 0.3s; }
+        .slide-in-left {
+            animation: slideInLeft 0.6s ease-out forwards;
+            opacity: 0;
+            transform: translateX(-30px);
+        }
         
         @keyframes fadeInUp {
             to {
@@ -607,14 +683,36 @@ try {
             }
         }
         
+        @keyframes slideInLeft {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
         /* Responsive Design */
         @media (max-width: 768px) {
             .main-header {
                 padding: 32px 24px;
+                margin: 0 16px 24px;
             }
             
             .header-title {
                 font-size: 2rem;
+            }
+            
+            .header-subtitle {
+                font-size: 1rem;
+            }
+            
+            .client-container {
+                padding: 16px;
+            }
+            
+            .ticket-form-section,
+            .tickets-list-section {
+                padding: 24px 20px;
+                margin: 0 16px 24px;
             }
             
             .ticket-header {
@@ -635,29 +733,48 @@ try {
                 flex-direction: column;
                 align-items: center;
             }
+        }
+        
+        @media (max-width: 480px) {
+            .main-header {
+                padding: 24px 16px;
+            }
+            
+            .header-title {
+                font-size: 1.75rem;
+            }
+            
+            .header-subtitle {
+                font-size: 0.9rem;
+            }
             
             .ticket-form-section,
             .tickets-list-section {
-                padding: 24px 20px;
+                padding: 20px 16px;
+            }
+            
+            .btn-create-ticket {
+                padding: 14px 24px;
+                font-size: 0.9rem;
             }
         }
         
         /* Scrollbar Personnalisée */
         ::-webkit-scrollbar {
-            width: 6px;
+            width: 8px;
         }
         
         ::-webkit-scrollbar-track {
-            background: var(--bg-secondary);
+            background: var(--gray-light);
         }
         
         ::-webkit-scrollbar-thumb {
-            background: var(--border-light);
-            border-radius: 3px;
+            background: var(--primary);
+            border-radius: 4px;
         }
         
         ::-webkit-scrollbar-thumb:hover {
-            background: var(--text-tertiary);
+            background: var(--primary-dark);
         }
     </style>
 </head>
@@ -665,18 +782,18 @@ try {
     <div class="client-container">
         <div class="container-fluid">
             <!-- Header Principal -->
-            <div class="main-header animate-fade-in">
+            <div class="main-header fade-in-up">
                 <div class="header-content">
                     <div class="header-icon">
                         <i class="fas fa-headset"></i>
                     </div>
                     <h1 class="header-title">Support Client</h1>
-                    <p class="header-subtitle">Nous sommes là pour vous aider 24h/24 et 7j/7</p>
+                    <p class="header-subtitle">Notre équipe est là pour vous aider. Créez un ticket et nous vous répondrons dans les plus brefs délais.</p>
                 </div>
             </div>
             
             <!-- Navigation Client -->
-            <div class="client-nav animate-fade-in">
+            <div class="client-nav fade-in-up">
                 <nav class="nav nav-pills justify-content-center">
                     <a class="nav-link" href="dashboard.php">
                         <i class="fas fa-tachometer-alt me-2"></i>Dashboard
@@ -708,19 +825,19 @@ try {
             
             <!-- Messages d'alerte -->
             <?php if ($success): ?>
-                <div class="alert alert-success animate-fade-in">
+                <div class="alert alert-success fade-in-up">
                     <i class="fas fa-check-circle me-2"></i><?php echo htmlspecialchars($success); ?>
                 </div>
             <?php endif; ?>
             
             <?php if ($error): ?>
-                <div class="alert alert-danger animate-fade-in">
+                <div class="alert alert-danger fade-in-up">
                     <i class="fas fa-exclamation-circle me-2"></i><?php echo htmlspecialchars($error); ?>
                 </div>
             <?php endif; ?>
             
             <!-- Formulaire de création de ticket -->
-            <div class="ticket-form-section animate-fade-in">
+            <div class="ticket-form-section fade-in-up">
                 <h5>
                     <i class="fas fa-plus-circle"></i>Créer un Nouveau Ticket
                 </h5>
@@ -777,7 +894,7 @@ try {
             </div>
             
             <!-- Liste des tickets -->
-            <div class="tickets-list-section animate-fade-in">
+            <div class="tickets-list-section fade-in-up">
                 <h5>
                     <i class="fas fa-list"></i>Mes Tickets de Support
                 </h5>
@@ -860,7 +977,7 @@ try {
             </div>
             
             <!-- Contact d'urgence -->
-            <div class="emergency-contact animate-fade-in">
+            <div class="emergency-contact fade-in-up">
                 <h6>
                     <i class="fas fa-exclamation-triangle me-2"></i>Besoin d'aide immédiate ?
                 </h6>
@@ -886,6 +1003,8 @@ try {
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <script>
         // Animation des éléments au scroll
@@ -897,43 +1016,85 @@ try {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-fade-in');
+                    entry.target.classList.add('fade-in-up');
                 }
             });
         }, observerOptions);
 
-        document.querySelectorAll('.animate-fade-in').forEach(el => {
+        // Observer tous les éléments avec la classe fade-in-up
+        document.querySelectorAll('.fade-in-up').forEach(el => {
             observer.observe(el);
         });
         
-        // Auto-resize du textarea
-        document.getElementById('message').addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = (this.scrollHeight) + 'px';
-        });
-        
-        // Validation du formulaire
-        document.getElementById('ticketForm').addEventListener('submit', function(e) {
-            const subject = document.getElementById('subject').value.trim();
-            const message = document.getElementById('message').value.trim();
+        // Amélioration de l'expérience utilisateur
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animation des tickets au chargement
+            const ticketItems = document.querySelectorAll('.ticket-item');
+            ticketItems.forEach((item, index) => {
+                item.style.animationDelay = `${index * 0.1}s`;
+                item.classList.add('slide-in-left');
+            });
             
-            if (!subject) {
-                e.preventDefault();
-                alert('Veuillez saisir un sujet pour votre ticket.');
-                return false;
+            // Auto-resize du textarea
+            const messageTextarea = document.getElementById('message');
+            if (messageTextarea) {
+                messageTextarea.addEventListener('input', function() {
+                    this.style.height = 'auto';
+                    this.style.height = (this.scrollHeight) + 'px';
+                });
             }
             
-            if (!message) {
-                e.preventDefault();
-                alert('Veuillez saisir un message détaillant votre problème.');
-                return false;
+            // Validation du formulaire avec SweetAlert2
+            const ticketForm = document.getElementById('ticketForm');
+            if (ticketForm) {
+                ticketForm.addEventListener('submit', function(e) {
+                    const subject = document.getElementById('subject').value.trim();
+                    const message = document.getElementById('message').value.trim();
+                    
+                    if (!subject || !message) {
+                        e.preventDefault();
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Champs manquants',
+                            text: 'Veuillez remplir tous les champs obligatoires.',
+                            confirmButtonColor: '#6366f1'
+                        });
+                        return false;
+                    }
+                    
+                    if (message.length < 10) {
+                        e.preventDefault();
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Message trop court',
+                            text: 'Veuillez saisir un message plus détaillé (au moins 10 caractères).',
+                            confirmButtonColor: '#6366f1'
+                        });
+                        return false;
+                    }
+                    
+                    // Afficher un loader pendant la soumission
+                    Swal.fire({
+                        title: 'Création du ticket...',
+                        text: 'Veuillez patienter...',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+                });
             }
             
-            if (message.length < 10) {
-                e.preventDefault();
-                alert('Veuillez saisir un message plus détaillé (au moins 10 caractères).');
-                return false;
-            }
+            // Amélioration des interactions
+            ticketItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Ajouter un effet de clic
+                    this.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
+            });
         });
     </script>
 </body>
