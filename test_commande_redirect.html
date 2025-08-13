@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Redirection Commande - BoostSocial</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background: #fafafa;
+        }
+        .test-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .test-link {
+            background: #007AFF;
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            display: inline-block;
+            transition: background 0.3s;
+        }
+        .test-link:hover {
+            background: #0056CC;
+            color: white;
+            text-decoration: none;
+        }
+        .test-link.success {
+            background: #34C759;
+        }
+        .test-link.warning {
+            background: #FF9500;
+        }
+        .test-link.danger {
+            background: #FF3B30;
+        }
+        .info-box {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .warning-box {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .success-box {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .step {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 6px;
+            border-left: 4px solid #007AFF;
+        }
+        .step h4 {
+            margin: 0 0 10px 0;
+            color: #007AFF;
+        }
+        .step-number {
+            background: #007AFF;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Test Redirection Commande - BoostSocial</h1>
+        
+        <div class="info-box">
+            <h3>📋 Objectif du Test</h3>
+            <p>Vérifier que la création de commande redirige automatiquement vers la page de paiement, et que l'upload de preuve fonctionne sur mobile.</p>
+        </div>
+        
+        <div class="test-section">
+            <h3>🚀 Test de Création de Commande</h3>
+            <p>Testez la création d'une commande et vérifiez la redirection automatique :</p>
+            
+            <div class="test-links">
+                <a href="commander.php" class="test-link success" target="_blank">
+                    📝 Créer une Commande
+                </a>
+                <a href="test_upload.php" class="test-link warning" target="_blank">
+                    🔧 Test des Permissions
+                </a>
+            </div>
+            
+            <div class="step">
+                <h4><span class="step-number">1</span>Créer une commande</h4>
+                <p>Ouvrez commander.php et remplissez le formulaire avec des données valides</p>
+            </div>
+            
+            <div class="step">
+                <h4><span class="step-number">2</span>Vérifier la redirection</h4>
+                <p>Après soumission, vous devriez être automatiquement redirigé vers paiement.php?order_id=X</p>
+            </div>
+            
+            <div class="step">
+                <h4><span class="step-number">3</span>Vérifier l'URL</h4>
+                <p>L'URL doit contenir un order_id valide et afficher les détails de la commande</p>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3>📱 Test Upload Mobile</h3>
+            <p>Testez l'upload de preuve de paiement sur mobile :</p>
+            
+            <div class="test-links">
+                <a href="paiement.php?order_id=1" class="test-link warning" target="_blank">
+                    💳 Test Paiement (ID=1)
+                </a>
+                <a href="test_upload_simple.html" class="test-link" target="_blank">
+                    🖼️ Test Upload Simple
+                </a>
+            </div>
+            
+            <div class="warning-box">
+                <h4>⚠️ Important pour le Test Mobile</h4>
+                <ul>
+                    <li><strong>Utilisez un vrai appareil mobile</strong> ou activez l'inspecteur mobile dans Chrome DevTools</li>
+                    <li><strong>Testez les deux boutons :</strong> "Sélectionner un fichier" et "Prendre une photo"</li>
+                    <li><strong>Vérifiez que l'appareil photo s'ouvre</strong> sur mobile</li>
+                    <li><strong>Testez la galerie d'images</strong> pour sélectionner des captures d'écran existantes</li>
+                </ul>
+            </div>
+            
+            <div class="step">
+                <h4><span class="step-number">1</span>Test sur Mobile</h4>
+                <p>Ouvrez paiement.php sur un appareil mobile ou simulez le mobile dans le navigateur</p>
+            </div>
+            
+            <div class="step">
+                <h4><span class="step-number">2</span>Test Appareil Photo</h4>
+                <p>Appuyez sur "Prendre une photo" - l'appareil photo doit s'ouvrir</p>
+            </div>
+            
+            <div class="step">
+                <h4><span class="step-number">3</span>Test Galerie</h4>
+                <p>Appuyez sur "Sélectionner un fichier" - la galerie doit s'ouvrir</p>
+            </div>
+            
+            <div class="step">
+                <h4><span class="step-number">4</span>Vérifier l'Aperçu</h4>
+                <p>Après sélection, l'aperçu de l'image doit s'afficher correctement</p>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3>🔍 Points de Vérification</h3>
+            
+            <div class="success-box">
+                <h4>✅ Ce qui doit fonctionner</h4>
+                <ul>
+                    <li>Redirection automatique après création de commande</li>
+                    <li>URL avec order_id valide</li>
+                    <li>Boutons d'upload visibles et cliquables sur mobile</li>
+                    <li>Ouverture de l'appareil photo sur mobile</li>
+                    <li>Ouverture de la galerie d'images</li>
+                    <li>Aperçu de l'image après sélection</li>
+                    <li>Bouton "Envoyer la Preuve" activé après sélection</li>
+                </ul>
+            </div>
+            
+            <div class="warning-box">
+                <h4>⚠️ Problèmes potentiels</h4>
+                <ul>
+                    <li>Redirection qui ne fonctionne pas</li>
+                    <li>Boutons d'upload non cliquables sur mobile</li>
+                    <li>Appareil photo qui ne s'ouvre pas</li>
+                    <li>Galerie qui ne s'ouvre pas</li>
+                    <li>Aperçu d'image qui ne s'affiche pas</li>
+                    <li>Erreurs JavaScript dans la console</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3>📱 Simulation Mobile dans Chrome</h3>
+            <ol>
+                <li>Ouvrez Chrome DevTools (F12)</li>
+                <li>Cliquez sur l'icône "Toggle device toolbar" (📱)</li>
+                <li>Sélectionnez un appareil mobile (ex: iPhone 12)</li>
+                <li>Testez les fonctionnalités d'upload</li>
+                <li>Vérifiez que les boutons sont bien visibles et cliquables</li>
+            </ol>
+        </div>
+        
+        <div class="info-box">
+            <h3>📞 Support</h3>
+            <p>Si vous rencontrez des problèmes :</p>
+            <ul>
+                <li>Vérifiez la console du navigateur pour les erreurs JavaScript</li>
+                <li>Vérifiez les logs PHP dans error_log</li>
+                <li>Testez sur un vrai appareil mobile</li>
+                <li>Vérifiez les permissions du dossier uploads/</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

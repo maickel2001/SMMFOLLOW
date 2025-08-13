@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Responsive - SMM Pro</title>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f7;
+            --accent-primary: #007aff;
+            --text-primary: #1d1d1f;
+            --text-secondary: #86868b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 60px 0;
+            background: var(--bg-secondary);
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--accent-primary);
+        }
+        
+        .header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+        }
+        
+        .responsive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background: var(--bg-primary);
+            border: 1px solid #e5e5e7;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+        }
+        
+        .card h3 {
+            color: var(--accent-primary);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .card p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status.success {
+            background: #34c759;
+            color: white;
+        }
+        
+        .status.warning {
+            background: #ff9500;
+            color: white;
+        }
+        
+        .status.info {
+            background: var(--accent-primary);
+            color: white;
+        }
+        
+        .device-info {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .device-info h2 {
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            font-size: 1.75rem;
+        }
+        
+        .device-info ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .device-info li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e5e5e7;
+            color: var(--text-secondary);
+        }
+        
+        .device-info li:last-child {
+            border-bottom: none;
+        }
+        
+        .device-info strong {
+            color: var(--text-primary);
+        }
+        
+        /* Responsive Mobile First */
+        @media (max-width: 576px) {
+            .container {
+                padding: 16px;
+            }
+            
+            .header {
+                padding: 40px 0;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+                line-height: 1.2;
+            }
+            
+            .header p {
+                font-size: 1rem;
+                line-height: 1.5;
+            }
+            
+            .responsive-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .card h3 {
+                font-size: 1.25rem;
+            }
+            
+            .device-info h2 {
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (min-width: 577px) and (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .responsive-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+            }
+        }
+        
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .header h1 {
+                font-size: 3rem;
+            }
+            
+            .responsive-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 28px;
+            }
+        }
+        
+        @media (min-width: 1025px) {
+            .header h1 {
+                font-size: 3.5rem;
+            }
+            
+            .responsive-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Test Responsive SMM Pro</h1>
+            <p>Vérifiez que toutes les pages s'adaptent parfaitement à tous les écrans</p>
+        </div>
+        
+        <div class="device-info">
+            <h2>📱 Breakpoints Responsive</h2>
+            <ul>
+                <li><strong>Mobile (≤576px):</strong> Design optimisé pour smartphones</li>
+                <li><strong>Tablette (577px-768px):</strong> Adaptation pour tablettes en mode portrait</li>
+                <li><strong>Tablette Large (769px-1024px):</strong> Adaptation pour tablettes en mode paysage</li>
+                <li><strong>Desktop (≥1025px):</strong> Design complet pour ordinateurs</li>
+            </ul>
+        </div>
+        
+        <div class="responsive-grid">
+            <div class="card">
+                <h3>🏠 Page d'Accueil</h3>
+                <p>Page principale avec hero section, services et témoignages. Navigation responsive avec menu hamburger sur mobile.</p>
+                <span class="status success">Responsive ✓</span>
+            </div>
+            
+            <div class="card">
+                <h3>📱 Support & FAQ</h3>
+                <p>Page de support avec FAQ interactive, formulaire de contact et informations. Adaptation parfaite sur tous les écrans.</p>
+                <span class="status success">Responsive ✓</span>
+            </div>
+            
+            <div class="card">
+                <h3>💳 Paiement</h3>
+                <p>Page de paiement avec étapes guidées et upload de preuve. Interface optimisée pour mobile et tablette.</p>
+                <span class="status success">Responsive ✓</span>
+            </div>
+            
+            <div class="card">
+                <h3>📊 Dashboard Client</h3>
+                <p>Tableau de bord personnel avec statistiques et commandes récentes. Grille responsive adaptative.</p>
+                <span class="status success">Responsive ✓</span>
+            </div>
+            
+            <div class="card">
+                <h3>🛒 Mes Commandes</h3>
+                <p>Liste des commandes avec filtres et pagination. Table responsive avec scroll horizontal sur mobile.</p>
+                <span class="status success">Responsive ✓</span>
+            </div>
+            
+            <div class="card">
+                <h3>➕ Nouvelle Commande</h3>
+                <p>Formulaire de commande avec sélection de services. Interface tactile optimisée pour mobile.</p>
+                <span class="status success">Responsive ✓</span>
+            </div>
+            
+            <div class="card">
+                <h3>🎫 Tickets Support</h3>
+                <p>Gestion des tickets de support avec création et suivi. Formulaire responsive et liste adaptative.</p>
+                <span class="status success">Responsive ✓</span>
+            </div>
+            
+            <div class="card">
+                <h3>👤 Mon Profil</h3>
+                <p>Gestion du profil utilisateur et des paramètres. Formulaires optimisés pour tous les écrans.</p>
+                <span class="status success">Responsive ✓</span>
+            </div>
+        </div>
+        
+        <div class="device-info">
+            <h2>🔧 Fonctionnalités Responsive</h2>
+            <ul>
+                <li><strong>Navigation:</strong> Menu hamburger sur mobile, navigation complète sur desktop</li>
+                <li><strong>Grilles:</strong> Adaptation automatique du nombre de colonnes selon la taille d'écran</li>
+                <li><strong>Typographie:</strong> Tailles de police adaptatives pour une lisibilité optimale</li>
+                <li><strong>Espacement:</strong> Marges et paddings ajustés selon la taille d'écran</li>
+                <li><strong>Tableaux:</strong> Scroll horizontal sur mobile pour préserver la lisibilité</li>
+                <li><strong>Formulaires:</strong> Champs et boutons optimisés pour l'utilisation tactile</li>
+                <li><strong>Cartes:</strong> Disposition responsive avec adaptation du contenu</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

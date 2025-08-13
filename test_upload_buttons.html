@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Boutons Upload - BoostSocial</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .upload-area {
+            border: 3px dashed #007AFF;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            margin: 20px 0;
+            background: #f8f9ff;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .upload-area:hover {
+            border-color: #0056CC;
+            background: #e8f0ff;
+        }
+        .upload-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+        .upload-btn {
+            background: linear-gradient(135deg, #007AFF, #5856D6);
+            border: none;
+            padding: 15px 30px;
+            color: white;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .upload-btn.primary {
+            background: linear-gradient(135deg, #007AFF, #5856D6);
+        }
+        .upload-btn.mobile-upload-btn {
+            background: linear-gradient(135deg, #34C759, #5AC8FA);
+        }
+        .file-input {
+            display: none;
+        }
+        .file-preview {
+            margin-top: 20px;
+            padding: 20px;
+            background: #e8f5e8;
+            border-radius: 8px;
+            display: none;
+        }
+        .file-preview img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+        .file-info {
+            margin-top: 15px;
+            padding: 10px;
+            background: #e3f2fd;
+            border-radius: 6px;
+            color: #1976d2;
+        }
+        .console-output {
+            background: #1f2937;
+            color: #f9fafb;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: monospace;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+        .console-output h4 {
+            color: #10b981;
+            margin-top: 0;
+        }
+        .test-links {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f0f8ff;
+            border-radius: 8px;
+        }
+        .test-links a {
+            display: inline-block;
+            margin: 5px 10px;
+            padding: 8px 16px;
+            background: #007AFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+        .test-links a:hover {
+            background: #0056CC;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Test Boutons Upload - BoostSocial</h1>
+        
+        <div class="test-links">
+            <h3>Liens de Test</h3>
+            <a href="paiement.php?order_id=1" target="_blank">💳 Test Paiement.php</a>
+            <a href="commander.php" target="_blank">📝 Test Commander.php</a>
+            <a href="quick_test.php" target="_blank">🔧 Test Rapide</a>
+        </div>
+        
+        <h2>Test des Boutons d'Upload</h2>
+        <p>Testez les boutons d'upload pour vérifier qu'ils fonctionnent correctement :</p>
+        
+        <form id="uploadForm" enctype="multipart/form-data">
+            <div class="upload-area" id="uploadArea">
+                <div style="font-size: 3rem; margin-bottom: 20px;">📁</div>
+                <div>Cliquez ou glissez-déposez un fichier image ici</div>
+                <div style="color: #666; margin-top: 10px;">Formats: JPG, PNG - Max: 5MB</div>
+                
+                <!-- Input file caché -->
+                <input type="file" class="file-input" id="fileInput" accept=".jpg,.jpeg,.png" capture="environment">
+                
+                <!-- Boutons d'upload -->
+                <div class="upload-buttons">
+                    <button type="button" class="upload-btn primary" onclick="triggerFileInput()">
+                        📁 Sélectionner un fichier
+                    </button>
+                    
+                    <button type="button" class="upload-btn mobile-upload-btn" onclick="triggerCameraInput()">
+                        📷 Prendre une photo
+                    </button>
+                </div>
+            </div>
+            
+            <div class="file-preview" id="filePreview">
+                <img id="previewImage" src="" alt="Aperçu">
+                <div class="file-info" id="fileInfo"></div>
+            </div>
+        </form>
+        
+        <div class="console-output">
+            <h4>📊 Console de Debug</h4>
+            <div id="consoleOutput">Console prête pour le debug...</div>
+        </div>
+        
+        <div style="margin-top: 30px; padding: 20px; background: #fff3cd; border-radius: 8px; border: 1px solid #ffeaa7;">
+            <h3>🔍 Instructions de Test</h3>
+            <ol>
+                <li><strong>Testez "Sélectionner un fichier"</strong> - doit ouvrir la galerie</li>
+                <li><strong>Testez "Prendre une photo"</strong> - doit ouvrir l'appareil photo sur mobile</li>
+                <li><strong>Vérifiez la console</strong> pour voir les logs</li>
+                <li><strong>Testez sur mobile</strong> pour vérifier l'appareil photo</li>
+                <li><strong>Vérifiez l'aperçu</strong> après sélection d'image</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const filePreview = document.getElementById('filePreview');
+        const previewImage = document.getElementById('previewImage');
+        const fileInfo = document.getElementById('fileInfo');
+        const consoleOutput = document.getElementById('consoleOutput');
+        
+        // Fonction pour ajouter des logs dans la console
+        function addConsoleLog(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logElement = document.createElement('div');
+            logElement.style.color = type === 'error' ? '#ef4444' : type === 'success' ? '#10b981' : '#f9fafb';
+            logElement.textContent = `[${timestamp}] ${message}`;
+            consoleOutput.appendChild(logElement);
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        }
+        
+        // Fonction pour déclencher le clic sur l'input file
+        function triggerFileInput() {
+            addConsoleLog('🔄 Déclenchement sélection de fichier', 'info');
+            fileInput.removeAttribute('capture'); // Retire capture pour permettre la galerie
+            fileInput.click();
+        }
+        
+        // Fonction pour déclencher le clic sur l'input file pour la caméra
+        function triggerCameraInput() {
+            addConsoleLog('📷 Déclenchement appareil photo', 'info');
+            fileInput.setAttribute('capture', 'environment'); // Force l'utilisation de la caméra
+            fileInput.click();
+        }
+        
+        // Clic sur la zone d'upload
+        uploadArea.addEventListener('click', (e) => {
+            if (!e.target.closest('button')) {
+                addConsoleLog('🖱️ Clic sur la zone d\'upload', 'info');
+                triggerFileInput();
+            }
+        });
+        
+        // Touch events pour mobile
+        uploadArea.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            uploadArea.style.transform = 'scale(0.98)';
+        });
+        
+        uploadArea.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            uploadArea.style.transform = 'scale(1)';
+            setTimeout(() => {
+                if (!e.target.closest('button')) {
+                    addConsoleLog('👆 Touch sur la zone d\'upload', 'info');
+                    triggerFileInput();
+                }
+            }, 100);
+        });
+        
+        // Drag and drop
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#0056CC';
+            uploadArea.style.background = '#e8f0ff';
+        });
+        
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.style.borderColor = '#007AFF';
+            uploadArea.style.background = '#f8f9ff';
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#007AFF';
+            uploadArea.style.background = '#f8f9ff';
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                addConsoleLog(`📁 Fichier déposé: ${files[0].name}`, 'success');
+                handleFileSelect(files[0]);
+            }
+        });
+        
+        // Sélection de fichier
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                const file = e.target.files[0];
+                addConsoleLog(`📁 Fichier sélectionné: ${file.name}`, 'success');
+                handleFileSelect(file);
+            }
+        });
+        
+        // Gestion de la sélection de fichier
+        function handleFileSelect(file) {
+            addConsoleLog(`🔍 Traitement du fichier: ${file.name}`, 'info');
+            
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    previewImage.src = e.target.result;
+                    filePreview.style.display = 'block';
+                    uploadArea.style.display = 'none';
+                    
+                    // Informations du fichier
+                    fileInfo.innerHTML = `
+                        <strong>Nom:</strong> ${file.name}<br>
+                        <strong>Taille:</strong> ${formatBytes(file.size)}<br>
+                        <strong>Type:</strong> ${file.type}<br>
+                        <strong>Date:</strong> ${new Date(file.lastModified).toLocaleString()}
+                    `;
+                    
+                    addConsoleLog(`✅ Fichier traité avec succès: ${file.name}`, 'success');
+                };
+                reader.readAsDataURL(file);
+            } else {
+                addConsoleLog(`❌ Type de fichier non autorisé: ${file.type}`, 'error');
+                alert('Veuillez sélectionner un fichier image valide (JPG, PNG).');
+            }
+        }
+        
+        function formatBytes(bytes, decimals = 2) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        }
+        
+        // Log des erreurs
+        window.addEventListener('error', (e) => {
+            addConsoleLog(`❌ Erreur JavaScript: ${e.error}`, 'error');
+        });
+        
+        // Log des promesses rejetées
+        window.addEventListener('unhandledrejection', (e) => {
+            addConsoleLog(`❌ Promesse rejetée: ${e.reason}`, 'error');
+        });
+        
+        // Ajouter des événements de clic sur les boutons pour le debugging
+        document.querySelectorAll('.upload-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                addConsoleLog(`🔘 Bouton cliqué: ${btn.textContent.trim()}`, 'info');
+            });
+        });
+        
+        // Log de démarrage
+        addConsoleLog('🚀 Système de test démarré', 'success');
+    </script>
+</body>
+</html>
