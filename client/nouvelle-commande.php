@@ -623,62 +623,115 @@ try {
         
         .quantity-slider {
             width: 100%;
-            margin: 20px 0;
+            margin: 25px 0;
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid var(--border-lighter);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+        
+        .quantity-header {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .quantity-header h6 {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .quantity-header h6 i {
+            color: var(--accent-primary);
+        }
+        
+        .quantity-value {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .quantity-value strong {
+            color: var(--accent-primary);
+            font-weight: 700;
         }
         
         .quantity-slider input[type="range"] {
             width: 100%;
-            height: 8px;
-            border-radius: 5px;
-            background: var(--border-color);
+            height: 10px;
+            border-radius: 8px;
+            background: linear-gradient(90deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
             outline: none;
             -webkit-appearance: none;
+            cursor: pointer;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         
         .quantity-slider input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
-            background: var(--primary-color);
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
             cursor: pointer;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.4);
+            border: 3px solid var(--accent-primary);
+            transition: all 0.2s ease;
+        }
+        
+        .quantity-slider input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 122, 255, 0.6);
         }
         
         .quantity-slider input[type="range"]::-moz-range-thumb {
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
-            background: var(--primary-color);
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
             cursor: pointer;
-            border: none;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            border: 3px solid var(--accent-primary);
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.4);
+            transition: all 0.2s ease;
         }
         
         .quantity-presets {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 15px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 12px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-lighter);
         }
         
         .quantity-preset {
-            padding: 8px 16px;
-            background: var(--border-color);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
+            padding: 12px 16px;
+            background: var(--bg-primary);
+            border: 2px solid var(--border-lighter);
+            border-radius: 12px;
             color: var(--text-secondary);
             cursor: pointer;
             transition: all 0.3s ease;
             font-size: 0.9rem;
+            font-weight: 600;
+            text-align: center;
         }
         
-        .quantity-preset:hover,
+        .quantity-preset:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            background: rgba(0, 122, 255, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+        
         .quantity-preset.active {
-            background: var(--primary-color);
-            border-color: var(--primary-color);
-            color: var(--dark-bg);
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-color: var(--accent-primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
         }
         
         @media (max-width: 768px) {
@@ -694,6 +747,38 @@ try {
             .order-summary {
                 position: static;
                 margin-top: 30px;
+            }
+            
+            .quantity-slider {
+                padding: 20px;
+                margin: 20px 0;
+            }
+            
+            .quantity-presets {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+            
+            .quantity-preset {
+                padding: 10px 12px;
+                font-size: 0.8rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .quantity-slider {
+                padding: 15px;
+                margin: 15px 0;
+            }
+            
+            .quantity-presets {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+            
+            .quantity-preset {
+                padding: 8px 10px;
+                font-size: 0.75rem;
             }
         }
         
@@ -1377,7 +1462,13 @@ try {
                                     
                                     <!-- Slider de quantité -->
                                     <div class="quantity-slider">
+                                        <div class="quantity-header">
+                                            <h6><i class="fas fa-sliders-h me-2"></i>Ajustez la quantité</h6>
+                                            <div class="quantity-value">Quantité sélectionnée : <strong id="quantityValue">1,000</strong></div>
+                                        </div>
+                                        
                                         <input type="range" id="quantitySlider" min="1000" max="100000" step="1000" value="1000">
+                                        
                                         <div class="quantity-presets">
                                             <span class="quantity-preset" data-value="1000">1K</span>
                                             <span class="quantity-preset" data-value="5000">5K</span>
@@ -1584,13 +1675,29 @@ try {
         function initializeQuantitySlider() {
             const slider = document.getElementById('quantitySlider');
             const input = document.getElementById('quantity');
+            const quantityValue = document.getElementById('quantityValue');
+            
+            // Fonction pour formater les nombres
+            function formatNumber(num) {
+                return new Intl.NumberFormat('fr-FR').format(num);
+            }
+            
+            // Mise à jour de l'affichage
+            function updateQuantityDisplay(value) {
+                quantityValue.textContent = formatNumber(value);
+            }
             
             slider.addEventListener('input', function() {
-                input.value = this.value;
+                const value = parseInt(this.value);
+                input.value = value;
+                updateQuantityDisplay(value);
                 updateOrderSummary();
                 currentStep = 2;
                 updateProgressBar();
             });
+            
+            // Initialisation
+            updateQuantityDisplay(parseInt(slider.value));
         }
         
         // Initialisation des presets de quantité modernes
