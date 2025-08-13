@@ -917,11 +917,29 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
             }
             
             .upload-area {
-                padding: 40px 20px;
+                padding: 25px 15px;
             }
             
             .upload-icon {
-                font-size: 2.5rem;
+                font-size: 2rem;
+                margin-bottom: 15px;
+            }
+            
+            .upload-text {
+                font-size: 1rem;
+            }
+            
+            .upload-hint {
+                font-size: 0.8rem;
+            }
+            
+            .mobile-instructions {
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+            
+            .mobile-instructions li {
+                font-size: 0.85rem;
             }
         }
         
@@ -941,6 +959,131 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
         
         ::-webkit-scrollbar-thumb:hover {
             background: var(--primary-dark);
+        }
+
+        .upload-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+        
+        .upload-btn.primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+        
+        .upload-btn.mobile-upload-btn {
+            background: linear-gradient(135deg, var(--success), var(--info));
+        }
+        
+        .mobile-instructions {
+            margin-top: 25px;
+            padding: 20px;
+            background: rgba(0, 122, 255, 0.05);
+            border: 1px solid rgba(0, 122, 255, 0.2);
+            border-radius: var(--radius-lg);
+            text-align: left;
+        }
+        
+        .mobile-instructions p {
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .mobile-instructions ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .mobile-instructions li {
+            margin-bottom: 5px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .change-file-btn {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-light);
+            color: var(--text-secondary);
+            border-radius: var(--radius-md);
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: var(--transition);
+        }
+        
+        .change-file-btn:hover {
+            background: var(--bg-tertiary);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        /* Améliorations spécifiques mobile */
+        @media (max-width: 768px) {
+            .upload-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .upload-btn {
+                width: 100%;
+                max-width: 280px;
+                margin: 5px 0;
+            }
+            
+            .mobile-instructions {
+                margin-top: 20px;
+                padding: 15px;
+            }
+            
+            .upload-area {
+                padding: 30px 20px;
+            }
+            
+            .upload-icon {
+                font-size: 2.5rem;
+                margin-bottom: 20px;
+            }
+            
+            .upload-text {
+                font-size: 1.1rem;
+                margin-bottom: 10px;
+            }
+            
+            .upload-hint {
+                font-size: 0.85rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .upload-area {
+                padding: 25px 15px;
+            }
+            
+            .upload-icon {
+                font-size: 2rem;
+                margin-bottom: 15px;
+            }
+            
+            .upload-text {
+                font-size: 1rem;
+            }
+            
+            .upload-hint {
+                font-size: 0.8rem;
+            }
+            
+            .mobile-instructions {
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+            
+            .mobile-instructions li {
+                font-size: 0.85rem;
+            }
         }
     </style>
 </head>
@@ -1146,16 +1289,42 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
                         </div>
                         <div class="upload-text">Cliquez ou glissez-déposez votre capture d'écran ici</div>
                         <div class="upload-hint">Formats acceptés: JPG, PNG. Taille max: 5MB</div>
+                        
+                        <!-- Input file principal -->
                         <input type="file" class="file-input" name="payment_proof" id="paymentProof" 
                                accept=".jpg,.jpeg,.png" required>
-                        <button type="button" class="upload-btn" onclick="document.getElementById('paymentProof').click()">
-                            <i class="fas fa-folder-open me-2"></i>Sélectionner un fichier
-                        </button>
+                        
+                        <!-- Boutons d'upload pour mobile et desktop -->
+                        <div class="upload-buttons">
+                            <button type="button" class="upload-btn primary" onclick="triggerFileInput()">
+                                <i class="fas fa-folder-open me-2"></i>Sélectionner un fichier
+                            </button>
+                            
+                            <!-- Bouton spécifique pour mobile -->
+                            <label for="paymentProof" class="upload-btn mobile-upload-btn">
+                                <i class="fas fa-camera me-2"></i>Prendre une photo
+                            </label>
+                        </div>
+                        
+                        <!-- Instructions spécifiques mobile -->
+                        <div class="mobile-instructions">
+                            <p><strong>Sur mobile :</strong></p>
+                            <ul>
+                                <li>Appuyez sur "Prendre une photo" pour utiliser l'appareil photo</li>
+                                <li>Ou appuyez sur "Sélectionner un fichier" pour choisir depuis la galerie</li>
+                                <li>Assurez-vous que la capture d'écran est bien visible</li>
+                            </ul>
+                        </div>
                     </div>
                     
                     <div class="file-preview" id="filePreview">
                         <img id="previewImage" src="" alt="Aperçu">
                         <div class="file-info" id="fileInfo"></div>
+                        
+                        <!-- Bouton pour changer de fichier -->
+                        <button type="button" class="change-file-btn" onclick="resetUpload()">
+                            <i class="fas fa-edit me-2"></i>Changer de fichier
+                        </button>
                     </div>
                     
                     <div class="text-center mt-4">
@@ -1244,9 +1413,31 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
         
         if (uploadArea && fileInput) {
             // Clic sur la zone d'upload
-            uploadArea.addEventListener('click', () => fileInput.click());
+            uploadArea.addEventListener('click', (e) => {
+                // Éviter de déclencher si on clique sur un bouton
+                if (!e.target.closest('button') && !e.target.closest('label')) {
+                    triggerFileInput();
+                }
+            });
             
-            // Drag and drop
+            // Touch events pour mobile
+            uploadArea.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                uploadArea.style.transform = 'scale(0.98)';
+            });
+            
+            uploadArea.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                uploadArea.style.transform = 'scale(1)';
+                // Petit délai pour éviter les doubles déclenchements
+                setTimeout(() => {
+                    if (!e.target.closest('button') && !e.target.closest('label')) {
+                        triggerFileInput();
+                    }
+                }, 100);
+            });
+            
+            // Drag and drop (desktop)
             uploadArea.addEventListener('dragover', (e) => {
                 e.preventDefault();
                 uploadArea.classList.add('dragover');
@@ -1261,7 +1452,6 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
                 uploadArea.classList.remove('dragover');
                 const files = e.dataTransfer.files;
                 if (files.length > 0) {
-                    fileInput.files = files;
                     handleFileSelect(files[0]);
                 }
             });
@@ -1275,6 +1465,8 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
         }
         
         function handleFileSelect(file) {
+            console.log('Fichier sélectionné:', file);
+            
             if (file.type.startsWith('image/')) {
                 const reader = new FileReader();
                 reader.onload = (e) => {
@@ -1289,6 +1481,11 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
                     
                     // Masquer les messages d'erreur précédents
                     showUploadStatus('', '');
+                    
+                    // Vibration sur mobile si supportée
+                    if ('vibrate' in navigator) {
+                        navigator.vibrate(100);
+                    }
                 };
                 reader.readAsDataURL(file);
             } else {
@@ -1300,6 +1497,11 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
                 
                 // Désactiver le bouton de soumission
                 submitBtn.disabled = true;
+                
+                // Vibration d'erreur sur mobile
+                if ('vibrate' in navigator) {
+                    navigator.vibrate([100, 50, 100]);
+                }
             }
         }
 
@@ -1433,6 +1635,23 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
         document.addEventListener('DOMContentLoaded', () => {
             setTimeout(animateCounters, 1000);
         });
+
+        // Fonction pour déclencher le clic sur l'input file
+        function triggerFileInput() {
+            fileInput.click();
+        }
+
+        // Fonction pour réinitialiser l'upload
+        function resetUpload() {
+            fileInput.value = ''; // Efface le fichier sélectionné
+            previewImage.src = ''; // Efface l'aperçu
+            filePreview.style.display = 'none'; // Masque l'aperçu
+            uploadArea.style.display = 'block'; // Affiche la zone d'upload
+            updateFileInfo(''); // Efface l'info du fichier
+            submitBtn.disabled = true; // Désactive le bouton de soumission
+            submitBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Envoyer la Preuve';
+            showUploadStatus('', ''); // Masque le statut
+        }
     </script>
 </body>
 </html>
