@@ -58,46 +58,523 @@ if ($selectedCategory) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Commander - SMM Pro</title>
+    <title>Commander - BoostSocial</title>
+    <meta name="description" content="Commandez vos services SMM (followers, likes, vues) pour Instagram, TikTok, YouTube et Facebook. Processus simple et sécurisé.">
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: var(--light);
+            overflow-x: hidden;
+        }
+
+        /* Hamburger Menu */
+        .hamburger-menu {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+        }
+
+        .hamburger-menu:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .hamburger-icon {
+            width: 20px;
+            height: 2px;
+            background: var(--dark);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger-icon::before,
+        .hamburger-icon::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 2px;
+            background: var(--dark);
+            transition: all 0.3s ease;
+        }
+
+        .hamburger-icon::before {
+            top: -6px;
+        }
+
+        .hamburger-icon::after {
+            bottom: -6px;
+        }
+
+        .hamburger-menu.active .hamburger-icon {
+            background: transparent;
+        }
+
+        .hamburger-menu.active .hamburger-icon::before {
+            transform: rotate(45deg);
+            top: 0;
+        }
+
+        .hamburger-menu.active .hamburger-icon::after {
+            transform: rotate(-45deg);
+            bottom: 0;
+        }
+
+        /* Menu Overlay */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .menu-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+        }
+
+        .menu-item {
+            display: block;
+            margin: 1.5rem 0;
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+        }
+
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            color: white;
+            text-decoration: none;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .menu-item i {
+            margin-right: 1rem;
+            width: 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 50%, var(--primary) 100%);
+            padding: 120px 0 80px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="%23ffffff" stop-opacity="0.1"/><stop offset="100%" stop-color="%23ffffff" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="100" fill="url(%23a)"/><circle cx="800" cy="300" r="150" fill="url(%23a)"/><circle cx="400" cy="700" r="120" fill="url(%23a)"/></svg>') no-repeat;
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 4rem 0;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Order Form Cards */
+        .order-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-light);
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .order-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .order-card h4 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .order-card h4 i {
+            color: var(--primary);
+            margin-right: 0.75rem;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .form-control, .form-select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--gray-light);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-control:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .form-control.error, .form-select.error {
+            border-color: #ef4444;
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .form-text {
+            color: var(--gray);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Order Summary */
+        .order-summary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .order-summary h5 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .order-summary h5 i {
+            margin-right: 0.75rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .summary-label {
+            opacity: 0.9;
+        }
+
+        .summary-value {
+            font-weight: 600;
+        }
+
+        /* Submit Button */
+        .btn-submit {
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            color: white;
+            padding: 1.25rem 3rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .btn-submit:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Quantity Presets */
+        .quantity-presets {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .quantity-preset {
+            padding: 0.5rem 1rem;
+            background: var(--gray-light);
+            border: none;
+            border-radius: 25px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quantity-preset:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .quantity-preset.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Alert Messages */
+        .alert {
+            border-radius: 15px;
+            border: none;
+            padding: 1rem 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .alert-danger {
+            background: #fef2f2;
+            color: #dc2626;
+            border-left: 4px solid #dc2626;
+        }
+
+        .alert-success {
+            background: #f0fdf4;
+            color: #16a34a;
+            border-left: 4px solid #16a34a;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hamburger-menu {
+                top: 15px;
+                right: 15px;
+                width: 45px;
+                height: 45px;
+            }
+            
+            .order-card {
+                padding: 2rem;
+                margin-bottom: 2rem;
+            }
+            
+            .hero {
+                padding: 100px 0 60px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero {
+                padding: 80px 0 50px;
+            }
+            
+            .main-content {
+                padding: 2rem 0;
+            }
+            
+            .menu-content {
+                padding: 1rem;
+            }
+            
+            .menu-item {
+                margin: 1rem 0;
+                padding: 0.8rem 1.5rem;
+                font-size: 1.1rem;
+            }
+            
+            .quantity-presets {
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <a class="navbar-brand" href="index.php">
-                <i class="fas fa-rocket me-2"></i>SMM Pro
+    <!-- Hamburger Menu Button -->
+    <div class="hamburger-menu" id="hamburgerMenu">
+        <div class="hamburger-icon"></div>
+    </div>
+
+    <!-- Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay">
+        <div class="menu-content">
+            <a href="index.php" class="menu-item">
+                <i class="fas fa-home"></i>Accueil
             </a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.php">Accueil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.php#services">Services</a>
-                    </li>
-                    <li class="nav-link active" href="commander.php">Commander</a>
-                    </li>
-                </ul>
+            <a href="services.php" class="menu-item">
+                <i class="fas fa-rocket"></i>Services
+            </a>
+            <a href="about.php" class="menu-item">
+                <i class="fas fa-info-circle"></i>À Propos
+            </a>
+            <a href="contact.php" class="menu-item">
+                <i class="fas fa-envelope"></i>Contact
+            </a>
+            <a href="client/dashboard.php" class="menu-item">
+                <i class="fas fa-tachometer-alt"></i>Dashboard
+            </a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Commander vos <span class="highlight">Services</span></h1>
+                <p>Boostez votre présence sur les réseaux sociaux en quelques clics. Processus simple, sécurisé et rapide.</p>
             </div>
         </div>
-    </nav>
+    </section>
 
     <!-- Main Content -->
-    <div class="section" style="padding-top: 120px;">
+    <section class="main-content">
         <div class="container">
-            <h2 class="section-title">Commander vos Services</h2>
+            <div class="section-title">
+                <h2>Créez votre commande</h2>
+                <p>Sélectionnez vos services et remplissez les informations pour commencer</p>
+            </div>
             
             <?php if (isset($_SESSION['alert'])): ?>
                 <div class="alert alert-<?php echo $_SESSION['alert']['type']; ?> alert-dismissible fade show" role="alert">
@@ -110,9 +587,9 @@ if ($selectedCategory) {
             <div class="row">
                 <!-- Sélection des services -->
                 <div class="col-lg-4 mb-4">
-                    <div class="order-form">
-                        <h4 class="mb-4">
-                            <i class="fas fa-list me-2"></i>Choisir un Service
+                    <div class="order-card">
+                        <h4>
+                            <i class="fas fa-list"></i>Choisir un Service
                         </h4>
                         
                         <!-- Sélection de catégorie -->
@@ -154,9 +631,9 @@ if ($selectedCategory) {
                 
                 <!-- Formulaire de commande -->
                 <div class="col-lg-8">
-                    <div class="order-form">
-                        <h4 class="mb-4">
-                            <i class="fas fa-shopping-cart me-2"></i>Détails de la Commande
+                    <div class="order-card">
+                        <h4>
+                            <i class="fas fa-shopping-cart"></i>Détails de la Commande
                         </h4>
                         
                         <form method="POST" action="" id="orderForm">
@@ -183,6 +660,7 @@ if ($selectedCategory) {
                                 <label class="form-label">Lien à promouvoir *</label>
                                 <input type="url" class="form-control" name="link_url" 
                                        placeholder="https://instagram.com/votre-profil" required>
+                                <div class="form-text">Entrez l'URL de votre profil ou publication</div>
                             </div>
                             
                             <div class="row">
@@ -191,7 +669,15 @@ if ($selectedCategory) {
                                         <label class="form-label">Quantité *</label>
                                         <input type="number" class="form-control" name="quantity" id="quantity" 
                                                min="1000" step="1000" required>
-                                        <small class="text-muted">Minimum: 1 000</small>
+                                        <div class="form-text">Minimum: 1 000</div>
+                                        
+                                        <!-- Presets de quantité -->
+                                        <div class="quantity-presets">
+                                            <button type="button" class="quantity-preset" data-value="1000">1K</button>
+                                            <button type="button" class="quantity-preset" data-value="5000">5K</button>
+                                            <button type="button" class="quantity-preset" data-value="10000">10K</button>
+                                            <button type="button" class="quantity-preset" data-value="50000">50K</button>
+                                        </div>
                                     </div>
                                 </div>
                                 
@@ -208,49 +694,74 @@ if ($selectedCategory) {
                             </div>
                             
                             <!-- Résumé de la commande -->
-                            <div class="card" style="background: var(--dark-bg); border-color: var(--border-color);">
-                                <div class="card-body">
-                                    <h5 class="card-title text-center mb-3">
-                                        <i class="fas fa-calculator me-2"></i>Résumé de la Commande
-                                    </h5>
-                                    
-                                    <div class="row text-center">
-                                        <div class="col-6">
-                                            <p class="mb-1"><strong>Service:</strong></p>
-                                            <p id="selectedService" class="text-muted">-</p>
-                                        </div>
-                                        <div class="col-6">
-                                            <p class="mb-1"><strong>Prix total:</strong></p>
-                                            <p id="totalPrice" class="text-primary fw-bold">-</p>
-                                        </div>
-                                    </div>
+                            <div class="order-summary">
+                                <h5>
+                                    <i class="fas fa-calculator"></i>Résumé de la Commande
+                                </h5>
+                                
+                                <div class="summary-row">
+                                    <span class="summary-label">Service:</span>
+                                    <span class="summary-value" id="selectedService">-</span>
+                                </div>
+                                
+                                <div class="summary-row">
+                                    <span class="summary-label">Quantité:</span>
+                                    <span class="summary-value" id="selectedQuantity">-</span>
+                                </div>
+                                
+                                <div class="summary-row">
+                                    <span class="summary-label">Prix total:</span>
+                                    <span class="summary-value" id="totalPrice">-</span>
                                 </div>
                             </div>
                             
-                            <div class="text-center mt-4">
-                                <button type="submit" class="btn btn-primary btn-lg" id="submitBtn" disabled>
-                                    <i class="fas fa-credit-card me-2"></i>Procéder au Paiement
-                                </button>
-                            </div>
+                            <button type="submit" class="btn-submit" id="submitBtn" disabled>
+                                <i class="fas fa-credit-card me-2"></i>Procéder au Paiement
+                            </button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2024 SMM Pro. Tous droits réservés.</p>
-        </div>
-    </footer>
+    </section>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- Custom JS -->
     <script>
+        // Hamburger Menu Toggle
+        const hamburgerMenu = document.getElementById('hamburgerMenu');
+        const menuOverlay = document.getElementById('menuOverlay');
+
+        hamburgerMenu.addEventListener('click', function() {
+            hamburgerMenu.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+        });
+
+        // Close menu when clicking on overlay
+        menuOverlay.addEventListener('click', function(e) {
+            if (e.target === menuOverlay) {
+                hamburgerMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
+            }
+        });
+
+        // Close menu when pressing Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                hamburgerMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
+            }
+        });
+
+        // Close menu when clicking on menu items
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function() {
+                hamburgerMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
+            });
+        });
+
         // Gestion de la sélection de catégorie
         document.getElementById('categorySelect').addEventListener('change', function() {
             const categoryId = this.value;
@@ -259,11 +770,26 @@ if ($selectedCategory) {
             }
         });
         
+        // Gestion des presets de quantité
+        document.querySelectorAll('.quantity-preset').forEach(preset => {
+            preset.addEventListener('click', function() {
+                const value = this.dataset.value;
+                document.getElementById('quantity').value = value;
+                
+                // Mettre à jour les classes actives
+                document.querySelectorAll('.quantity-preset').forEach(p => p.classList.remove('active'));
+                this.classList.add('active');
+                
+                updateOrderSummary();
+            });
+        });
+        
         // Gestion de la sélection de service et calcul du prix
         const serviceSelect = document.getElementById('serviceSelect');
         const hiddenServiceId = document.getElementById('hiddenServiceId');
         const quantityInput = document.getElementById('quantity');
         const selectedServiceSpan = document.getElementById('selectedService');
+        const selectedQuantitySpan = document.getElementById('selectedQuantity');
         const totalPriceSpan = document.getElementById('totalPrice');
         const submitBtn = document.getElementById('submitBtn');
         
@@ -279,11 +805,13 @@ if ($selectedCategory) {
                 hiddenServiceId.value = selectedOption.value;
                 
                 selectedServiceSpan.textContent = selectedOption.text;
+                selectedQuantitySpan.textContent = new Intl.NumberFormat('fr-FR').format(quantity);
                 totalPriceSpan.textContent = new Intl.NumberFormat('fr-FR').format(totalPrice) + ' FCFA';
                 submitBtn.disabled = false;
             } else {
                 hiddenServiceId.value = '';
                 selectedServiceSpan.textContent = '-';
+                selectedQuantitySpan.textContent = '-';
                 totalPriceSpan.textContent = '-';
                 submitBtn.disabled = true;
             }
