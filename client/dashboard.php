@@ -53,997 +53,812 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Client - SMM Pro</title>
+    <title>Dashboard - BoostSocial</title>
+    <meta name="description" content="Votre tableau de bord personnel pour gérer vos commandes SMM et suivre vos performances">
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f5f5f7;
-            --bg-tertiary: #fafafa;
-            --text-primary: #1d1d1f;
-            --text-secondary: #86868b;
-            --text-tertiary: #6e6e73;
-            --accent-primary: #007aff;
-            --accent-secondary: #5856d6;
-            --accent-success: #34c759;
-            --accent-warning: #ff9500;
-            --accent-danger: #ff3b30;
-            --border-light: #d2d2d7;
-            --border-lighter: #e5e5e7;
-            --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.04);
-            --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.08);
-            --shadow-large: 0 8px 32px rgba(0, 0, 0, 0.12);
-            --radius-small: 8px;
-            --radius-medium: 12px;
-            --radius-large: 16px;
-            --radius-xl: 24px;
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            background: var(--bg-primary);
-            color: var(--text-primary);
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-weight: 400;
+            background: linear-gradient(135deg, var(--light) 0%, var(--gray-light) 100%);
+            min-height: 100vh;
+            color: var(--dark);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
-        
-        .client-container {
-            padding-top: 20px;
-            min-height: 100vh;
-            background: var(--bg-primary);
+
+        /* Navigation Apple-like */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
-        
-        /* Header Principal */
-        .main-header {
-            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
-            border-radius: var(--radius-xl);
-            padding: 40px;
-            margin-bottom: 32px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            box-shadow: var(--shadow-subtle);
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
         }
-        
-        .header-content {
-            max-width: 600px;
-            margin: 0 auto;
+
+        .navbar-brand span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        
-        .header-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+
+        .nav-link {
+            color: var(--dark);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .nav-link:hover {
+            background: var(--gray-light);
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 32px;
-            font-size: 2rem;
             color: white;
-            box-shadow: var(--shadow-medium);
-            animation: float 6s ease-in-out infinite;
+            font-weight: 600;
+            font-size: 1.1rem;
         }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        .header-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 16px;
-            color: var(--text-primary);
-            letter-spacing: -0.02em;
-            line-height: 1.1;
-        }
-        
-        .header-subtitle {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            font-weight: 400;
-            margin-bottom: 0;
-        }
-        
-        /* Navigation Client Minimaliste */
-        .client-nav {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-lighter);
-            border-radius: var(--radius-large);
-            padding: 24px;
-            margin-bottom: 32px;
-            box-shadow: var(--shadow-subtle);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-        }
-        
-        .client-nav .nav-link {
-            color: var(--text-secondary);
-            padding: 12px 20px;
-            border-radius: var(--radius-medium);
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+        .btn-logout {
+            background: transparent;
+            border: 2px solid var(--danger);
+            color: var(--danger);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
             text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            margin: 0 4px;
         }
-        
-        .client-nav .nav-link:hover,
-        .client-nav .nav-link.active {
-            color: var(--accent-primary);
-            background: rgba(0, 122, 255, 0.04);
-            transform: translateY(-1px);
+
+        .btn-logout:hover {
+            background: var(--danger);
+            color: white;
+            transform: translateY(-2px);
         }
-        
-        /* Cartes de Statistiques Minimalistes */
+
+        /* Dashboard Container */
+        .dashboard-container {
+            padding: 2rem 0;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* Welcome Section */
+        .welcome-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 3rem;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="%23ffffff" stop-opacity="0.1"/><stop offset="100%" stop-color="%23ffffff" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="100" fill="url(%23a)"/><circle cx="800" cy="300" r="150" fill="url(%23a)"/><circle cx="400" cy="700" r="120" fill="url(%23a)"/></svg>') no-repeat;
+            opacity: 0.3;
+        }
+
+        .welcome-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .welcome-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .welcome-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .welcome-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-welcome {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-welcome.primary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-welcome.primary:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        .btn-welcome.secondary {
+            background: white;
+            color: var(--primary);
+        }
+
+        .btn-welcome.secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Stats Cards */
+        .stats-section {
+            margin-bottom: 3rem;
+        }
+
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 24px;
-            margin-bottom: 32px;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
-        
-        .stats-card {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-lighter);
-            border-radius: var(--radius-large);
-            padding: 32px 24px;
-            text-align: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: var(--shadow-subtle);
+
+        .stat-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--gray-light);
+            position: relative;
+            overflow: hidden;
         }
-        
-        .stats-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-medium);
-            border-color: var(--accent-primary);
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
         }
-        
-        .stats-card:nth-child(1) { border-top: 4px solid var(--accent-primary); }
-        .stats-card:nth-child(2) { border-top: 4px solid var(--accent-secondary); }
-        .stats-card:nth-child(3) { border-top: 4px solid var(--accent-warning); }
-        .stats-card:nth-child(4) { border-top: 4px solid var(--accent-success); }
-        
-        .stats-icon {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            color: var(--accent-primary);
-            opacity: 0.8;
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
         }
-        
-        .stats-card:nth-child(1) .stats-icon { color: var(--accent-primary); }
-        .stats-card:nth-child(2) .stats-icon { color: var(--accent-secondary); }
-        .stats-card:nth-child(3) .stats-icon { color: var(--accent-warning); }
-        .stats-card:nth-child(4) .stats-icon { color: var(--accent-success); }
-        
-        .stats-number {
-            font-size: 2.25rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: var(--text-primary);
-            letter-spacing: -0.02em;
-        }
-        
-        .stats-label {
-            color: var(--text-tertiary);
-            font-size: 0.875rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-        
-        /* Actions Rapides Minimalistes */
-        .quick-actions {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-lighter);
-            border-radius: var(--radius-xl);
-            padding: 40px;
-            margin-bottom: 32px;
-            box-shadow: var(--shadow-subtle);
-        }
-        
-        .quick-actions h4 {
-            color: var(--text-primary);
-            font-weight: 600;
-            margin-bottom: 32px;
-            text-align: center;
-            font-size: 1.5rem;
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-        }
-        
-        .quick-actions h4 i {
-            color: var(--accent-primary);
+            margin-bottom: 1.5rem;
             font-size: 1.5rem;
-        }
-        
-        .actions-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 24px;
-        }
-        
-        .action-btn {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-lighter);
-            border-radius: var(--radius-large);
-            padding: 32px 24px;
-            text-align: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            text-decoration: none;
-            color: var(--text-primary);
-            display: block;
-        }
-        
-        .action-btn:hover {
-            background: var(--bg-tertiary);
-            border-color: var(--accent-primary);
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-medium);
-            text-decoration: none;
-            color: var(--text-primary);
-        }
-        
-        .action-icon {
-            font-size: 2.25rem;
-            margin-bottom: 16px;
-            color: var(--accent-primary);
-            transition: all 0.3s ease;
-        }
-        
-        .action-btn:hover .action-icon {
-            transform: scale(1.1);
-        }
-        
-        .action-title {
-            font-weight: 600;
-            font-size: 1.125rem;
-            margin-bottom: 8px;
-            color: var(--text-primary);
-        }
-        
-        .action-description {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-        
-
-        
-        /* Contenu Principal */
-        .main-content {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 32px;
-        }
-        
-        .content-card {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-lighter);
-            border-radius: var(--radius-xl);
-            padding: 32px;
-            box-shadow: var(--shadow-subtle);
-            margin-bottom: 32px;
-        }
-        
-        .content-card h5 {
-            color: var(--text-primary);
-            font-weight: 600;
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 1.25rem;
-        }
-        
-        .content-card h5 i {
-            color: var(--accent-primary);
-            font-size: 1.25rem;
-        }
-        
-        /* Tableaux Minimalistes */
-        .table {
-            background: transparent;
-            border-radius: var(--radius-medium);
-            overflow: hidden;
-        }
-        
-        .table th {
-            background: var(--bg-secondary);
-            border-color: var(--border-lighter);
-            color: var(--text-primary);
-            font-weight: 600;
-            padding: 20px 16px;
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-        
-        .table td {
-            border-color: var(--border-lighter);
-            color: var(--text-secondary);
-            padding: 20px 16px;
-            vertical-align: middle;
-        }
-        
-        .table tbody tr {
-            transition: all 0.2s ease;
-        }
-        
-        .table tbody tr:hover {
-            background: rgba(0, 122, 255, 0.02);
-        }
-        
-        /* Badges de Statut Minimalistes */
-        .status-badge {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
             color: white;
         }
-        
-        .status-pending { 
-            background: var(--accent-warning);
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
         }
-        .status-processing { 
-            background: var(--accent-primary);
-        }
-        .status-completed { 
-            background: var(--accent-success);
-        }
-        .status-cancelled { 
-            background: var(--accent-danger);
-        }
-        
-        /* Notifications Minimalistes */
-        .notification-item {
-            background: var(--bg-secondary);
-            border-radius: var(--radius-medium);
-            padding: 20px;
-            margin-bottom: 16px;
-            border-left: 3px solid var(--accent-primary);
-            transition: all 0.2s ease;
-        }
-        
-        .notification-item:hover {
-            background: var(--bg-tertiary);
-            transform: translateX(4px);
-        }
-        
-        .notification-item.unread {
-            border-left-color: var(--accent-warning);
-            background: rgba(255, 149, 0, 0.04);
-        }
-        
-        .notification-title {
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 8px;
+
+        .stat-label {
+            color: var(--gray);
+            font-weight: 500;
             font-size: 1rem;
         }
-        
-        .notification-message {
-            color: var(--text-secondary);
+
+        .stat-change {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
             font-size: 0.9rem;
-            margin-bottom: 12px;
-            line-height: 1.5;
         }
-        
-        .notification-time {
-            color: var(--text-tertiary);
-            font-size: 0.8rem;
-            font-weight: 500;
+
+        .stat-change.positive {
+            color: var(--success);
         }
-        
-        /* États Vides Minimalistes */
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--text-secondary);
+
+        .stat-change.negative {
+            color: var(--danger);
         }
-        
-        .empty-state i {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            opacity: 0.4;
-            color: var(--text-tertiary);
+
+        /* Content Sections */
+        .content-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-light);
         }
-        
-        .empty-state h5 {
-            color: var(--text-secondary);
-            margin-bottom: 12px;
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--gray-light);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin: 0;
+        }
+
+        .section-action {
+            color: var(--primary);
+            text-decoration: none;
             font-weight: 600;
+            transition: color 0.3s ease;
         }
-        
-        .empty-state p {
-            margin-bottom: 20px;
-            line-height: 1.6;
+
+        .section-action:hover {
+            color: var(--primary-dark);
         }
-        
-        /* Boutons Minimalistes */
-        .btn {
-            border-radius: var(--radius-medium);
-            font-weight: 500;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: var(--shadow-subtle);
+
+        /* Orders Table */
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
         }
-        
-        .btn:hover {
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-medium);
+
+        .orders-table th {
+            background: var(--gray-light);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--dark);
+            border-radius: 8px;
         }
-        
-        .btn-primary {
-            background: var(--accent-primary);
-            border-color: var(--accent-primary);
+
+        .orders-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--gray-light);
         }
-        
-        /* Responsive Mobile First */
-        @media (max-width: 576px) {
-            .main-header {
-                padding: 60px 0 40px;
+
+        .orders-table tr:hover {
+            background: var(--gray-light);
+        }
+
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-pending {
+            background: rgba(255, 149, 0, 0.1);
+            color: var(--warning);
+        }
+
+        .status-processing {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--info);
+        }
+
+        .status-completed {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .status-cancelled {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .quick-action {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--dark);
+            transition: all 0.3s ease;
+            border: 1px solid var(--gray-light);
+            box-shadow: var(--shadow);
+        }
+
+        .quick-action:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .quick-action-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .quick-action-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .quick-action-desc {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .dashboard-container {
+                padding: 1rem 0;
             }
-            
-            .header-title {
-                font-size: 2rem;
-                line-height: 1.2;
+
+            .welcome-section {
+                padding: 2rem 1rem;
+                margin: 0 1rem 2rem;
             }
-            
-            .header-subtitle {
-                font-size: 1rem;
-                line-height: 1.5;
+
+            .welcome-actions {
+                flex-direction: column;
             }
-            
-            .client-container {
-                padding: 20px 16px;
+
+            .btn-welcome {
+                width: 100%;
+                text-align: center;
             }
-            
-            .content-card {
-                padding: 20px;
-                margin-bottom: 20px;
-            }
-            
-            .content-card h5 {
-                font-size: 1.125rem;
-                margin-bottom: 16px;
-            }
-            
+
             .stats-grid {
                 grid-template-columns: 1fr;
-                gap: 16px;
+                gap: 1rem;
             }
-            
-            .stat-item {
-                padding: 20px;
+
+            .content-section {
+                margin: 0 1rem 1rem;
+                padding: 1.5rem;
             }
-            
+
+            .orders-table {
+                font-size: 0.9rem;
+            }
+
+            .orders-table th,
+            .orders-table td {
+                padding: 0.75rem 0.5rem;
+            }
+
+            .quick-actions {
+                grid-template-columns: 1fr;
+                margin: 0 1rem 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .welcome-title {
+                font-size: 1.8rem;
+            }
+
+            .welcome-subtitle {
+                font-size: 1rem;
+            }
+
+            .stat-card {
+                padding: 1.5rem;
+            }
+
             .stat-number {
                 font-size: 2rem;
             }
-            
-            .stat-label {
-                font-size: 0.875rem;
-            }
-            
-            .orders-table {
-                font-size: 0.875rem;
-            }
-            
-            .orders-table th,
-            .orders-table td {
-                padding: 8px 6px;
-            }
-            
-            .status-badge {
-                font-size: 0.75rem;
-                padding: 4px 8px;
-            }
-            
-            .notification-item {
-                padding: 16px;
-                margin-bottom: 12px;
-            }
-            
-            .notification-title {
-                font-size: 0.9rem;
-            }
-            
-            .notification-message {
-                font-size: 0.8rem;
-            }
-            
-            .empty-state {
-                padding: 40px 16px;
-            }
-            
-            .empty-state i {
-                font-size: 2.5rem;
-            }
-            
-            .empty-state h5 {
-                font-size: 1.125rem;
-            }
-            
-            .empty-state p {
-                font-size: 0.875rem;
-            }
-            
-            .navbar-brand {
-                font-size: 1.25rem;
-            }
-            
-            .navbar-nav .nav-link {
-                padding: 6px 12px;
-                margin: 2px;
-                font-size: 0.9rem;
-            }
-            
-            .btn {
-                padding: 8px 16px;
-                font-size: 0.875rem;
-            }
-            
-            .btn-sm {
-                padding: 6px 12px;
-                font-size: 0.8rem;
+
+            .section-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
             }
         }
-        
-        @media (min-width: 577px) and (max-width: 768px) {
-            .main-header {
-                padding: 80px 0 60px;
-            }
-            
-            .header-title {
-                font-size: 2.5rem;
-            }
-            
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
-            }
-            
-            .content-card {
-                padding: 24px;
-            }
-        }
-        
-        @media (min-width: 769px) and (max-width: 1024px) {
-            .header-title {
-                font-size: 3rem;
-            }
-            
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 24px;
-            }
-        }
-        
-        @media (min-width: 1025px) {
-            .header-title {
-                font-size: 3.5rem;
-            }
-            
-            .stats-grid {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 32px;
-            }
-        }
-        
-        .btn-primary:hover {
-            background: #0056cc;
-            border-color: #0056cc;
-        }
-        
-        .btn-outline-primary {
-            color: var(--accent-primary);
-            border-color: var(--accent-primary);
-        }
-        
-        .btn-outline-primary:hover {
-            background: var(--accent-primary);
-            border-color: var(--accent-primary);
-        }
-        
-        .btn-outline-danger {
-            color: var(--accent-danger);
-            border-color: var(--accent-danger);
-        }
-        
-        .btn-outline-danger:hover {
-            background: var(--accent-danger);
-            border-color: var(--accent-danger);
-        }
-        
-        /* Animations d'Entrée */
-        .animate-fade-in {
-            animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        
-        .animate-fade-in:nth-child(1) { animation-delay: 0.1s; }
-        .animate-fade-in:nth-child(2) { animation-delay: 0.2s; }
-        .animate-fade-in:nth-child(3) { animation-delay: 0.3s; }
-        .animate-fade-in:nth-child(4) { animation-delay: 0.4s; }
-        
+
+        /* Animations */
         @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
-        
-        /* Responsive Design */
-        @media (max-width: 1200px) {
-            .main-content {
-                grid-template-columns: 1fr;
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
             }
         }
-        
-        @media (max-width: 768px) {
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .actions-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .main-header {
-                padding: 32px 24px;
-            }
-            
-            .header-title {
-                font-size: 2rem;
-            }
-            
-            .stats-card {
-                padding: 24px 20px;
-            }
-            
-            .quick-actions {
-                padding: 32px 24px;
-            }
-            
-            .content-card {
-                padding: 24px 20px;
-            }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
         }
-        
-        /* Scrollbar Personnalisée */
+
+        .slide-in-left {
+            animation: slideInLeft 0.8s ease-out forwards;
+        }
+
+        /* Scrollbar personnalisée */
         ::-webkit-scrollbar {
-            width: 6px;
+            width: 8px;
         }
-        
+
         ::-webkit-scrollbar-track {
-            background: var(--bg-secondary);
+            background: var(--gray-light);
         }
-        
+
         ::-webkit-scrollbar-thumb {
-            background: var(--border-light);
-            border-radius: 3px;
+            background: var(--primary);
+            border-radius: 4px;
         }
-        
+
         ::-webkit-scrollbar-thumb:hover {
-            background: var(--text-tertiary);
+            background: var(--primary-dark);
         }
     </style>
 </head>
 <body>
-    <div class="client-container">
-        <div class="container-fluid">
-            <!-- Header Principal -->
-            <div class="main-header animate-fade-in">
-                <div class="header-content">
-                    <div class="header-icon">
-                        <i class="fas fa-rocket"></i>
-                    </div>
-                    <h1 class="header-title">Bienvenue, <?php echo htmlspecialchars($currentUser['first_name']); ?> !</h1>
-                    <p class="header-subtitle">Gérez vos commandes et suivez vos services SMM en temps réel avec notre dashboard intelligent.</p>
-                </div>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="../index.php">
+                <i class="fas fa-rocket me-2"></i>Boost<span>Social</span>
+            </a>
+            
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="nouvelle-commande.php">
+                    <i class="fas fa-plus me-2"></i>Nouvelle Commande
+                </a>
+                <a class="nav-link" href="commandes.php">
+                    <i class="fas fa-list me-2"></i>Mes Commandes
+                </a>
+                <a class="nav-link" href="tickets.php">
+                    <i class="fas fa-headset me-2"></i>Support
+                </a>
+                <a class="nav-link" href="profil.php">
+                    <i class="fas fa-user me-2"></i>Profil
+                </a>
             </div>
             
-            <!-- Navigation Client -->
-            <div class="client-nav animate-fade-in">
-                <nav class="nav nav-pills justify-content-center">
-                    <a class="nav-link active" href="dashboard.php">
-                        <i class="fas fa-tachometer-alt me-2"></i>Dashboard
-                    </a>
-                    <a class="nav-link" href="commandes.php">
-                        <i class="fas fa-shopping-cart me-2"></i>Mes Commandes
-                    </a>
-                    <a class="nav-link" href="nouvelle-commande.php">
-                        <i class="fas fa-plus me-2"></i>Nouvelle Commande
-                    </a>
-                    <a class="nav-link" href="tickets.php">
-                        <i class="fas fa-ticket-alt me-2"></i>Support
-                    </a>
-                    <a class="nav-link" href="profil.php">
-                        <i class="fas fa-user-cog me-2"></i>Mon Profil
-                    </a>
-                </nav>
-                
-                <!-- Informations utilisateur -->
-                <div class="d-flex justify-content-end align-items-center mt-3">
-                    <span class="text-muted me-3">
-                        <i class="fas fa-user me-2"></i><?php echo htmlspecialchars($currentUser['first_name'] . ' ' . $currentUser['last_name']); ?>
-                    </span>
-                    <a href="logout.php" class="btn btn-outline-danger btn-sm">
-                        <i class="fas fa-sign-out-alt me-2"></i>Déconnexion
-                    </a>
+            <div class="user-menu">
+                <div class="user-avatar">
+                    <?php echo strtoupper(substr($currentUser['name'], 0, 1)); ?>
                 </div>
+                <span class="d-none d-md-inline"><?php echo htmlspecialchars($currentUser['name']); ?></span>
+                <a href="logout.php" class="btn-logout">
+                    <i class="fas fa-sign-out-alt me-2"></i>Déconnexion
+                </a>
             </div>
-            
-            <!-- Statistiques -->
-            <div class="stats-grid">
-                <div class="stats-card animate-fade-in">
-                    <div class="stats-icon">
-                        <i class="fas fa-shopping-cart"></i>
+        </div>
+    </nav>
+
+    <!-- Dashboard Container -->
+    <div class="dashboard-container">
+        <div class="container">
+            <!-- Welcome Section -->
+            <section class="welcome-section fade-in-up">
+                <div class="welcome-content text-center">
+                    <h1 class="welcome-title">Bonjour, <?php echo htmlspecialchars($currentUser['name']); ?> ! 👋</h1>
+                    <p class="welcome-subtitle">Bienvenue sur votre tableau de bord personnel. Gérez vos commandes et suivez vos performances en temps réel.</p>
+                    
+                    <div class="welcome-actions">
+                        <a href="nouvelle-commande.php" class="btn-welcome primary">
+                            <i class="fas fa-plus me-2"></i>Nouvelle Commande
+                        </a>
+                        <a href="commandes.php" class="btn-welcome secondary">
+                            <i class="fas fa-chart-line me-2"></i>Voir Toutes mes Commandes
+                        </a>
                     </div>
-                    <div class="stats-number"><?php echo number_format($userStats['total_orders'], 0, ',', ' '); ?></div>
-                    <div class="stats-label">Total Commandes</div>
+                </div>
+            </section>
+
+            <!-- Stats Section -->
+            <section class="stats-section">
+                <div class="stats-grid">
+                    <div class="stat-card slide-in-left">
+                        <div class="stat-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="stat-number"><?php echo number_format($userStats['total_orders']); ?></div>
+                        <div class="stat-label">Commandes Totales</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>+12% ce mois</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card slide-in-left">
+                        <div class="stat-icon">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <div class="stat-number"><?php echo number_format($userStats['total_spent'], 0, ',', ' '); ?> FCFA</div>
+                        <div class="stat-label">Total Dépensé</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>+8% ce mois</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card slide-in-left">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-number"><?php echo isset($userStats['orders_by_status']['Terminée']) ? $userStats['orders_by_status']['Terminée'] : 0; ?></div>
+                        <div class="stat-label">Commandes Terminées</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>+15% ce mois</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card slide-in-left">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-number"><?php echo isset($userStats['orders_by_status']['En cours']) ? $userStats['orders_by_status']['En cours'] : 0; ?></div>
+                        <div class="stat-label">En Cours</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>+5% ce mois</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Actions -->
+            <section class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">Actions Rapides</h2>
                 </div>
                 
-                <div class="stats-card animate-fade-in">
-                    <div class="stats-icon">
-                        <i class="fas fa-money-bill-wave"></i>
-                    </div>
-                    <div class="stats-number"><?php echo number_format($userStats['total_spent'], 0, ',', ' '); ?> FCFA</div>
-                    <div class="stats-label">Total Dépensé</div>
-                </div>
-                
-                <div class="stats-card animate-fade-in">
-                    <div class="stats-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <div class="stats-number">
-                        <?php 
-                        $pendingCount = 0;
-                        foreach ($userStats['orders_by_status'] as $status) {
-                            if ($status['status'] === 'En attente') {
-                                $pendingCount = $status['count'];
-                                break;
-                            }
-                        }
-                        echo number_format($pendingCount, 0, ',', ' ');
-                        ?>
-                    </div>
-                    <div class="stats-label">Commandes en Attente</div>
-                </div>
-                
-                <div class="stats-card animate-fade-in">
-                    <div class="stats-icon">
-                        <i class="fas fa-ticket-alt"></i>
-                    </div>
-                    <div class="stats-number">
-                        <?php 
-                        $openTickets = 0;
-                        foreach ($userStats['tickets_by_status'] as $ticket) {
-                            if ($ticket['status'] === 'Ouvert') {
-                                $openTickets = $ticket['count'];
-                                break;
-                            }
-                        }
-                        echo number_format($openTickets, 0, ',', ' ');
-                        ?>
-                    </div>
-                    <div class="stats-label">Tickets Ouverts</div>
-                </div>
-            </div>
-            
-            <!-- Actions rapides -->
-            <div class="quick-actions animate-fade-in">
-                <h4>
-                    <i class="fas fa-bolt"></i>Actions Rapides
-                </h4>
-                
-                <div class="actions-grid">
-                    <a href="nouvelle-commande.php" class="action-btn">
-                        <div class="action-icon">
+                <div class="quick-actions">
+                    <a href="nouvelle-commande.php" class="quick-action">
+                        <div class="quick-action-icon">
                             <i class="fas fa-plus"></i>
                         </div>
-                        <h6 class="action-title">Nouvelle Commande</h6>
-                        <p class="action-description">Commander un service SMM</p>
+                        <div class="quick-action-title">Nouvelle Commande</div>
+                        <div class="quick-action-desc">Commander des followers, likes ou vues</div>
                     </a>
                     
-                    <a href="tickets.php" class="action-btn">
-                        <div class="action-icon">
-                            <i class="fas fa-ticket-alt"></i>
-                        </div>
-                        <h6 class="action-title">Support Client</h6>
-                        <p class="action-description">Créer un ticket de support</p>
-                    </a>
-                    
-                    <a href="commandes.php" class="action-btn">
-                        <div class="action-icon">
+                    <a href="commandes.php" class="quick-action">
+                        <div class="quick-action-icon">
                             <i class="fas fa-list"></i>
                         </div>
-                        <h6 class="action-title">Mes Commandes</h6>
-                        <p class="action-description">Voir l'historique complet</p>
+                        <div class="quick-action-title">Mes Commandes</div>
+                        <div class="quick-action-desc">Suivre l'état de vos commandes</div>
                     </a>
                     
-                    <a href="profil.php" class="action-btn">
-                        <div class="action-icon">
-                            <i class="fas fa-user-cog"></i>
+                    <a href="tickets.php" class="quick-action">
+                        <div class="quick-action-icon">
+                            <i class="fas fa-headset"></i>
                         </div>
-                        <h6 class="action-title">Mon Profil</h6>
-                        <p class="action-description">Modifier mes informations</p>
+                        <div class="quick-action-title">Support</div>
+                        <div class="quick-action-desc">Créer un ticket de support</div>
+                    </a>
+                    
+                    <a href="profil.php" class="quick-action">
+                        <div class="quick-action-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="quick-action-title">Mon Profil</div>
+                        <div class="quick-action-desc">Gérer vos informations</div>
                     </a>
                 </div>
-            </div>
-            
-            <!-- Graphiques et Contenu Principal -->
-            <div class="main-content">
-                <!-- Colonne Principale -->
-                <div class="content-column">
-                    <!-- Commandes récentes -->
-                    <div class="content-card animate-fade-in">
-                        <h5>
-                            <i class="fas fa-shopping-cart"></i>Commandes Récentes
-                        </h5>
-                        
-                        <?php if (!empty($recentOrders)): ?>
-                            <div class="table-responsive">
-                                <table class="table table-hover mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th>N° Commande</th>
-                                            <th>Service</th>
-                                            <th>Prix</th>
-                                            <th>Statut</th>
-                                            <th>Date</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach ($recentOrders as $order): ?>
-                                            <tr>
-                                                <td>
-                                                    <span class="fw-bold"><?php echo htmlspecialchars($order['order_number']); ?></span>
-                                                </td>
-                                                <td>
-                                                    <div>
-                                                        <div class="fw-bold"><?php echo htmlspecialchars($order['service_name']); ?></div>
-                                                        <small style="color: var(--text-tertiary);"><?php echo htmlspecialchars($order['category_name'] ?? ''); ?></small>
-                                                    </div>
-                                                </td>
-                                                <td class="fw-bold"><?php echo number_format($order['total_price'], 0, ',', ' '); ?> FCFA</td>
-                                                <td>
-                                                    <?php
-                                                    $statusClass = '';
-                                                    switch ($order['status']) {
-                                                        case 'En attente': $statusClass = 'status-pending'; break;
-                                                        case 'En cours': $statusClass = 'status-processing'; break;
-                                                        case 'Terminée': $statusClass = 'status-completed'; break;
-                                                        case 'Annulée': $statusClass = 'status-cancelled'; break;
-                                                    }
-                                                    ?>
-                                                    <span class="status-badge <?php echo $statusClass; ?>">
-                                                        <?php echo htmlspecialchars($order['status']); ?>
-                                                    </span>
-                                                </td>
-                                                <td><?php echo date('d/m/Y H:i', strtotime($order['created_at'])); ?></td>
-                                                <td>
-                                                    <a href="commande-details.php?id=<?php echo $order['id']; ?>" 
-                                                       class="btn btn-sm btn-outline-primary">
-                                                        <i class="fas fa-eye"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                            
-                            <div class="text-center mt-4">
-                                <a href="commandes.php" class="btn btn-primary">
-                                    <i class="fas fa-eye me-2"></i>Voir toutes mes commandes
-                                </a>
-                            </div>
-                        <?php else: ?>
-                            <div class="empty-state">
-                                <i class="fas fa-shopping-cart"></i>
-                                <h5>Aucune commande</h5>
-                                <p>Vous n'avez pas encore passé de commande.</p>
-                                <a href="nouvelle-commande.php" class="btn btn-primary">
-                                    <i class="fas fa-plus me-2"></i>Première Commande
-                                </a>
-                            </div>
-                        <?php endif; ?>
-                    </div>
+            </section>
+
+            <!-- Recent Orders -->
+            <section class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">Commandes Récentes</h2>
+                    <a href="commandes.php" class="section-action">Voir Toutes <i class="fas fa-arrow-right ms-1"></i></a>
                 </div>
                 
-                <!-- Sidebar -->
-                <div class="sidebar-column">
-                    <!-- Tickets de support -->
-                    <div class="content-card animate-fade-in">
-                        <h5>
-                            <i class="fas fa-ticket-alt"></i>Mes Tickets
-                        </h5>
-                        
-                        <?php if (!empty($recentTickets)): ?>
-                            <div class="tickets-list">
-                                <?php foreach ($recentTickets as $ticket): ?>
-                                    <div class="notification-item">
-                                        <div class="notification-title"><?php echo htmlspecialchars($ticket['subject']); ?></div>
-                                        <div class="notification-message">
-                                            <?php echo htmlspecialchars(substr($ticket['message'], 0, 100)) . '...'; ?>
-                                        </div>
-                                        <div class="notification-time">
-                                            <?php echo date('d/m/Y', strtotime($ticket['created_at'])); ?>
-                                        </div>
-                                    </div>
+                <?php if (!empty($recentOrders)): ?>
+                    <div class="table-responsive">
+                        <table class="orders-table">
+                            <thead>
+                                <tr>
+                                    <th>N° Commande</th>
+                                    <th>Service</th>
+                                    <th>Quantité</th>
+                                    <th>Prix</th>
+                                    <th>Statut</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($recentOrders as $order): ?>
+                                    <tr>
+                                        <td>
+                                            <strong>#<?php echo htmlspecialchars($order['order_number']); ?></strong>
+                                        </td>
+                                        <td><?php echo htmlspecialchars($order['service_name']); ?></td>
+                                        <td><?php echo number_format($order['quantity']); ?></td>
+                                        <td><strong><?php echo number_format($order['total_price'], 0, ',', ' '); ?> FCFA</strong></td>
+                                        <td>
+                                            <span class="status-badge status-<?php echo strtolower(str_replace(' ', '-', $order['status'])); ?>">
+                                                <?php echo htmlspecialchars($order['status']); ?>
+                                            </span>
+                                        </td>
+                                        <td><?php echo date('d/m/Y', strtotime($order['created_at'])); ?></td>
+                                        <td>
+                                            <a href="commande-details.php?id=<?php echo $order['id']; ?>" class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-eye me-1"></i>Voir
+                                            </a>
+                                        </td>
+                                    </tr>
                                 <?php endforeach; ?>
-                            </div>
-                            
-                            <div class="text-center mt-3">
-                                <a href="tickets.php" class="btn btn-outline-primary btn-sm">
-                                    <i class="fas fa-eye me-1"></i>Voir tous mes tickets
-                                </a>
-                            </div>
-                        <?php else: ?>
-                            <div class="empty-state">
-                                <i class="fas fa-ticket-alt"></i>
-                                <h5>Aucun ticket</h5>
-                                <p>Vous n'avez pas encore créé de ticket de support.</p>
-                            </div>
-                        <?php endif; ?>
+                            </tbody>
+                        </table>
                     </div>
-                    
-                    <!-- Notifications -->
-                    <div class="content-card animate-fade-in">
-                        <h5>
-                            <i class="fas fa-bell"></i>Notifications
-                        </h5>
-                        
-                        <?php if (!empty($notifications)): ?>
-                            <?php foreach ($notifications as $notification): ?>
-                                <div class="notification-item <?php echo $notification['is_read'] ? '' : 'unread'; ?>">
-                                    <div class="notification-title"><?php echo htmlspecialchars($notification['title']); ?></div>
-                                    <div class="notification-message"><?php echo htmlspecialchars($notification['message']); ?></div>
-                                    <div class="notification-time"><?php echo date('d/m/Y H:i', strtotime($notification['created_at'])); ?></div>
-                                </div>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <div class="empty-state">
-                                <i class="fas fa-bell"></i>
-                                <h5>Aucune notification</h5>
-                                <p>Vous n'avez pas encore de notifications.</p>
-                            </div>
-                        <?php endif; ?>
+                <?php else: ?>
+                    <div class="text-center py-4">
+                        <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
+                        <h4 class="text-muted">Aucune commande pour le moment</h4>
+                        <p class="text-muted">Commencez par créer votre première commande !</p>
+                        <a href="nouvelle-commande.php" class="btn btn-primary">
+                            <i class="fas fa-plus me-2"></i>Première Commande
+                        </a>
                     </div>
+                <?php endif; ?>
+            </section>
+
+            <!-- Recent Tickets -->
+            <?php if (!empty($recentTickets)): ?>
+            <section class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">Tickets de Support Récents</h2>
+                    <a href="tickets.php" class="section-action">Voir Tous <i class="fas fa-arrow-right ms-1"></i></a>
                 </div>
-            </div>
+                
+                <div class="table-responsive">
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th>N° Ticket</th>
+                                <th>Sujet</th>
+                                <th>Statut</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($recentTickets as $ticket): ?>
+                                <tr>
+                                    <td>
+                                        <strong>#<?php echo htmlspecialchars($ticket['ticket_number']); ?></strong>
+                                    </td>
+                                    <td><?php echo htmlspecialchars($ticket['subject']); ?></td>
+                                    <td>
+                                        <span class="status-badge status-<?php echo strtolower(str_replace(' ', '-', $ticket['status'])); ?>">
+                                            <?php echo htmlspecialchars($ticket['status']); ?>
+                                        </span>
+                                    </td>
+                                    <td><?php echo date('d/m/Y', strtotime($ticket['created_at'])); ?></td>
+                                    <td>
+                                        <a href="tickets.php?id=<?php echo $ticket['id']; ?>" class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-eye me-1"></i>Voir
+                                        </a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            <?php endif; ?>
         </div>
     </div>
 
-    <!-- Bootstrap JS -->
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- Animation des éléments au scroll -->
     <script>
+        // Intersection Observer pour les animations
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
@@ -1052,14 +867,62 @@ try {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-fade-in');
+                    entry.target.classList.add('fade-in-up');
                 }
             });
         }, observerOptions);
 
-        document.querySelectorAll('.animate-fade-in').forEach(el => {
+        // Observer tous les éléments avec la classe fade-in-up
+        document.querySelectorAll('.fade-in-up').forEach(el => {
             observer.observe(el);
         });
+
+        // Animation des cartes de stats
+        const statCards = document.querySelectorAll('.stat-card');
+        statCards.forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.1}s`;
+        });
+
+        // Smooth scroll pour les ancres
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Effet de hover sur les cartes
+        document.querySelectorAll('.stat-card, .quick-action').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Mise à jour en temps réel des stats (simulation)
+        setInterval(() => {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            statNumbers.forEach(stat => {
+                const currentValue = parseInt(stat.textContent.replace(/\D/g, ''));
+                const randomChange = Math.floor(Math.random() * 5) + 1;
+                const newValue = currentValue + randomChange;
+                
+                if (stat.textContent.includes('FCFA')) {
+                    stat.textContent = newValue.toLocaleString() + ' FCFA';
+                } else {
+                    stat.textContent = newValue.toLocaleString();
+                }
+            });
+        }, 30000); // Mise à jour toutes les 30 secondes
     </script>
 </body>
 </html>
