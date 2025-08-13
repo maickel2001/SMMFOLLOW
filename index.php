@@ -22,20 +22,30 @@ $categories = getAllCategories();
     <style>
         :root {
             --bg-primary: #ffffff;
-            --bg-secondary: #f5f5f7;
-            --bg-tertiary: #fafafa;
+            --bg-secondary: #f8f9fa;
+            --bg-tertiary: #f1f3f4;
+            --bg-dark: #1d1d1f;
             --text-primary: #1d1d1f;
             --text-secondary: #86868b;
             --text-tertiary: #6e6e73;
             --accent-primary: #007aff;
             --accent-secondary: #5856d6;
+            --accent-success: #34c759;
+            --accent-warning: #ff9500;
+            --accent-danger: #ff3b30;
+            --accent-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --accent-gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             --border-light: #d2d2d7;
             --border-lighter: #e5e5e7;
-            --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.04);
             --shadow-medium: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-large: 0 8px 32px rgba(0, 0, 0, 0.12);
+            --shadow-glow: 0 0 40px rgba(0, 122, 255, 0.3);
             --radius-small: 12px;
             --radius-medium: 16px;
             --radius-large: 20px;
+            --radius-xl: 24px;
         }
         
         * {
@@ -70,10 +80,10 @@ $categories = getAllCategories();
             z-index: 1000;
         }
         
-        /* Hero Section Ultra-Minimaliste Apple */
+        /* Hero Section MAGNIFIQUE et ATTRACTIF */
         .hero-section {
             min-height: 100vh;
-            background: var(--bg-primary);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             position: relative;
             display: flex;
             align-items: center;
@@ -86,14 +96,14 @@ $categories = getAllCategories();
         .hero-section::before {
             content: '';
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(0, 122, 255, 0.03) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: pulse 8s ease-in-out infinite;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><radialGradient id="hero" cx="50%" cy="50%"><stop offset="0%" stop-color="%23ffffff" stop-opacity="0.1"/><stop offset="100%" stop-color="%23ffffff" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="150" fill="url(%23hero)"/><circle cx="1000" cy="300" r="200" fill="url(%23hero)"/><circle cx="400" cy="700" r="180" fill="url(%23hero)"/></svg>') no-repeat;
+            background-size: cover;
+            opacity: 0.8;
+            animation: float 20s ease-in-out infinite;
         }
         
         .hero-content {
@@ -105,24 +115,26 @@ $categories = getAllCategories();
         }
         
         .hero-title {
-            font-size: clamp(3rem, 10vw, 5rem);
-            font-weight: 300;
-            color: var(--text-primary);
+            font-size: clamp(3.5rem, 12vw, 6rem);
+            font-weight: 700;
+            color: white;
             margin-bottom: 2rem;
             line-height: 1.1;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.03em;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
             animation: fadeInUp 1s ease-out 0.3s both;
         }
         
         .hero-subtitle {
-            font-size: clamp(1.2rem, 4vw, 1.6rem);
-            color: var(--text-secondary);
-            margin-bottom: 3rem;
+            font-size: clamp(1.3rem, 4vw, 1.8rem);
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 3.5rem;
             font-weight: 400;
             line-height: 1.6;
-            max-width: 600px;
+            max-width: 700px;
             margin-left: auto;
             margin-right: auto;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
             animation: fadeInUp 1s ease-out 0.6s both;
         }
         
@@ -135,47 +147,62 @@ $categories = getAllCategories();
         }
         
         .hero-btn {
-            padding: 18px 36px;
+            padding: 20px 40px;
             border-radius: var(--radius-large);
-            font-weight: 500;
-            font-size: 1.1rem;
+            font-weight: 600;
+            font-size: 1.2rem;
             text-decoration: none;
             transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             position: relative;
             display: inline-block;
-            margin: 0 12px;
+            margin: 0 15px;
+            overflow: hidden;
         }
         
         .hero-btn-primary {
-            background: var(--accent-primary);
-            color: white;
-            box-shadow: var(--shadow-medium);
+            background: white;
+            color: var(--accent-primary);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            font-weight: 700;
         }
         
         .hero-btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(0, 122, 255, 0.3);
-            color: white;
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            color: var(--accent-primary);
         }
         
         .hero-btn-secondary {
             background: transparent;
-            color: var(--text-primary);
-            border: 1px solid var(--border-light);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
         }
         
         .hero-btn-secondary:hover {
-            background: var(--bg-secondary);
-            border-color: var(--accent-primary);
-            color: var(--accent-primary);
-            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: white;
+            color: white;
+            transform: translateY(-4px) scale(1.05);
         }
         
-        /* Section Réseaux Sociaux Ultra-Minimaliste */
+        /* Section Réseaux Sociaux MAGNIFIQUE */
         .social-networks-section {
             padding: 120px 0;
-            background: var(--bg-primary);
+            background: var(--bg-secondary);
             position: relative;
+            overflow: hidden;
+        }
+        
+        .social-networks-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><linearGradient id="social" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="%234facfe" stop-opacity="0.03"/><stop offset="100%" stop-color="%2300f2fe" stop-opacity="0.03"/></linearGradient></defs><rect width="1200" height="800" fill="url(%23social)"/></svg>') no-repeat;
+            background-size: cover;
         }
         
         .section-header {
@@ -186,11 +213,15 @@ $categories = getAllCategories();
         }
         
         .section-title {
-            font-size: clamp(2.5rem, 8vw, 4rem);
-            font-weight: 300;
+            font-size: clamp(3rem, 10vw, 4.5rem);
+            font-weight: 700;
             color: var(--text-primary);
             margin-bottom: 1.5rem;
             letter-spacing: -0.02em;
+            background: var(--accent-gradient-2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         .section-subtitle {
@@ -214,38 +245,84 @@ $categories = getAllCategories();
         
         .social-card {
             background: var(--bg-primary);
-            border-radius: var(--radius-large);
+            border-radius: var(--radius-xl);
             padding: 50px 30px;
             text-align: center;
-            border: 1px solid var(--border-lighter);
+            box-shadow: var(--shadow-medium);
             transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border-lighter);
+        }
+        
+        .social-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .social-card:hover::before {
+            left: 100%;
         }
         
         .social-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-medium);
+            transform: translateY(-12px) scale(1.03);
+            box-shadow: var(--shadow-large);
             border-color: var(--accent-primary);
         }
         
         .social-icon {
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
             margin: 0 auto 30px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
-            background: var(--bg-secondary);
-            color: var(--accent-primary);
-            transition: all 0.4s ease;
+            font-size: 2.5rem;
+            position: relative;
+            overflow: hidden;
         }
         
-        .social-card:hover .social-icon {
-            background: var(--accent-primary);
+        .social-icon.instagram {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
             color: white;
-            transform: scale(1.1);
+        }
+        
+        .social-icon.tiktok {
+            background: linear-gradient(45deg, #000000 0%, #25f4ee 50%, #fe2c55 100%);
+            color: white;
+        }
+        
+        .social-icon.youtube {
+            background: linear-gradient(45deg, #ff0000 0%, #ff4444 100%);
+            color: white;
+        }
+        
+        .social-icon.facebook {
+            background: linear-gradient(45deg, #1877f2 0%, #42a5f5 100%);
+            color: white;
+        }
+        
+        .social-icon::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .social-card:hover .social-icon::after {
+            opacity: 1;
         }
         
         .social-title {
@@ -287,20 +364,21 @@ $categories = getAllCategories();
         
         .social-btn {
             display: inline-block;
-            padding: 14px 28px;
-            background: transparent;
-            color: var(--accent-primary);
+            padding: 16px 32px;
+            background: var(--accent-gradient);
+            color: white;
             text-decoration: none;
-            border: 1px solid var(--accent-primary);
             border-radius: var(--radius-medium);
-            font-weight: 500;
+            font-weight: 600;
             transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
         }
         
         .social-btn:hover {
-            background: var(--accent-primary);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-glow);
             color: white;
-            transform: translateY(-2px);
         }
         
         /* Animations */
@@ -334,11 +412,23 @@ $categories = getAllCategories();
         .social-card:nth-child(3) { animation-delay: 0.3s; }
         .social-card:nth-child(4) { animation-delay: 0.4s; }
         
-        /* Section Statistiques Ultra-Minimaliste */
+        /* Section Statistiques MAGNIFIQUE */
         .stats-section {
             padding: 120px 0;
-            background: var(--bg-secondary);
+            background: var(--bg-primary);
             position: relative;
+            overflow: hidden;
+        }
+        
+        .stats-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><radialGradient id="stats" cx="50%" cy="50%"><stop offset="0%" stop-color="%23f093fb" stop-opacity="0.05"/><stop offset="100%" stop-color="%23f5576c" stop-opacity="0.02"/></radialGradient></defs><circle cx="300" cy="200" r="200" fill="url(%23stats)"/><circle cx="900" cy="600" r="250" fill="url(%23stats)"/></svg>') no-repeat;
+            background-size: cover;
         }
         
         .stats-grid {
@@ -355,43 +445,77 @@ $categories = getAllCategories();
         .stat-card {
             text-align: center;
             padding: 50px 30px;
-            background: var(--bg-primary);
-            border-radius: var(--radius-large);
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: var(--radius-xl);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border-lighter);
             transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--accent-gradient);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+        
+        .stat-card:hover::before {
+            opacity: 0.05;
         }
         
         .stat-card:hover {
-            transform: translateY(-6px);
-            box-shadow: var(--shadow-medium);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--shadow-large);
             border-color: var(--accent-primary);
         }
         
         .stat-icon {
-            width: 50px;
-            height: 50px;
+            width: 70px;
+            height: 70px;
             margin: 0 auto 25px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            background: var(--bg-secondary);
-            color: var(--accent-primary);
-            transition: all 0.4s ease;
+            font-size: 2rem;
+            background: var(--accent-gradient);
+            color: white;
+            position: relative;
         }
         
-        .stat-card:hover .stat-icon {
-            background: var(--accent-primary);
-            color: white;
-            transform: scale(1.1);
+        .stat-icon::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border: 2px solid transparent;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary)) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
+            opacity: 0.3;
+            animation: pulse 2s ease-in-out infinite;
         }
         
         .stat-number {
-            font-size: clamp(2.5rem, 6vw, 3.5rem);
-            font-weight: 300;
-            color: var(--text-primary);
+            font-size: clamp(3rem, 8vw, 4rem);
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 15px;
             display: block;
             letter-spacing: -0.02em;
@@ -489,10 +613,38 @@ $categories = getAllCategories();
             }
         }
         
-        /* Animations simples et élégantes */
-        .hero-section::before {
-            animation: pulse 8s ease-in-out infinite;
+        /* Animations MAGNIFIQUES */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
         }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+        
+        .hero-section::before {
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        .social-card {
+            animation: fadeInUp 0.8s ease-out both;
+        }
+        
+        .social-card:nth-child(1) { animation-delay: 0.1s; }
+        .social-card:nth-child(2) { animation-delay: 0.2s; }
+        .social-card:nth-child(3) { animation-delay: 0.3s; }
+        .social-card:nth-child(4) { animation-delay: 0.4s; }
+        
+        .stat-card {
+            animation: fadeInUp 0.8s ease-out both;
+        }
+        
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) { animation-delay: 0.4s; }
         
         .navbar-brand {
             font-weight: 700;
@@ -1760,6 +1912,72 @@ $categories = getAllCategories();
 
         document.querySelectorAll('.service-card, .feature-card, .contact-card').forEach(el => {
             observer.observe(el);
+        });
+        
+        // Animation des compteurs MAGNIFIQUES
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const duration = 2000; // 2 secondes
+                const step = target / (duration / 16); // 60 FPS
+                let current = 0;
+                
+                const updateCounter = () => {
+                    current += step;
+                    if (current < target) {
+                        counter.textContent = Math.floor(current);
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.textContent = target;
+                    }
+                };
+                
+                updateCounter();
+            });
+        }
+        
+        // Effet de parallaxe sur le scroll
+        function handleParallax() {
+            const scrolled = window.pageYOffset;
+            const heroSection = document.querySelector('.hero-section');
+            if (heroSection) {
+                const speed = 0.5;
+                const yPos = -(scrolled * speed);
+                heroSection.style.transform = `translateY(${yPos}px)`;
+            }
+        }
+        
+        // Observer pour les compteurs
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        const statsSection = document.querySelector('.stats-section');
+        if (statsSection) {
+            statsObserver.observe(statsSection);
+        }
+        
+        // Effet de parallaxe
+        window.addEventListener('scroll', handleParallax);
+        
+        // Animation des cartes au scroll
+        const cardObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, { threshold: 0.2 });
+        
+        document.querySelectorAll('.social-card, .stat-card').forEach(card => {
+            cardObserver.observe(card);
         });
         
         // Navigation active
