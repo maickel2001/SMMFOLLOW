@@ -666,9 +666,9 @@ try {
                 <a class="nav-link active" href="commandes.php">
                     <i class="fas fa-shopping-cart me-2"></i>Mes Commandes
                 </a>
-                <a class="nav-link" href="nouvelle-commande.php">
-                    <i class="fas fa-plus me-2"></i>Nouvelle Commande
-                </a>
+                                    <a class="nav-link" href="../commander.php">
+                        <i class="fas fa-plus me-2"></i>Nouvelle Commande
+                    </a>
                 <a class="nav-link" href="tickets.php">
                     <i class="fas fa-ticket-alt me-2"></i>Support
                 </a>
@@ -766,9 +766,9 @@ try {
                     <!-- Actions Utilisateur -->
                     <div class="order-actions">
                         <?php if ($order['status'] === 'pending'): ?>
-                            <a href="nouvelle-commande.php" class="btn btn-primary">
-                                <i class="fas fa-plus me-2"></i>Nouvelle Commande
-                            </a>
+                                            <a href="../commander.php" class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i>Nouvelle Commande
+                </a>
                         <?php endif; ?>
                         
                         <a href="tickets.php?order_id=<?php echo $orderId; ?>" class="btn btn-outline-primary">

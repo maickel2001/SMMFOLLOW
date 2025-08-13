@@ -1007,9 +1007,9 @@ try {
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="nouvelle-commande.php">
-                            <i class="fas fa-plus me-2"></i>Nouvelle Commande
-                        </a>
+                                            <a class="nav-link" href="../commander.php">
+                        <i class="fas fa-plus me-2"></i>Nouvelle Commande
+                    </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="tickets.php">
@@ -1215,7 +1215,7 @@ try {
                                 Vous n'avez pas encore passé de commande.
                             <?php endif; ?>
                         </p>
-                        <a href="nouvelle-commande.php" class="btn btn-primary">
+                        <a href="../commander.php" class="btn btn-primary">
                             <i class="fas fa-plus me-2"></i>Première Commande
                         </a>
                     </div>

@@ -850,9 +850,9 @@ try {
                 </button>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="nouvelle-commande.php">
-                            <i class="fas fa-plus me-2"></i>Nouvelle Commande
-                        </a>
+                                            <a class="nav-link" href="../commander.php">
+                        <i class="fas fa-plus me-2"></i>Nouvelle Commande
+                    </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="commandes.php">
@@ -894,7 +894,7 @@ try {
                     <p class="welcome-subtitle">Bienvenue sur votre tableau de bord personnel. Gérez vos commandes et suivez vos performances en temps réel.</p>
                     
                     <div class="welcome-actions">
-                        <a href="nouvelle-commande.php" class="btn-welcome primary">
+                        <a href="../commander.php" class="btn-welcome primary">
                             <i class="fas fa-plus me-2"></i>Nouvelle Commande
                         </a>
                         <a href="commandes.php" class="btn-welcome secondary">
@@ -964,7 +964,7 @@ try {
                 </div>
                 
                 <div class="quick-actions">
-                    <a href="nouvelle-commande.php" class="quick-action">
+                    <a href="../commander.php" class="quick-action">
                         <div class="quick-action-icon">
                             <i class="fas fa-plus"></i>
                         </div>
@@ -1049,7 +1049,7 @@ try {
                         <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
                         <h4 class="text-muted">Aucune commande pour le moment</h4>
                         <p class="text-muted">Commencez par créer votre première commande !</p>
-                        <a href="nouvelle-commande.php" class="btn btn-primary">
+                        <a href="../commander.php" class="btn btn-primary">
                             <i class="fas fa-plus me-2"></i>Première Commande
                         </a>
                     </div>

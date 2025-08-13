@@ -684,7 +684,7 @@ try {
                     <a class="nav-link" href="commandes.php">
                         <i class="fas fa-shopping-cart me-2"></i>Mes Commandes
                     </a>
-                    <a class="nav-link" href="nouvelle-commande.php">
+                    <a class="nav-link" href="../commander.php">
                         <i class="fas fa-plus me-2"></i>Nouvelle Commande
                     </a>
                     <a class="nav-link active" href="tickets.php">

@@ -571,7 +571,7 @@
                 
                 <div class="hero-cta">
                     <?php if ($isLoggedIn): ?>
-                        <a href="client/nouvelle-commande.php" class="btn-hero primary fade-in-up">
+                        <a href="commander.php" class="btn-hero primary fade-in-up">
                             <i class="fas fa-plus me-2"></i>Nouvelle Commande
                         </a>
                         <a href="client/dashboard.php" class="btn-hero secondary fade-in-up">
@@ -686,7 +686,7 @@
                 
                 <div class="cta-buttons">
                     <?php if ($isLoggedIn): ?>
-                        <a href="client/nouvelle-commande.php" class="btn-hero primary">
+                        <a href="commander.php" class="btn-hero primary">
                             <i class="fas fa-plus me-2"></i>Commander Maintenant
                         </a>
                     <?php else: ?>
