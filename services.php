@@ -9,926 +9,642 @@ $categories = getAllCategories();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nos Services SMM - SMM Pro</title>
-    <meta name="description" content="Découvrez tous nos services SMM professionnels pour Instagram, TikTok, YouTube et Facebook. Followers, likes et vues de qualité.">
+    <title>Nos Services - BoostSocial</title>
+    <meta name="description" content="Découvrez nos services SMM professionnels pour Instagram, TikTok, YouTube et Facebook. Followers, likes et vues de qualité.">
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f8fafc;
-            --bg-tertiary: #f1f5f9;
-            --bg-dark: #0f172a;
-            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --bg-gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --bg-gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --text-tertiary: #64748b;
-            --text-light: #ffffff;
-            --accent-primary: #3b82f6;
-            --accent-secondary: #8b5cf6;
-            --accent-success: #10b981;
-            --accent-warning: #f59e0b;
-            --accent-danger: #ef4444;
-            --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-            --accent-gradient-2: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
-            --accent-gradient-3: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --border-light: #e2e8f0;
-            --border-lighter: #f1f5f9;
-            --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.1);
-            --shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.07);
-            --shadow-large: 0 10px 15px rgba(0, 0, 0, 0.1);
-            --shadow-glow: 0 0 20px rgba(59, 130, 246, 0.15);
-            --radius-small: 8px;
-            --radius-medium: 12px;
-            --radius-large: 16px;
-            --radius-xl: 20px;
-            --radius-2xl: 24px;
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-weight: 400;
+            font-family: 'Inter', sans-serif;
             line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            color: var(--dark);
+            background: var(--light);
             overflow-x: hidden;
         }
-        
-        /* Navigation */
-        .navbar {
+
+        /* Hamburger Menu */
+        .hamburger-menu {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
             background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-light);
-            padding: 16px 0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
             transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+        }
+
+        .hamburger-menu:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .hamburger-icon {
+            width: 20px;
+            height: 2px;
+            background: var(--dark);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger-icon::before,
+        .hamburger-icon::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 2px;
+            background: var(--dark);
+            transition: all 0.3s ease;
+        }
+
+        .hamburger-icon::before {
+            top: -6px;
+        }
+
+        .hamburger-icon::after {
+            bottom: -6px;
+        }
+
+        .hamburger-menu.active .hamburger-icon {
+            background: transparent;
+        }
+
+        .hamburger-menu.active .hamburger-icon::before {
+            transform: rotate(45deg);
+            top: 0;
+        }
+
+        .hamburger-menu.active .hamburger-icon::after {
+            transform: rotate(-45deg);
+            bottom: 0;
+        }
+
+        /* Menu Overlay */
+        .menu-overlay {
             position: fixed;
             top: 0;
             left: 0;
-            right: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
             z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
         }
-        
-        .navbar-brand {
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: var(--text-primary) !important;
+
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .menu-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+        }
+
+        .menu-item {
+            display: block;
+            margin: 1.5rem 0;
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            color: white;
             text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
         }
-        
-        .navbar-brand i {
-            color: var(--accent-primary);
+
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            color: white;
+            text-decoration: none;
+            box-shadow: var(--shadow-lg);
         }
-        
-        .navbar-nav .nav-link {
-            color: var(--text-secondary) !important;
-            font-weight: 500;
-            padding: 8px 16px;
-            margin: 0 4px;
-            border-radius: var(--radius-medium);
-            transition: all 0.2s ease;
+
+        .menu-item i {
+            margin-right: 1rem;
+            width: 20px;
         }
-        
-        .navbar-nav .nav-link:hover,
-        .navbar-nav .nav-link.active {
-            color: var(--accent-primary) !important;
-            background: rgba(59, 130, 246, 0.05);
-        }
-        
-        /* Hero Section Services */
-        .services-hero {
-            background: var(--bg-gradient);
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 50%, var(--primary) 100%);
             padding: 120px 0 80px;
             text-align: center;
             color: white;
             position: relative;
             overflow: hidden;
         }
-        
-        .services-hero::before {
+
+        .hero::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><radialGradient id="hero" cx="50%" cy="50%"><stop offset="0%" stop-color="%23ffffff" stop-opacity="0.1"/><stop offset="100%" stop-color="%23ffffff" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="150" fill="url(%23hero)"/><circle cx="1000" cy="300" r="200" fill="url(%23hero)"/><circle cx="400" cy="700" r="180" fill="url(%23hero)"/></svg>') no-repeat;
-            background-size: cover;
-            opacity: 0.8;
-            animation: float 25s ease-in-out infinite;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="%23ffffff" stop-opacity="0.1"/><stop offset="100%" stop-color="%23ffffff" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="100" fill="url(%23a)"/><circle cx="800" cy="300" r="150" fill="url(%23a)"/><circle cx="400" cy="700" r="120" fill="url(%23a)"/></svg>') no-repeat;
+            opacity: 0.3;
         }
-        
-        .services-hero-content {
+
+        .hero-content {
             position: relative;
             z-index: 2;
         }
-        
-        .services-hero h1 {
-            font-size: clamp(3rem, 10vw, 4.5rem);
-            font-weight: 800;
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
             margin-bottom: 1.5rem;
             line-height: 1.1;
-            letter-spacing: -0.03em;
-            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
-        
-        .services-hero p {
-            font-size: clamp(1.2rem, 4vw, 1.5rem);
-            margin-bottom: 2rem;
-            opacity: 0.95;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        
-        /* Section Services */
-        .services-section {
-            padding: 100px 0;
-            background: var(--bg-primary);
+
+        .hero p {
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 2rem;
         }
-        
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+
+        /* Services Section */
+        .services {
+            padding: 6rem 0;
+            background: white;
         }
-        
-        .service-card {
-            background: var(--bg-secondary);
-            border-radius: var(--radius-xl);
-            padding: 50px 30px;
+
+        .section-title {
             text-align: center;
-            border: 1px solid var(--border-light);
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
+            margin-bottom: 4rem;
         }
-        
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
+
+        .section-title h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
-            transition: left 0.6s ease;
+            border: 1px solid var(--gray-light);
         }
-        
-        .service-card:hover::before {
-            left: 100%;
-        }
-        
+
         .service-card:hover {
             transform: translateY(-10px);
-            box-shadow: var(--shadow-large);
-            border-color: var(--accent-primary);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
         }
-        
+
         .service-icon {
             width: 80px;
             height: 80px;
-            margin: 0 auto 30px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
-            background: var(--accent-gradient);
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
             color: white;
-            position: relative;
         }
-        
-        .service-icon::after {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            border: 2px solid transparent;
-            border-radius: 50%;
-            background: var(--accent-gradient) border-box;
-            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: destination-out;
-            mask-composite: exclude;
-            opacity: 0.3;
-            animation: pulse 2s ease-in-out infinite;
-        }
-        
-        .service-title {
-            font-size: 1.8rem;
+
+        .service-card h3 {
+            font-size: 1.5rem;
             font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 20px;
+            margin-bottom: 1rem;
+            color: var(--dark);
         }
-        
-        .service-description {
-            color: var(--text-secondary);
+
+        .service-card p {
+            color: var(--gray);
             line-height: 1.6;
-            font-size: 1.1rem;
-            margin-bottom: 30px;
+            margin-bottom: 1.5rem;
         }
-        
+
         .service-btn {
-            display: inline-block;
-            padding: 14px 28px;
-            background: var(--accent-gradient);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
             text-decoration: none;
-            border-radius: var(--radius-medium);
             font-weight: 600;
             transition: all 0.3s ease;
+            display: inline-block;
         }
-        
+
         .service-btn:hover {
             transform: translateY(-2px);
-            box-shadow: var(--shadow-glow);
+            box-shadow: var(--shadow-lg);
             color: white;
         }
-        
-        /* Section Réseaux Sociaux */
-        .social-networks-section {
-            padding: 100px 0;
-            background: var(--bg-secondary);
-            position: relative;
+
+        /* Social Networks Section */
+        .social-networks {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--darker) 100%);
+            color: white;
         }
-        
-        .social-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
+
         .social-card {
-            background: var(--bg-primary);
-            border-radius: var(--radius-xl);
-            padding: 50px 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
             text-align: center;
-            box-shadow: var(--shadow-medium);
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid var(--border-lighter);
-        }
-        
-        .social-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            transition: left 0.6s ease;
         }
-        
-        .social-card:hover::before {
-            left: 100%;
-        }
-        
+
         .social-card:hover {
-            transform: translateY(-12px) scale(1.03);
-            box-shadow: var(--shadow-large);
-            border-color: var(--accent-primary);
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
         }
-        
+
         .social-icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            position: relative;
-            overflow: hidden;
+            font-size: 3rem;
+            margin-bottom: 1rem;
         }
-        
-        .social-icon.instagram {
-            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-            color: white;
-        }
-        
-        .social-icon.tiktok {
-            background: linear-gradient(45deg, #000000 0%, #25f4ee 50%, #fe2c55 100%);
-            color: white;
-        }
-        
-        .social-icon.youtube {
-            background: linear-gradient(45deg, #ff0000 0%, #ff4444 100%);
-            color: white;
-        }
-        
-        .social-icon.facebook {
-            background: linear-gradient(45deg, #1877f2 0%, #42a5f5 100%);
-            color: white;
-        }
-        
-        .social-title {
+
+        .social-card h3 {
             font-size: 1.5rem;
             font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 15px;
+            margin-bottom: 1rem;
         }
-        
-        .social-description {
-            color: var(--text-secondary);
-            line-height: 1.6;
-            margin-bottom: 25px;
-        }
-        
+
         .social-stats {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 25px;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
         }
-        
-        .stat-item {
-            text-align: center;
-        }
-        
-        .stat-number {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--accent-primary);
-            display: block;
-        }
-        
-        .stat-label {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        /* Section CTA */
-        .cta-section {
-            padding: 100px 0;
-            background: var(--accent-gradient);
-            text-align: center;
-            color: white;
-        }
-        
-        .cta-content {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        .cta-title {
-            font-size: clamp(2.5rem, 8vw, 3.5rem);
-            font-weight: 700;
+
+        .social-card p {
+            color: rgba(255, 255, 255, 0.8);
             margin-bottom: 1.5rem;
-            line-height: 1.2;
         }
-        
-        .cta-subtitle {
+
+        /* CTA Section */
+        .cta {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta p {
             font-size: 1.2rem;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
             opacity: 0.9;
-            line-height: 1.6;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
-        
-        .cta-btn {
-            display: inline-block;
-            padding: 18px 36px;
+
+        .btn-cta {
             background: white;
-            color: var(--accent-primary);
-            text-decoration: none;
-            border-radius: var(--radius-large);
+            color: var(--primary);
+            padding: 1rem 3rem;
+            border-radius: 50px;
             font-weight: 600;
             font-size: 1.1rem;
-            transition: all 0.3s ease;
-        }
-        
-        .cta-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-large);
-            color: var(--accent-primary);
-        }
-        
-        /* Footer */
-        .footer {
-            background: var(--bg-dark);
-            color: var(--text-light);
-            padding: 60px 0 30px;
-        }
-        
-        .footer h6 {
-            color: var(--accent-primary);
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-        
-        .footer a {
-            color: var(--text-secondary);
             text-decoration: none;
-            transition: color 0.3s ease;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
         }
-        
-        .footer a:hover {
-            color: var(--accent-primary);
+
+        .btn-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+            color: var(--primary);
         }
-        
-        /* Animations */
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.1); opacity: 1; }
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .service-card, .social-card {
-            animation: fadeInUp 0.8s ease-out both;
-        }
-        
-        .service-card:nth-child(1) { animation-delay: 0.1s; }
-        .service-card:nth-child(2) { animation-delay: 0.2s; }
-        .service-card:nth-child(3) { animation-delay: 0.3s; }
-        .service-card:nth-child(4) { animation-delay: 0.4s; }
-        
-        .social-card:nth-child(1) { animation-delay: 0.1s; }
-        .social-card:nth-child(2) { animation-delay: 0.2s; }
-        .social-card:nth-child(3) { animation-delay: 0.3s; }
-        .social-card:nth-child(4) { animation-delay: 0.4s; }
-        
+
         /* Responsive */
         @media (max-width: 768px) {
-            .services-hero {
-                padding: 100px 0 60px;
+            .hamburger-menu {
+                top: 15px;
+                right: 15px;
+                width: 45px;
+                height: 45px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero {
+                padding: 80px 0 60px;
             }
             
-            .services-grid {
-                grid-template-columns: 1fr;
-                gap: 25px;
-                padding: 0 15px;
+            .services, .social-networks, .cta {
+                padding: 3rem 0;
             }
             
-            .social-grid {
-                grid-template-columns: 1fr;
-                gap: 25px;
-                padding: 0 15px;
+            .menu-content {
+                padding: 1rem;
             }
             
-            .service-card, .social-card {
-                padding: 40px 20px;
+            .menu-item {
+                margin: 1rem 0;
+                padding: 0.8rem 1.5rem;
+                font-size: 1.1rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="index.php">
-                <i class="fas fa-rocket me-2"></i>SMM Pro
+    <!-- Hamburger Menu Button -->
+    <div class="hamburger-menu" id="hamburgerMenu">
+        <div class="hamburger-icon"></div>
+    </div>
+
+    <!-- Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay">
+        <div class="menu-content">
+            <a href="index.php" class="menu-item">
+                <i class="fas fa-home"></i>Accueil
             </a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.php">Accueil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="services.php">Services</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="about.php">À Propos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contact.php">Contact</a>
-                    </li>
-                </ul>
-                
-                <ul class="navbar-nav">
-                    <?php if (isUserLoggedIn()): ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="commander.php">
-                                <i class="fas fa-shopping-cart me-1"></i>Commander
-                            </a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-user me-1"></i><?php echo htmlspecialchars($_SESSION['user_name']); ?>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="client/dashboard.php">
-                                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard
-                                </a></li>
-                                <li><a class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-                                        <i class="fas fa-user me-1"></i><?php echo htmlspecialchars($_SESSION['user_name']); ?>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="client/dashboard.php">
-                                            <i class="fas fa-tachometer-alt me-2"></i>Dashboard
-                                        </a></li>
-                                        <li><a class="dropdown-item" href="client/commandes.php">
-                                            <i class="fas fa-shopping-cart me-2"></i>Mes Commandes
-                                        </a></li>
-                                        <li><a class="dropdown-item" href="client/tickets.php">
-                                            <i class="fas fa-ticket-alt me-2"></i>Support
-                                        </a></li>
-                                        <li><a class="dropdown-item" href="client/profil.php">
-                                            <i class="fas fa-user-cog me-2"></i>Mon Profil
-                                        </a></li>
-                                        <li><hr class="dropdown-divider"></li>
-                                        <li><a class="dropdown-item" href="client/logout.php">
-                                            <i class="fas fa-sign-out-alt me-2"></i>Déconnexion
-                                        </a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                    <?php else: ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="commander.php">
-                                <i class="fas fa-shopping-cart me-1"></i>Commander
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="connexion.php">
-                                <i class="fas fa-sign-in-alt me-1"></i>Connexion
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link btn btn-primary btn-sm" href="inscription.php">
-                                <i class="fas fa-user-plus me-1"></i>Inscription
-                            </a>
-                        </li>
-                    <?php endif; ?>
-                </ul>
-            </div>
+            <a href="services.php" class="menu-item">
+                <i class="fas fa-rocket"></i>Services
+            </a>
+            <a href="about.php" class="menu-item">
+                <i class="fas fa-info-circle"></i>À Propos
+            </a>
+            <a href="contact.php" class="menu-item">
+                <i class="fas fa-envelope"></i>Contact
+            </a>
+            <a href="client/dashboard.php" class="menu-item">
+                <i class="fas fa-tachometer-alt"></i>Dashboard
+            </a>
         </div>
-    </nav>
+    </div>
 
-    <!-- Hero Section Services -->
-    <section class="services-hero">
-        <div class="services-hero-content">
-            <div class="container">
-                <h1>Nos Services SMM</h1>
-                <p>
-                    Découvrez notre gamme complète de services SMM professionnels pour booster 
-                    votre présence sur tous les réseaux sociaux populaires.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section Services -->
-    <section class="services-section">
+    <!-- Hero Section -->
+    <section class="hero">
         <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="display-4 fw-bold text-primary mb-3">Services Disponibles</h2>
-                <p class="lead text-muted">
-                    Choisissez parmi nos services de qualité pour chaque réseau social
-                </p>
-            </div>
-            
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <h3 class="service-title">Followers</h3>
-                    <p class="service-description">
-                        Augmentez votre nombre de followers avec des comptes authentiques et engagés. 
-                        Idéal pour booster votre crédibilité et votre visibilité.
-                    </p>
-                    <a href="commander.php" class="service-btn">
-                        <i class="fas fa-rocket me-2"></i>Commander
-                    </a>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-heart"></i>
-                    </div>
-                    <h3 class="service-title">Likes</h3>
-                    <p class="service-description">
-                        Boostez l'engagement de vos publications avec des likes de qualité. 
-                        Améliorez votre algorithme et augmentez votre portée.
-                    </p>
-                    <a href="commander.php" class="service-btn">
-                        <i class="fas fa-rocket me-2"></i>Commander
-                    </a>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-eye"></i>
-                    </div>
-                    <h3 class="service-title">Vues</h3>
-                    <p class="service-description">
-                        Augmentez le nombre de vues de vos vidéos et stories. 
-                        Parfait pour TikTok, YouTube et Instagram Reels.
-                    </p>
-                    <a href="commander.php" class="service-btn">
-                        <i class="fas fa-rocket me-2"></i>Commander
-                    </a>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-comment"></i>
-                    </div>
-                    <h3 class="service-title">Commentaires</h3>
-                    <p class="service-description">
-                        Ajoutez des commentaires authentiques et engageants à vos publications. 
-                        Stimulez les interactions et la discussion.
-                    </p>
-                    <a href="commander.php" class="service-btn">
-                        <i class="fas fa-rocket me-2"></i>Commander
-                    </a>
-                </div>
+            <div class="hero-content">
+                <h1>Nos <span class="highlight">Services</span> SMM</h1>
+                <p>Découvrez notre gamme complète de services professionnels pour booster votre présence sur les réseaux sociaux</p>
             </div>
         </div>
     </section>
 
-    <!-- Section Réseaux Sociaux -->
-    <section class="social-networks-section">
+    <!-- Services Section -->
+    <section class="services">
         <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="display-4 fw-bold text-primary mb-3">Réseaux Supportés</h2>
-                <p class="lead text-muted">
-                    Nous supportons toutes les plateformes populaires
-                </p>
+            <div class="section-title">
+                <h2>Ce que nous proposons</h2>
+                <p>Des solutions complètes pour tous vos besoins en marketing sur les réseaux sociaux</p>
             </div>
             
-            <div class="social-grid">
-                <div class="social-card">
-                    <div class="social-icon instagram">
-                        <i class="fab fa-instagram"></i>
-                    </div>
-                    <h3 class="social-title">Instagram</h3>
-                    <p class="social-description">
-                        Boostez votre compte Instagram avec des followers, likes et commentaires authentiques.
-                    </p>
-                    <div class="social-stats">
-                        <div class="stat-item">
-                            <span class="stat-number">50K+</span>
-                            <span class="stat-label">Followers</span>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-users"></i>
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-number">100K+</span>
-                            <span class="stat-label">Likes</span>
-                        </div>
+                        <h3>Followers</h3>
+                        <p>Augmentez votre audience avec des followers de qualité. Engagement réel et croissance organique garantis.</p>
+                        <a href="commander.php" class="service-btn">Commander</a>
                     </div>
-                    <a href="commander.php?category=1" class="service-btn">
-                        <i class="fas fa-rocket me-2"></i>Commander
-                    </a>
                 </div>
                 
-                <div class="social-card">
-                    <div class="social-icon tiktok">
-                        <i class="fab fa-tiktok"></i>
-                    </div>
-                    <h3 class="social-title">TikTok</h3>
-                    <p class="social-description">
-                        Propulsez vos vidéos TikTok avec des vues, likes et followers pour maximiser votre portée.
-                    </p>
-                    <div class="social-stats">
-                        <div class="stat-item">
-                            <span class="stat-number">100K+</span>
-                            <span class="stat-label">Vues</span>
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-heart"></i>
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-number">25K+</span>
-                            <span class="stat-label">Likes</span>
-                        </div>
+                        <h3>Likes</h3>
+                        <p>Boostez l'engagement de vos publications avec des likes authentiques. Visibilité maximale assurée.</p>
+                        <a href="commander.php" class="service-btn">Commander</a>
                     </div>
-                    <a href="commander.php?category=2" class="service-btn">
-                        <i class="fas fa-rocket me-2"></i>Commander
-                    </a>
                 </div>
                 
-                <div class="social-card">
-                    <div class="social-icon youtube">
-                        <i class="fab fa-youtube"></i>
-                    </div>
-                    <h3 class="social-title">YouTube</h3>
-                    <p class="social-description">
-                        Développez votre chaîne YouTube avec des abonnés, vues et likes pour augmenter votre monétisation.
-                    </p>
-                    <div class="social-stats">
-                        <div class="stat-item">
-                            <span class="stat-number">10K+</span>
-                            <span class="stat-label">Abonnés</span>
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-eye"></i>
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-number">500K+</span>
-                            <span class="stat-label">Vues</span>
-                        </div>
+                        <h3>Vues</h3>
+                        <p>Maximisez la portée de vos vidéos et stories. Plus de vues = plus d'opportunités de conversion.</p>
+                        <a href="commander.php" class="service-btn">Commander</a>
                     </div>
-                    <a href="commander.php?category=3" class="service-btn">
-                        <i class="fas fa-rocket me-2"></i>Commander
-                    </a>
                 </div>
                 
-                <div class="social-card">
-                    <div class="social-icon facebook">
-                        <i class="fab fa-facebook"></i>
-                    </div>
-                    <h3 class="social-title">Facebook</h3>
-                    <p class="social-description">
-                        Renforcez votre page Facebook avec des fans, likes et partages pour une meilleure engagement.
-                    </p>
-                    <div class="social-stats">
-                        <div class="stat-item">
-                            <span class="stat-number">20K+</span>
-                            <span class="stat-label">Fans</span>
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-comment"></i>
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-number">75K+</span>
-                            <span class="stat-label">Likes</span>
-                        </div>
+                        <h3>Commentaires</h3>
+                        <p>Créez de l'engagement authentique avec des commentaires pertinents et constructifs.</p>
+                        <a href="commander.php" class="service-btn">Commander</a>
                     </div>
-                    <a href="commander.php?category=4" class="service-btn">
-                        <i class="fas fa-rocket me-2"></i>Commander
-                    </a>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-share"></i>
+                        </div>
+                        <h3>Partages</h3>
+                        <p>Amplifiez votre contenu avec des partages qui augmentent votre visibilité exponentiellement.</p>
+                        <a href="commander.php" class="service-btn">Commander</a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h3>Packages Premium</h3>
+                        <p>Profitez de nos packages tout-en-un pour une croissance complète et rapide de vos comptes.</p>
+                        <a href="commander.php" class="service-btn">Commander</a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Section CTA -->
-    <section class="cta-section">
-        <div class="cta-content">
-            <h2 class="cta-title">Prêt à Booster Votre Présence ?</h2>
-            <p class="cta-subtitle">
-                Commencez dès aujourd'hui et transformez votre visibilité sur les réseaux sociaux
+    <!-- Social Networks Section -->
+    <section class="social-networks">
+        <div class="container">
+            <div class="section-title">
+                <h2 style="color: white;">Nos réseaux sociaux supportés</h2>
+                <p style="color: rgba(255, 255, 255, 0.8);">Boostez votre présence sur toutes les plateformes populaires</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="social-card">
+                        <div class="social-icon">
+                            <i class="fab fa-instagram" style="color: #E4405F;"></i>
+                        </div>
+                        <h3>Instagram</h3>
+                        <div class="social-stats">50K+</div>
+                        <p>Followers boostés</p>
+                        <a href="commander.php" class="btn btn-outline-light">Commander</a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <div class="social-card">
+                        <div class="social-icon">
+                            <i class="fab fa-tiktok" style="color: #000000;"></i>
+                        </div>
+                        <h3>TikTok</h3>
+                        <div class="social-stats">30K+</div>
+                        <p>Vues générées</p>
+                        <a href="commander.php" class="btn btn-outline-light">Commander</a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <div class="social-card">
+                        <div class="social-icon">
+                            <i class="fab fa-youtube" style="color: #FF0000;"></i>
+                        </div>
+                        <h3>YouTube</h3>
+                        <div class="social-stats">25K+</div>
+                        <p>Abonnés gagnés</p>
+                        <a href="commander.php" class="btn btn-outline-light">Commander</a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <div class="social-card">
+                        <div class="social-icon">
+                            <i class="fab fa-facebook" style="color: #1877F2;"></i>
+                        </div>
+                        <h3>Facebook</h3>
+                        <div class="social-stats">40K+</div>
+                        <p>Pages boostées</p>
+                        <a href="commander.php" class="btn btn-outline-light">Commander</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2>Prêt à booster votre présence en ligne ?</h2>
+            <p>
+                Rejoignez des milliers de clients satisfaits qui ont transformé leurs réseaux sociaux 
+                avec nos services professionnels.
             </p>
-            <a href="commander.php" class="cta-btn">
-                <i class="fas fa-rocket me-2"></i>Commander Maintenant
+            <a href="commander.php" class="btn-cta">
+                <i class="fas fa-rocket me-2"></i>Commencer maintenant
             </a>
         </div>
     </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 mb-4">
-                    <h6><i class="fas fa-rocket me-2"></i>SMM Pro</h6>
-                    <p>Services SMM professionnels pour booster votre présence sur les réseaux sociaux. Qualité garantie et résultats visibles.</p>
-                </div>
-                
-                <div class="col-lg-2 mb-4">
-                    <h6>Services</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="commander.php">Commander</a></li>
-                        <li><a href="services.php">Nos Services</a></li>
-                        <li><a href="about.php">À Propos</a></li>
-                        <li><a href="contact.php">Contact</a></li>
-                    </ul>
-                </div>
-                
-                <div class="col-lg-2 mb-4">
-                    <h6>Réseaux</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="commander.php?category=1">Instagram</a></li>
-                        <li><a href="commander.php?category=2">TikTok</a></li>
-                        <li><a href="commander.php?category=3">YouTube</a></li>
-                        <li><a href="commander.php?category=4">Facebook</a></li>
-                    </ul>
-                </div>
-                
-                <div class="col-lg-2 mb-4">
-                    <h6>Compte</h6>
-                    <ul class="list-unstyled">
-                        <?php if (isUserLoggedIn()): ?>
-                            <li><a href="client/dashboard.php">Dashboard</a></li>
-                            <li><a href="client/profil.php">Mon Profil</a></li>
-                            <li><a href="client/logout.php">Déconnexion</a></li>
-                        <?php else: ?>
-                            <li><a href="connexion.php">Connexion</a></li>
-                            <li><a href="inscription.php">Inscription</a></li>
-                        <?php endif; ?>
-                    </ul>
-                </div>
-                
-                <div class="col-lg-2 mb-4">
-                    <h6>Support</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="support.php">FAQ</a></li>
-                        <li><a href="support.php">Tickets</a></li>
-                        <li><a href="contact.php">Contact</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <hr class="my-4">
-            
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <p class="mb-0">&copy; 2024 SMM Pro. Tous droits réservés.</p>
-                </div>
-                <div class="col-md-6 text-md-end">
-                    <a href="#" class="text-muted me-3">Conditions d'utilisation</a>
-                    <a href="#" class="text-muted">Politique de confidentialité</a>
-                </div>
-            </div>
-        </div>
-    </footer>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- Custom JS -->
     <script>
-        // Smooth scrolling pour les ancres
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-        
-        // Animation au scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+        // Hamburger Menu Toggle
+        const hamburgerMenu = document.getElementById('hamburgerMenu');
+        const menuOverlay = document.getElementById('menuOverlay');
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('fade-in-up');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.service-card, .social-card').forEach(el => {
-            observer.observe(el);
+        hamburgerMenu.addEventListener('click', function() {
+            hamburgerMenu.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
         });
-        
-        // Navigation active
-        const sections = document.querySelectorAll('section[id]');
-        const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
-        
-        window.addEventListener('scroll', () => {
-            let current = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                if (scrollY >= (sectionTop - 200)) {
-                    current = section.getAttribute('id');
-                }
-            });
-            
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === `#${current}`) {
-                    link.classList.add('active');
-                }
+
+        // Close menu when clicking on overlay
+        menuOverlay.addEventListener('click', function(e) {
+            if (e.target === menuOverlay) {
+                hamburgerMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
+            }
+        });
+
+        // Close menu when pressing Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                hamburgerMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
+            }
+        });
+
+        // Close menu when clicking on menu items
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function() {
+                hamburgerMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
             });
         });
     </script>

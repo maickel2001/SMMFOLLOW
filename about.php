@@ -7,930 +7,712 @@ require_once 'includes/functions.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>À Propos - SMM Pro</title>
-    <meta name="description" content="Découvrez l'histoire de SMM Pro, notre mission et notre équipe d'experts en marketing sur les réseaux sociaux.">
+    <title>À Propos - BoostSocial</title>
+    <meta name="description" content="Découvrez l'histoire de BoostSocial, notre mission et notre équipe d'experts passionnés par le marketing sur les réseaux sociaux.">
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f8fafc;
-            --bg-tertiary: #f1f5f9;
-            --bg-dark: #0f172a;
-            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --bg-gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --bg-gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --text-tertiary: #64748b;
-            --text-light: #ffffff;
-            --accent-primary: #3b82f6;
-            --accent-secondary: #8b5cf6;
-            --accent-success: #10b981;
-            --accent-warning: #f59e0b;
-            --accent-danger: #ef4444;
-            --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-            --accent-gradient-2: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
-            --accent-gradient-3: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --border-light: #e2e8f0;
-            --border-lighter: #f1f5f9;
-            --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.1);
-            --shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.07);
-            --shadow-large: 0 10px 15px rgba(0, 0, 0, 0.1);
-            --shadow-glow: 0 0 20px rgba(59, 130, 246, 0.15);
-            --radius-small: 8px;
-            --radius-medium: 12px;
-            --radius-large: 16px;
-            --radius-xl: 20px;
-            --radius-2xl: 24px;
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-weight: 400;
+            font-family: 'Inter', sans-serif;
             line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            color: var(--dark);
+            background: var(--light);
             overflow-x: hidden;
         }
-        
-        /* Navigation */
-        .navbar {
+
+        /* Hamburger Menu */
+        .hamburger-menu {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
             background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-light);
-            padding: 16px 0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
             transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+        }
+
+        .hamburger-menu:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .hamburger-icon {
+            width: 20px;
+            height: 2px;
+            background: var(--dark);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger-icon::before,
+        .hamburger-icon::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 2px;
+            background: var(--dark);
+            transition: all 0.3s ease;
+        }
+
+        .hamburger-icon::before {
+            top: -6px;
+        }
+
+        .hamburger-icon::after {
+            bottom: -6px;
+        }
+
+        .hamburger-menu.active .hamburger-icon {
+            background: transparent;
+        }
+
+        .hamburger-menu.active .hamburger-icon::before {
+            transform: rotate(45deg);
+            top: 0;
+        }
+
+        .hamburger-menu.active .hamburger-icon::after {
+            transform: rotate(-45deg);
+            bottom: 0;
+        }
+
+        /* Menu Overlay */
+        .menu-overlay {
             position: fixed;
             top: 0;
             left: 0;
-            right: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
             z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
         }
-        
-        .navbar-brand {
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: var(--text-primary) !important;
+
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .menu-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+        }
+
+        .menu-item {
+            display: block;
+            margin: 1.5rem 0;
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            color: white;
             text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
         }
-        
-        .navbar-brand i {
-            color: var(--accent-primary);
+
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            color: white;
+            text-decoration: none;
+            box-shadow: var(--shadow-lg);
         }
-        
-        .navbar-nav .nav-link {
-            color: var(--text-secondary) !important;
-            font-weight: 500;
-            padding: 8px 16px;
-            margin: 0 4px;
-            border-radius: var(--radius-medium);
-            transition: all 0.2s ease;
+
+        .menu-item i {
+            margin-right: 1rem;
+            width: 20px;
         }
-        
-        .navbar-nav .nav-link:hover,
-        .navbar-nav .nav-link.active {
-            color: var(--accent-primary) !important;
-            background: rgba(59, 130, 246, 0.05);
-        }
-        
-        /* Hero Section About */
-        .about-hero {
-            background: var(--bg-gradient-2);
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 50%, var(--primary) 100%);
             padding: 120px 0 80px;
             text-align: center;
             color: white;
             position: relative;
             overflow: hidden;
         }
-        
-        .about-hero::before {
+
+        .hero::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><radialGradient id="hero" cx="50%" cy="50%"><stop offset="0%" stop-color="%23ffffff" stop-opacity="0.1"/><stop offset="100%" stop-color="%23ffffff" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="150" fill="url(%23hero)"/><circle cx="1000" cy="300" r="200" fill="url(%23hero)"/><circle cx="400" cy="700" r="180" fill="url(%23hero)"/></svg>') no-repeat;
-            background-size: cover;
-            opacity: 0.8;
-            animation: float 25s ease-in-out infinite;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="%23ffffff" stop-opacity="0.1"/><stop offset="100%" stop-color="%23ffffff" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="100" fill="url(%23a)"/><circle cx="800" cy="300" r="150" fill="url(%23a)"/><circle cx="400" cy="700" r="120" fill="url(%23a)"/></svg>') no-repeat;
+            opacity: 0.3;
         }
-        
-        .about-hero-content {
+
+        .hero-content {
             position: relative;
             z-index: 2;
         }
-        
-        .about-hero h1 {
-            font-size: clamp(3rem, 10vw, 4.5rem);
-            font-weight: 800;
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
             margin-bottom: 1.5rem;
             line-height: 1.1;
-            letter-spacing: -0.03em;
-            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
-        
-        .about-hero p {
-            font-size: clamp(1.2rem, 4vw, 1.5rem);
-            margin-bottom: 2rem;
-            opacity: 0.95;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        
-        /* Section Histoire */
-        .story-section {
-            padding: 100px 0;
-            background: var(--bg-primary);
+
+        .hero p {
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 2rem;
         }
-        
-        .story-container {
+
+        /* Story Section */
+        .story {
+            padding: 6rem 0;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .story-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 80px;
+            gap: 4rem;
             align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
         }
-        
-        .story-content h2 {
-            font-size: clamp(2.5rem, 6vw, 3.5rem);
+
+        .story-text h3 {
+            font-size: 2rem;
             font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 2rem;
-            line-height: 1.2;
+            color: var(--dark);
+            margin-bottom: 1.5rem;
         }
-        
-        .story-content p {
+
+        .story-text p {
             font-size: 1.1rem;
-            color: var(--text-secondary);
+            color: var(--gray);
             line-height: 1.8;
             margin-bottom: 1.5rem;
         }
-        
+
         .story-image {
-            position: relative;
             text-align: center;
         }
-        
+
         .story-image img {
-            width: 100%;
-            max-width: 500px;
+            max-width: 100%;
             height: auto;
-            border-radius: var(--radius-2xl);
-            box-shadow: var(--shadow-large);
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
         }
-        
-        .story-image::before {
-            content: '';
-            position: absolute;
-            top: -20px;
-            left: -20px;
-            right: -20px;
-            bottom: -20px;
-            background: var(--accent-gradient-3);
-            border-radius: var(--radius-2xl);
-            opacity: 0.3;
-            z-index: -1;
-            animation: pulse 4s ease-in-out infinite;
+
+        /* Mission & Values Section */
+        .mission-values {
+            padding: 6rem 0;
+            background: var(--light);
         }
-        
-        /* Section Mission & Valeurs */
-        .mission-section {
-            padding: 100px 0;
-            background: var(--bg-secondary);
-        }
-        
-        .mission-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        .mission-card {
-            background: var(--bg-primary);
-            border-radius: var(--radius-xl);
-            padding: 50px 30px;
+
+        .value-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
             text-align: center;
-            border: 1px solid var(--border-light);
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .mission-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
-            transition: left 0.6s ease;
+            border: 1px solid var(--gray-light);
         }
-        
-        .mission-card:hover::before {
-            left: 100%;
-        }
-        
-        .mission-card:hover {
+
+        .value-card:hover {
             transform: translateY(-10px);
-            box-shadow: var(--shadow-large);
-            border-color: var(--accent-primary);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
         }
-        
-        .mission-icon {
+
+        .value-icon {
             width: 80px;
             height: 80px;
-            margin: 0 auto 30px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
-            background: var(--accent-gradient);
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
             color: white;
-            position: relative;
         }
-        
-        .mission-icon::after {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            border: 2px solid transparent;
-            border-radius: 50%;
-            background: var(--accent-gradient) border-box;
-            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: destination-out;
-            mask-composite: exclude;
-            opacity: 0.3;
-            animation: pulse 2s ease-in-out infinite;
-        }
-        
-        .mission-title {
+
+        .value-card h3 {
             font-size: 1.5rem;
             font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 20px;
+            margin-bottom: 1rem;
+            color: var(--dark);
         }
-        
-        .mission-text {
-            color: var(--text-secondary);
+
+        .value-card p {
+            color: var(--gray);
             line-height: 1.6;
-            font-size: 1.1rem;
         }
-        
-        /* Section Équipe */
-        .team-section {
-            padding: 100px 0;
-            background: var(--bg-primary);
+
+        /* Team Section */
+        .team {
+            padding: 6rem 0;
+            background: white;
         }
-        
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
+
         .team-card {
-            background: var(--bg-secondary);
-            border-radius: var(--radius-xl);
-            padding: 40px 30px;
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
             text-align: center;
-            border: 1px solid var(--border-light);
-            transition: all 0.4s ease;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            height: 100%;
+            border: 1px solid var(--gray-light);
         }
-        
+
         .team-card:hover {
             transform: translateY(-10px);
-            box-shadow: var(--shadow-large);
-            border-color: var(--accent-primary);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
         }
-        
+
         .team-avatar {
             width: 120px;
             height: 120px;
-            margin: 0 auto 25px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             border-radius: 50%;
-            background: var(--accent-gradient);
             display: flex;
             align-items: center;
             justify-content: center;
+            margin: 0 auto 1.5rem;
             font-size: 3rem;
             color: white;
+        }
+
+        .team-card h3 {
+            font-size: 1.5rem;
             font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
         }
-        
-        .team-name {
-            font-size: 1.3rem;
+
+        .team-card .position {
+            color: var(--primary);
             font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 10px;
+            margin-bottom: 1rem;
         }
-        
-        .team-role {
-            color: var(--accent-primary);
-            font-weight: 500;
-            margin-bottom: 15px;
-        }
-        
-        .team-description {
-            color: var(--text-secondary);
+
+        .team-card p {
+            color: var(--gray);
             line-height: 1.6;
-            font-size: 0.95rem;
         }
-        
-        /* Section Statistiques */
-        .stats-section {
-            padding: 100px 0;
-            background: var(--accent-gradient);
+
+        /* Statistics Section */
+        .statistics {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--darker) 100%);
             color: white;
         }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+
+        .stat-card {
             text-align: center;
+            padding: 2rem;
         }
-        
-        .stat-item {
-            position: relative;
-        }
-        
+
         .stat-number {
-            font-size: clamp(2.5rem, 8vw, 4rem);
-            font-weight: 800;
-            margin-bottom: 10px;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
             display: block;
         }
-        
+
         .stat-label {
             font-size: 1.1rem;
-            opacity: 0.9;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
         }
-        
-        /* Section CTA */
-        .cta-section {
-            padding: 100px 0;
-            background: var(--bg-secondary);
+
+        /* CTA Section */
+        .cta {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
             text-align: center;
         }
-        
-        .cta-content {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        .cta-title {
-            font-size: clamp(2.5rem, 8vw, 3.5rem);
-            font-weight: 700;
-            color: var(--text-primary);
+
+        .cta h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
             margin-bottom: 1.5rem;
-            line-height: 1.2;
         }
-        
-        .cta-subtitle {
+
+        .cta p {
             font-size: 1.2rem;
-            color: var(--text-secondary);
-            margin-bottom: 2.5rem;
-            line-height: 1.6;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
-        
-        .cta-btn {
-            display: inline-block;
-            padding: 18px 36px;
-            background: var(--accent-gradient);
-            color: white;
-            text-decoration: none;
-            border-radius: var(--radius-large);
+
+        .btn-cta {
+            background: white;
+            color: var(--primary);
+            padding: 1rem 3rem;
+            border-radius: 50px;
             font-weight: 600;
             font-size: 1.1rem;
-            transition: all 0.3s ease;
-        }
-        
-        .cta-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-glow);
-            color: white;
-        }
-        
-        /* Footer */
-        .footer {
-            background: var(--bg-dark);
-            color: var(--text-light);
-            padding: 60px 0 30px;
-        }
-        
-        .footer h6 {
-            color: var(--accent-primary);
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-        
-        .footer a {
-            color: var(--text-secondary);
             text-decoration: none;
-            transition: color 0.3s ease;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
         }
-        
-        .footer a:hover {
-            color: var(--accent-primary);
+
+        .btn-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+            color: var(--primary);
         }
-        
-        /* Animations */
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.1); opacity: 1; }
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .mission-card, .team-card {
-            animation: fadeInUp 0.8s ease-out both;
-        }
-        
-        .mission-card:nth-child(1) { animation-delay: 0.1s; }
-        .mission-card:nth-child(2) { animation-delay: 0.2s; }
-        .mission-card:nth-child(3) { animation-delay: 0.3s; }
-        
-        .team-card:nth-child(1) { animation-delay: 0.1s; }
-        .team-card:nth-child(2) { animation-delay: 0.2s; }
-        .team-card:nth-child(3) { animation-delay: 0.3s; }
-        
+
         /* Responsive */
         @media (max-width: 768px) {
-            .about-hero {
-                padding: 100px 0 60px;
-            }
-            
-            .story-container {
+            .story-content {
                 grid-template-columns: 1fr;
-                gap: 40px;
+                gap: 2rem;
                 text-align: center;
             }
             
-            .mission-grid {
-                grid-template-columns: 1fr;
-                gap: 25px;
-                padding: 0 15px;
+            .hamburger-menu {
+                top: 15px;
+                right: 15px;
+                width: 45px;
+                height: 45px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero {
+                padding: 80px 0 60px;
             }
             
-            .team-grid {
-                grid-template-columns: 1fr;
-                gap: 25px;
-                padding: 0 15px;
+            .story, .mission-values, .team, .statistics, .cta {
+                padding: 3rem 0;
             }
             
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 30px;
-                padding: 0 15px;
+            .menu-content {
+                padding: 1rem;
             }
             
-            .mission-card, .team-card {
-                padding: 40px 20px;
+            .menu-item {
+                margin: 1rem 0;
+                padding: 0.8rem 1.5rem;
+                font-size: 1.1rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="index.php">
-                <i class="fas fa-rocket me-2"></i>SMM Pro
-            </a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.php">Accueil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="services.php">Services</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="about.php">À Propos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contact.php">Contact</a>
-                    </li>
-                </ul>
-                
-                <ul class="navbar-nav">
-                    <?php if (isUserLoggedIn()): ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="commander.php">
-                                <i class="fas fa-shopping-cart me-1"></i>Commander
-                            </a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-user me-1"></i><?php echo htmlspecialchars($_SESSION['user_name']); ?>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="client/dashboard.php">
-                                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard
-                                </a></li>
-                                <li><a class="dropdown-item" href="client/commandes.php">
-                                    <i class="fas fa-shopping-cart me-2"></i>Mes Commandes
-                                </a></li>
-                                <li><a class="dropdown-item" href="client/tickets.php">
-                                    <i class="fas fa-ticket-alt me-2"></i>Support
-                                </a></li>
-                                <li><a class="dropdown-item" href="client/profil.php">
-                                    <i class="fas fa-user-cog me-2"></i>Mon Profil
-                                </a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="client/logout.php">
-                                    <i class="fas fa-sign-out-alt me-2"></i>Déconnexion
-                                </a></li>
-                            </ul>
-                        </li>
-                    <?php else: ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="commander.php">
-                                <i class="fas fa-shopping-cart me-1"></i>Commander
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="connexion.php">
-                                <i class="fas fa-sign-in-alt me-1"></i>Connexion
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link btn btn-primary btn-sm" href="inscription.php">
-                                <i class="fas fa-user-plus me-1"></i>Inscription
-                            </a>
-                        </li>
-                    <?php endif; ?>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <!-- Hamburger Menu Button -->
+    <div class="hamburger-menu" id="hamburgerMenu">
+        <div class="hamburger-icon"></div>
+    </div>
 
-    <!-- Hero Section About -->
-    <section class="about-hero">
-        <div class="about-hero-content">
-            <div class="container">
-                <h1>À Propos de SMM Pro</h1>
-                <p>
-                    Découvrez notre histoire, notre mission et notre équipe d'experts 
-                    dédiés à votre succès sur les réseaux sociaux.
-                </p>
+    <!-- Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay">
+        <div class="menu-content">
+            <a href="index.php" class="menu-item">
+                <i class="fas fa-home"></i>Accueil
+            </a>
+            <a href="services.php" class="menu-item">
+                <i class="fas fa-rocket"></i>Services
+            </a>
+            <a href="about.php" class="menu-item">
+                <i class="fas fa-info-circle"></i>À Propos
+            </a>
+            <a href="contact.php" class="menu-item">
+                <i class="fas fa-envelope"></i>Contact
+            </a>
+            <a href="client/dashboard.php" class="menu-item">
+                <i class="fas fa-tachometer-alt"></i>Dashboard
+            </a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>À Propos de <span class="highlight">BoostSocial</span></h1>
+                <p>Découvrez notre histoire, notre mission et notre équipe d'experts passionnés par le marketing sur les réseaux sociaux</p>
             </div>
         </div>
     </section>
 
-    <!-- Section Histoire -->
-    <section class="story-section">
+    <!-- Story Section -->
+    <section class="story">
         <div class="container">
-            <div class="story-container">
-                <div class="story-content">
-                    <h2>Notre Histoire</h2>
-                    <p>
-                        Fondée en 2020, SMM Pro est née de la vision de démocratiser l'accès 
-                        aux services de marketing sur les réseaux sociaux. Nous avons constaté 
-                        que de nombreux créateurs de contenu et entreprises avaient du mal à 
-                        se faire remarquer dans un environnement numérique de plus en plus 
-                        concurrentiel.
-                    </p>
-                    <p>
-                        Notre équipe d'experts en marketing digital et en développement 
-                        technologique s'est donnée pour mission de créer des solutions 
-                        innovantes et accessibles pour booster la visibilité de nos clients.
-                    </p>
-                    <p>
-                        Aujourd'hui, nous sommes fiers d'avoir aidé plus de 10 000 clients 
-                        à atteindre leurs objectifs de croissance sur les réseaux sociaux, 
-                        en leur fournissant des services de qualité et un support exceptionnel.
-                    </p>
+            <div class="section-title">
+                <h2>Notre Histoire</h2>
+                <p>Comment tout a commencé et ce qui nous motive chaque jour</p>
+            </div>
+            
+            <div class="story-content">
+                <div class="story-text">
+                    <h3>Une vision née d'une passion</h3>
+                    <p>BoostSocial est né de la conviction que chaque créateur de contenu mérite d'être vu et entendu. En 2020, notre équipe de passionnés du digital a constaté que de nombreux talents restaient dans l'ombre faute de visibilité sur les réseaux sociaux.</p>
+                    <p>Nous avons donc décidé de créer une plateforme qui démocratise l'accès aux services SMM de qualité, permettant à tous de booster leur présence en ligne de manière éthique et durable.</p>
                 </div>
-                
                 <div class="story-image">
-                    <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 400'><defs><linearGradient id='storyImg' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%23f093fb'/><stop offset='100%' stop-color='%23f5576c'/></linearGradient></defs><rect width='500' height='400' fill='url(%23storyImg)' rx='20'/><circle cx='100' cy='100' r='30' fill='white' opacity='0.2'/><circle cx='400' cy='80' r='25' fill='white' opacity='0.15'/><circle cx='80' cy='300' r='35' fill='white' opacity='0.1'/><path d='M150 200 Q250 150 350 200 T450 250' stroke='white' stroke-width='3' fill='none' opacity='0.6'/><text x='250' y='220' text-anchor='middle' fill='white' font-family='Arial' font-size='24' font-weight='bold'>SMM Pro</text><text x='250' y='250' text-anchor='middle' fill='white' font-family='Arial' font-size='16'>Notre Histoire</text></svg>" alt="Histoire de SMM Pro" />
+                    <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'><rect width='400' height='300' fill='%23f1f5f9' rx='20'/><circle cx='100' cy='100' r='30' fill='%236366f1' opacity='0.8'/><circle cx='300' cy='80' r='25' fill='%2310b981' opacity='0.8'/><circle cx='80' cy='250' r='35' fill='%23f59e0b' opacity='0.8'/><path d='M150 150 Q200 100 250 150 T350 200' stroke='%236366f1' stroke-width='3' fill='none' opacity='0.6'/><text x='200' y='180' text-anchor='middle' fill='%230f172a' font-family='Arial' font-size='18' font-weight='bold'>Notre Histoire</text></svg>" alt="Histoire de BoostSocial">
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Section Mission & Valeurs -->
-    <section class="mission-section">
+    <!-- Mission & Values Section -->
+    <section class="mission-values">
         <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="display-4 fw-bold text-primary mb-3">Notre Mission & Valeurs</h2>
-                <p class="lead text-muted">
-                    Les principes qui guident nos actions au quotidien
-                </p>
+            <div class="section-title">
+                <h2>Notre Mission & Nos Valeurs</h2>
+                <p>Les principes qui guident chacune de nos actions</p>
             </div>
             
-            <div class="mission-grid">
-                <div class="mission-card">
-                    <div class="mission-icon">
-                        <i class="fas fa-bullseye"></i>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Qualité</h3>
+                        <p>Nous nous engageons à fournir des services de la plus haute qualité, avec des résultats durables et authentiques pour nos clients.</p>
                     </div>
-                    <h3 class="mission-title">Notre Mission</h3>
-                    <p class="mission-text">
-                        Aider les créateurs de contenu, influenceurs et entreprises à 
-                        maximiser leur impact sur les réseaux sociaux en leur fournissant 
-                        des services SMM de qualité, sécurisés et efficaces.
-                    </p>
                 </div>
                 
-                <div class="mission-card">
-                    <div class="mission-icon">
-                        <i class="fas fa-eye"></i>
+                <div class="col-lg-4 col-md-6">
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <h3>Transparence</h3>
+                        <p>Nous croyons en la transparence totale dans nos processus et nos résultats. Chaque client sait exactement ce qu'il achète.</p>
                     </div>
-                    <h3 class="mission-title">Notre Vision</h3>
-                    <p class="mission-text">
-                        Devenir la référence en matière de services SMM, en combinant 
-                        innovation technologique, qualité de service et satisfaction client 
-                        pour créer un écosystème digital florissant.
-                    </p>
                 </div>
                 
-                <div class="mission-card">
-                    <div class="mission-icon">
-                        <i class="fas fa-heart"></i>
+                <div class="col-lg-4 col-md-6">
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Communauté</h3>
+                        <p>Nous construisons une communauté de créateurs qui s'entraident et grandissent ensemble dans l'écosystème digital.</p>
                     </div>
-                    <h3 class="mission-title">Nos Valeurs</h3>
-                    <p class="mission-text">
-                        Transparence, qualité, innovation et satisfaction client. Nous 
-                        croyons en la création de relations durables basées sur la confiance 
-                        et l'excellence opérationnelle.
-                    </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Section Équipe -->
-    <section class="team-section">
+    <!-- Team Section -->
+    <section class="team">
         <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="display-4 fw-bold text-primary mb-3">Notre Équipe</h2>
-                <p class="lead text-muted">
-                    Des experts passionnés à votre service
-                </p>
+            <div class="section-title">
+                <h2>Notre Équipe</h2>
+                <p>Des experts passionnés qui donnent vie à votre vision</p>
             </div>
             
-            <div class="team-grid">
-                <div class="team-card">
-                    <div class="team-avatar">A</div>
-                    <h4 class="team-name">Alexandre Martin</h4>
-                    <p class="team-role">CEO & Fondateur</p>
-                    <p class="team-description">
-                        Expert en marketing digital avec plus de 10 ans d'expérience. 
-                        Passionné par l'innovation et la croissance des entreprises.
-                    </p>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="team-card">
+                        <div class="team-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3>Alexandre Dubois</h3>
+                        <div class="position">CEO & Fondateur</div>
+                        <p>Expert en marketing digital avec 10+ années d'expérience dans l'industrie SMM. Passionné par l'innovation et la croissance durable.</p>
+                    </div>
                 </div>
                 
-                <div class="team-card">
-                    <div class="team-avatar">S</div>
-                    <h4 class="team-name">Sarah Dubois</h4>
-                    <p class="team-role">Directrice Marketing</p>
-                    <p class="team-description">
-                        Spécialiste en stratégie de contenu et en croissance sur les 
-                        réseaux sociaux. Créative et orientée résultats.
-                    </p>
+                <div class="col-lg-4 col-md-6">
+                    <div class="team-card">
+                        <div class="team-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3>Marie Laurent</h3>
+                        <div class="position">Directrice Marketing</div>
+                        <p>Spécialiste en stratégie de contenu et en croissance d'audience. Elle transforme les idées en succès concrets.</p>
+                    </div>
                 </div>
                 
-                <div class="team-card">
-                    <div class="team-avatar">M</div>
-                    <h4 class="team-name">Marc Leroy</h4>
-                    <p class="team-role">CTO & Développeur</p>
-                    <p class="team-description">
-                        Développeur full-stack expérimenté, passionné par les nouvelles 
-                        technologies et l'optimisation des processus.
-                    </p>
+                <div class="col-lg-4 col-md-6">
+                    <div class="team-card">
+                        <div class="team-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3>Thomas Moreau</h3>
+                        <div class="position">CTO</div>
+                        <p>Développeur full-stack passionné par les nouvelles technologies. Il assure la stabilité et l'innovation de notre plateforme.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Section Statistiques -->
-    <section class="stats-section">
+    <!-- Statistics Section -->
+    <section class="statistics">
         <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="display-4 fw-bold text-white mb-3">Nos Chiffres Clés</h2>
-                <p class="lead text-white opacity-75">
-                    Des résultats qui parlent d'eux-mêmes
-                </p>
+            <div class="section-title">
+                <h2 style="color: white;">Nos Chiffres Clés</h2>
+                <p style="color: rgba(255, 255, 255, 0.8);">Des résultats qui parlent d'eux-mêmes</p>
             </div>
             
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <span class="stat-number">10K+</span>
-                    <span class="stat-label">Clients Satisfaits</span>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card">
+                        <span class="stat-number">50K+</span>
+                        <div class="stat-label">Clients Satisfaits</div>
+                    </div>
                 </div>
                 
-                <div class="stat-item">
-                    <span class="stat-number">50M+</span>
-                    <span class="stat-label">Services Livrés</span>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card">
+                        <span class="stat-number">2M+</span>
+                        <div class="stat-label">Commandes Traitées</div>
+                    </div>
                 </div>
                 
-                <div class="stat-item">
-                    <span class="stat-number">99.9%</span>
-                    <span class="stat-label">Taux de Satisfaction</span>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card">
+                        <span class="stat-number">99.8%</span>
+                        <div class="stat-label">Taux de Satisfaction</div>
+                    </div>
                 </div>
                 
-                <div class="stat-item">
-                    <span class="stat-number">24/7</span>
-                    <span class="stat-label">Support Client</span>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card">
+                        <span class="stat-number">24/7</span>
+                        <div class="stat-label">Support Client</div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Section CTA -->
-    <section class="cta-section">
-        <div class="cta-content">
-            <h2 class="cta-title">Prêt à Nous Faire Confiance ?</h2>
-            <p class="cta-subtitle">
-                Rejoignez des milliers de clients satisfaits et transformez votre 
-                présence sur les réseaux sociaux dès aujourd'hui.
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2>Prêt à rejoindre notre communauté ?</h2>
+            <p>
+                Découvrez comment BoostSocial peut transformer votre présence sur les réseaux sociaux 
+                et vous aider à atteindre vos objectifs.
             </p>
-            <a href="commander.php" class="cta-btn">
-                <i class="fas fa-rocket me-2"></i>Commencer Maintenant
+            <a href="commander.php" class="btn-cta">
+                <i class="fas fa-rocket me-2"></i>Commencer maintenant
             </a>
         </div>
     </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 mb-4">
-                    <h6><i class="fas fa-rocket me-2"></i>SMM Pro</h6>
-                    <p>Services SMM professionnels pour booster votre présence sur les réseaux sociaux. Qualité garantie et résultats visibles.</p>
-                </div>
-                
-                <div class="col-lg-2 mb-4">
-                    <h6>Services</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="commander.php">Commander</a></li>
-                        <li><a href="services.php">Nos Services</a></li>
-                        <li><a href="about.php">À Propos</a></li>
-                        <li><a href="contact.php">Contact</a></li>
-                    </ul>
-                </div>
-                
-                <div class="col-lg-2 mb-4">
-                    <h6>Réseaux</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="commander.php?category=1">Instagram</a></li>
-                        <li><a href="commander.php?category=2">TikTok</a></li>
-                        <li><a href="commander.php?category=3">YouTube</a></li>
-                        <li><a href="commander.php?category=4">Facebook</a></li>
-                    </ul>
-                </div>
-                
-                <div class="col-lg-2 mb-4">
-                    <h6>Compte</h6>
-                    <ul class="list-unstyled">
-                        <?php if (isUserLoggedIn()): ?>
-                            <li><a href="client/dashboard.php">Dashboard</a></li>
-                            <li><a href="client/profil.php">Mon Profil</a></li>
-                            <li><a href="client/logout.php">Déconnexion</a></li>
-                        <?php else: ?>
-                            <li><a href="connexion.php">Connexion</a></li>
-                            <li><a href="inscription.php">Inscription</a></li>
-                        <?php endif; ?>
-                    </ul>
-                </div>
-                
-                <div class="col-lg-2 mb-4">
-                    <h6>Support</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="support.php">FAQ</a></li>
-                        <li><a href="support.php">Tickets</a></li>
-                        <li><a href="contact.php">Contact</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <hr class="my-4">
-            
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <p class="mb-0">&copy; 2024 SMM Pro. Tous droits réservés.</p>
-                </div>
-                <div class="col-md-6 text-md-end">
-                    <a href="#" class="text-muted me-3">Conditions d'utilisation</a>
-                    <a href="#" class="text-muted">Politique de confidentialité</a>
-                </div>
-            </div>
-        </div>
-    </footer>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- Custom JS -->
     <script>
-        // Smooth scrolling pour les ancres
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-        
-        // Animation au scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+        // Hamburger Menu Toggle
+        const hamburgerMenu = document.getElementById('hamburgerMenu');
+        const menuOverlay = document.getElementById('menuOverlay');
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('fade-in-up');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.mission-card, .team-card').forEach(el => {
-            observer.observe(el);
+        hamburgerMenu.addEventListener('click', function() {
+            hamburgerMenu.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
         });
-        
-        // Navigation active
-        const sections = document.querySelectorAll('section[id]');
-        const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
-        
-        window.addEventListener('scroll', () => {
-            let current = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                if (scrollY >= (sectionTop - 200)) {
-                    current = section.getAttribute('id');
-                }
-            });
-            
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === `#${current}`) {
-                    link.classList.add('active');
-                }
+
+        // Close menu when clicking on overlay
+        menuOverlay.addEventListener('click', function(e) {
+            if (e.target === menuOverlay) {
+                hamburgerMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
+            }
+        });
+
+        // Close menu when pressing Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                hamburgerMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
+            }
+        });
+
+        // Close menu when clicking on menu items
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function() {
+                hamburgerMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
             });
         });
     </script>

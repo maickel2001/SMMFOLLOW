@@ -32,883 +32,839 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact - SMM Pro</title>
-    <meta name="description" content="Contactez l'équipe SMM Pro pour toute question ou demande de support. Nous sommes là pour vous aider.">
+    <title>Contact - BoostSocial</title>
+    <meta name="description" content="Contactez notre équipe BoostSocial pour toute question ou demande de support. Nous sommes là pour vous aider 24h/24 et 7j/7.">
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f8fafc;
-            --bg-tertiary: #f1f5f9;
-            --bg-dark: #0f172a;
-            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --bg-gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --bg-gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --text-tertiary: #64748b;
-            --text-light: #ffffff;
-            --accent-primary: #3b82f6;
-            --accent-secondary: #8b5cf6;
-            --accent-success: #10b981;
-            --accent-warning: #f59e0b;
-            --accent-danger: #ef4444;
-            --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-            --accent-gradient-2: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
-            --accent-gradient-3: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --border-light: #e2e8f0;
-            --border-lighter: #f1f5f9;
-            --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.1);
-            --shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.07);
-            --shadow-large: 0 10px 15px rgba(0, 0, 0, 0.1);
-            --shadow-glow: 0 0 20px rgba(59, 130, 246, 0.15);
-            --radius-small: 8px;
-            --radius-medium: 12px;
-            --radius-large: 16px;
-            --radius-xl: 20px;
-            --radius-2xl: 24px;
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-weight: 400;
+            font-family: 'Inter', sans-serif;
             line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            color: var(--dark);
+            background: var(--light);
             overflow-x: hidden;
         }
-        
-        /* Navigation */
-        .navbar {
+
+        /* Hamburger Menu */
+        .hamburger-menu {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
             background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-light);
-            padding: 16px 0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
             transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+        }
+
+        .hamburger-menu:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .hamburger-icon {
+            width: 20px;
+            height: 2px;
+            background: var(--dark);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger-icon::before,
+        .hamburger-icon::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 2px;
+            background: var(--dark);
+            transition: all 0.3s ease;
+        }
+
+        .hamburger-icon::before {
+            top: -6px;
+        }
+
+        .hamburger-icon::after {
+            bottom: -6px;
+        }
+
+        .hamburger-menu.active .hamburger-icon {
+            background: transparent;
+        }
+
+        .hamburger-menu.active .hamburger-icon::before {
+            transform: rotate(45deg);
+            top: 0;
+        }
+
+        .hamburger-menu.active .hamburger-icon::after {
+            transform: rotate(-45deg);
+            bottom: 0;
+        }
+
+        /* Menu Overlay */
+        .menu-overlay {
             position: fixed;
             top: 0;
             left: 0;
-            right: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
             z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
         }
-        
-        .navbar-brand {
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: var(--text-primary) !important;
+
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .menu-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+        }
+
+        .menu-item {
+            display: block;
+            margin: 1.5rem 0;
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            color: white;
             text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
         }
-        
-        .navbar-brand i {
-            color: var(--accent-primary);
+
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            color: white;
+            text-decoration: none;
+            box-shadow: var(--shadow-lg);
         }
-        
-        .navbar-nav .nav-link {
-            color: var(--text-secondary) !important;
-            font-weight: 500;
-            padding: 8px 16px;
-            margin: 0 4px;
-            border-radius: var(--radius-medium);
-            transition: all 0.2s ease;
+
+        .menu-item i {
+            margin-right: 1rem;
+            width: 20px;
         }
-        
-        .navbar-nav .nav-link:hover,
-        .navbar-nav .nav-link.active {
-            color: var(--accent-primary) !important;
-            background: rgba(59, 130, 246, 0.05);
-        }
-        
-        /* Hero Section Contact */
-        .contact-hero {
-            background: var(--bg-gradient-3);
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 50%, var(--primary) 100%);
             padding: 120px 0 80px;
             text-align: center;
             color: white;
             position: relative;
             overflow: hidden;
         }
-        
-        .contact-hero::before {
+
+        .hero::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><radialGradient id="hero" cx="50%" cy="50%"><stop offset="0%" stop-color="%23ffffff" stop-opacity="0.1"/><stop offset="100%" stop-color="%23ffffff" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="150" fill="url(%23hero)"/><circle cx="1000" cy="300" r="200" fill="url(%23hero)"/><circle cx="400" cy="700" r="180" fill="url(%23hero)"/></svg>') no-repeat;
-            background-size: cover;
-            opacity: 0.8;
-            animation: float 25s ease-in-out infinite;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="%23ffffff" stop-opacity="0.1"/><stop offset="100%" stop-color="%23ffffff" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="100" fill="url(%23a)"/><circle cx="800" cy="300" r="150" fill="url(%23a)"/><circle cx="400" cy="700" r="120" fill="url(%23a)"/></svg>') no-repeat;
+            opacity: 0.3;
         }
-        
-        .contact-hero-content {
+
+        .hero-content {
             position: relative;
             z-index: 2;
         }
-        
-        .contact-hero h1 {
-            font-size: clamp(3rem, 10vw, 4.5rem);
-            font-weight: 800;
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
             margin-bottom: 1.5rem;
             line-height: 1.1;
-            letter-spacing: -0.03em;
-            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
-        
-        .contact-hero p {
-            font-size: clamp(1.2rem, 4vw, 1.5rem);
-            margin-bottom: 2rem;
-            opacity: 0.95;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        
-        /* Section Contact */
-        .contact-section {
-            padding: 100px 0;
-            background: var(--bg-primary);
+
+        .hero p {
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 2rem;
         }
-        
-        .contact-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 80px;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
+
+        /* Contact Info Section */
         .contact-info {
-            background: var(--bg-secondary);
-            border-radius: var(--radius-xl);
-            padding: 50px 40px;
-            border: 1px solid var(--border-light);
+            padding: 6rem 0;
+            background: white;
         }
-        
-        .contact-info h3 {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 2rem;
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
         }
-        
-        .contact-item {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: var(--bg-primary);
-            border-radius: var(--radius-large);
-            border: 1px solid var(--border-light);
+
+        .section-title h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            box-shadow: var(--shadow);
             transition: all 0.3s ease;
+            height: 100%;
+            border: 1px solid var(--gray-light);
         }
-        
-        .contact-item:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-medium);
-            border-color: var(--accent-primary);
+
+        .contact-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
         }
-        
+
         .contact-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--accent-gradient);
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
-            color: white;
-            margin-right: 20px;
-            flex-shrink: 0;
-        }
-        
-        .contact-details h4 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 8px;
-        }
-        
-        .contact-details p, .contact-details a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            margin-bottom: 5px;
-            display: block;
-        }
-        
-        .contact-details a:hover {
-            color: var(--accent-primary);
-        }
-        
-        /* Formulaire de Contact */
-        .contact-form {
-            background: var(--bg-secondary);
-            border-radius: var(--radius-xl);
-            padding: 50px 40px;
-            border: 1px solid var(--border-light);
-        }
-        
-        .contact-form h3 {
+            margin: 0 auto 1.5rem;
             font-size: 2rem;
+            color: white;
+        }
+
+        .contact-card h3 {
+            font-size: 1.5rem;
             font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
         }
-        
+
+        .contact-card p {
+            color: var(--gray);
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-card small {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        /* Contact Form Section */
+        .contact-form {
+            padding: 6rem 0;
+            background: var(--light);
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-light);
+        }
+
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 1.5rem;
         }
-        
+
         .form-label {
-            display: block;
             font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 8px;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            display: block;
         }
-        
+
         .form-control {
             width: 100%;
-            padding: 15px 20px;
-            border: 2px solid var(--border-light);
-            border-radius: var(--radius-medium);
+            padding: 1rem;
+            border: 2px solid var(--gray-light);
+            border-radius: 10px;
             font-size: 1rem;
             transition: all 0.3s ease;
-            background: var(--bg-primary);
-            color: var(--text-primary);
+            background: white;
         }
-        
+
         .form-control:focus {
             outline: none;
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
         }
-        
-        .form-control::placeholder {
-            color: var(--text-tertiary);
+
+        .form-control.error {
+            border-color: #ef4444;
         }
-        
-        textarea.form-control {
-            resize: vertical;
-            min-height: 120px;
+
+        .error-message {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
         }
-        
+
         .btn-submit {
-            background: var(--accent-gradient);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
+            padding: 1rem 3rem;
             border: none;
-            padding: 16px 32px;
-            border-radius: var(--radius-medium);
-            font-size: 1.1rem;
+            border-radius: 50px;
             font-weight: 600;
+            font-size: 1.1rem;
             cursor: pointer;
             transition: all 0.3s ease;
             width: 100%;
         }
-        
+
         .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-glow);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
         }
-        
-        /* Section FAQ Rapide */
-        .faq-section {
-            padding: 100px 0;
-            background: var(--bg-secondary);
+
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
         }
-        
-        .faq-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 20px;
+
+        /* FAQ Section */
+        .faq {
+            padding: 6rem 0;
+            background: white;
         }
-        
+
         .faq-item {
-            background: var(--bg-primary);
-            border-radius: var(--radius-large);
-            margin-bottom: 20px;
-            border: 1px solid var(--border-light);
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-light);
             overflow: hidden;
-            transition: all 0.3s ease;
         }
-        
-        .faq-item:hover {
-            box-shadow: var(--shadow-medium);
-            border-color: var(--accent-primary);
-        }
-        
+
         .faq-question {
-            padding: 25px 30px;
-            background: var(--bg-primary);
+            background: var(--light);
+            padding: 1.5rem;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-weight: 600;
-            color: var(--text-primary);
             transition: all 0.3s ease;
+            border: none;
+            width: 100%;
+            text-align: left;
         }
-        
+
         .faq-question:hover {
-            background: var(--bg-tertiary);
+            background: var(--gray-light);
         }
-        
-        .faq-question i {
-            color: var(--accent-primary);
+
+        .faq-question h4 {
+            margin: 0;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .faq-icon {
             transition: transform 0.3s ease;
+            color: var(--primary);
         }
-        
-        .faq-item.active .faq-question i {
+
+        .faq-item.active .faq-icon {
             transform: rotate(180deg);
         }
-        
+
         .faq-answer {
-            padding: 0 30px;
+            padding: 0 1.5rem;
             max-height: 0;
             overflow: hidden;
             transition: all 0.3s ease;
-            color: var(--text-secondary);
-            line-height: 1.6;
         }
-        
+
         .faq-item.active .faq-answer {
-            padding: 0 30px 25px;
+            padding: 1.5rem;
             max-height: 200px;
         }
-        
-        /* Section CTA */
-        .cta-section {
-            padding: 100px 0;
-            background: var(--accent-gradient);
-            text-align: center;
-            color: white;
-        }
-        
-        .cta-content {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        .cta-title {
-            font-size: clamp(2.5rem, 8vw, 3.5rem);
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            line-height: 1.2;
-        }
-        
-        .cta-subtitle {
-            font-size: 1.2rem;
-            margin-bottom: 2.5rem;
-            opacity: 0.9;
+
+        .faq-answer p {
+            color: var(--gray);
+            margin: 0;
             line-height: 1.6;
         }
-        
-        .cta-btn {
-            display: inline-block;
-            padding: 18px 36px;
+
+        /* CTA Section */
+        .cta {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-cta {
             background: white;
-            color: var(--accent-primary);
-            text-decoration: none;
-            border-radius: var(--radius-large);
+            color: var(--primary);
+            padding: 1rem 3rem;
+            border-radius: 50px;
             font-weight: 600;
             font-size: 1.1rem;
-            transition: all 0.3s ease;
-        }
-        
-        .cta-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-large);
-            color: var(--accent-primary);
-        }
-        
-        /* Footer */
-        .footer {
-            background: var(--bg-dark);
-            color: var(--text-light);
-            padding: 60px 0 30px;
-        }
-        
-        .footer h6 {
-            color: var(--accent-primary);
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-        
-        .footer a {
-            color: var(--text-secondary);
             text-decoration: none;
-            transition: color 0.3s ease;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
         }
-        
-        .footer a:hover {
-            color: var(--accent-primary);
+
+        .btn-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+            color: var(--primary);
         }
-        
-        /* Animations */
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
+
+        /* Success Message */
+        .success-message {
+            background: var(--secondary);
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            text-align: center;
+            display: none;
         }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .contact-item, .faq-item {
-            animation: fadeInUp 0.8s ease-out both;
-        }
-        
-        .contact-item:nth-child(1) { animation-delay: 0.1s; }
-        .contact-item:nth-child(2) { animation-delay: 0.2s; }
-        .contact-item:nth-child(3) { animation-delay: 0.3s; }
-        .contact-item:nth-child(4) { animation-delay: 0.4s; }
-        
-        .faq-item:nth-child(1) { animation-delay: 0.1s; }
-        .faq-item:nth-child(2) { animation-delay: 0.2s; }
-        .faq-item:nth-child(3) { animation-delay: 0.3s; }
-        
+
         /* Responsive */
         @media (max-width: 768px) {
-            .contact-hero {
-                padding: 100px 0 60px;
+            .form-container {
+                padding: 2rem;
             }
             
-            .contact-container {
-                grid-template-columns: 1fr;
-                gap: 40px;
-                padding: 0 15px;
+            .hamburger-menu {
+                top: 15px;
+                right: 15px;
+                width: 45px;
+                height: 45px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero {
+                padding: 80px 0 60px;
             }
             
-            .contact-info, .contact-form {
-                padding: 40px 25px;
+            .contact-info, .contact-form, .faq, .cta {
+                padding: 3rem 0;
             }
             
-            .faq-container {
-                padding: 0 15px;
+            .menu-content {
+                padding: 1rem;
+            }
+            
+            .menu-item {
+                margin: 1rem 0;
+                padding: 0.8rem 1.5rem;
+                font-size: 1.1rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="index.php">
-                <i class="fas fa-rocket me-2"></i>SMM Pro
-            </a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.php">Accueil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="services.php">Services</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="about.php">À Propos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="contact.php">Contact</a>
-                    </li>
-                </ul>
-                
-                <ul class="navbar-nav">
-                    <?php if (isUserLoggedIn()): ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="commander.php">
-                                <i class="fas fa-shopping-cart me-1"></i>Commander
-                            </a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-user me-1"></i><?php echo htmlspecialchars($_SESSION['user_name']); ?>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="client/dashboard.php">
-                                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard
-                                </a></li>
-                                <li><a class="dropdown-item" href="client/commandes.php">
-                                    <i class="fas fa-shopping-cart me-2"></i>Mes Commandes
-                                </a></li>
-                                <li><a class="dropdown-item" href="client/tickets.php">
-                                    <i class="fas fa-ticket-alt me-2"></i>Support
-                                </a></li>
-                                <li><a class="dropdown-item" href="client/profil.php">
-                                    <i class="fas fa-user-cog me-2"></i>Mon Profil
-                                </a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="client/logout.php">
-                                    <i class="fas fa-sign-out-alt me-2"></i>Déconnexion
-                                </a></li>
-                            </ul>
-                        </li>
-                    <?php else: ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="commander.php">
-                                <i class="fas fa-shopping-cart me-1"></i>Commander
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="connexion.php">
-                                <i class="fas fa-sign-in-alt me-1"></i>Connexion
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link btn btn-primary btn-sm" href="inscription.php">
-                                <i class="fas fa-user-plus me-1"></i>Inscription
-                            </a>
-                        </li>
-                    <?php endif; ?>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <!-- Hamburger Menu Button -->
+    <div class="hamburger-menu" id="hamburgerMenu">
+        <div class="hamburger-icon"></div>
+    </div>
 
-    <!-- Hero Section Contact -->
-    <section class="contact-hero">
-        <div class="contact-hero-content">
-            <div class="container">
-                <h1>Contactez-Nous</h1>
-                <p>
-                    Nous sommes là pour vous aider ! Contactez notre équipe d'experts 
-                    pour toute question ou demande de support.
-                </p>
+    <!-- Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay">
+        <div class="menu-content">
+            <a href="index.php" class="menu-item">
+                <i class="fas fa-home"></i>Accueil
+            </a>
+            <a href="services.php" class="menu-item">
+                <i class="fas fa-rocket"></i>Services
+            </a>
+            <a href="about.php" class="menu-item">
+                <i class="fas fa-info-circle"></i>À Propos
+            </a>
+            <a href="contact.php" class="menu-item">
+                <i class="fas fa-envelope"></i>Contact
+            </a>
+            <a href="client/dashboard.php" class="menu-item">
+                <i class="fas fa-tachometer-alt"></i>Dashboard
+            </a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Contactez <span class="highlight">BoostSocial</span></h1>
+                <p>Notre équipe est là pour vous aider 24h/24 et 7j/7. N'hésitez pas à nous contacter !</p>
             </div>
         </div>
     </section>
 
-    <!-- Section Contact -->
-    <section class="contact-section">
+    <!-- Contact Info Section -->
+    <section class="contact-info">
         <div class="container">
-            <div class="contact-container">
-                <!-- Informations de Contact -->
-                <div class="contact-info">
-                    <h3>Informations de Contact</h3>
-                    
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </div>
-                        <div class="contact-details">
-                            <h4>Adresse</h4>
-                            <p>123 Rue du Marketing Digital<br>75001 Paris, France</p>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-phone"></i>
-                        </div>
-                        <div class="contact-details">
-                            <h4>Téléphone</h4>
-                            <a href="tel:+33123456789">+33 1 23 45 67 89</a>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-item">
+            <div class="section-title">
+                <h2>Nos Coordonnées</h2>
+                <p>Plusieurs façons de nous joindre pour répondre à tous vos besoins</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="contact-card">
                         <div class="contact-icon">
                             <i class="fas fa-envelope"></i>
                         </div>
-                        <div class="contact-details">
-                            <h4>Email</h4>
-                            <a href="mailto:contact@smmpro.com">contact@smmpro.com</a>
-                        </div>
+                        <h3>Email</h3>
+                        <p>support@boostsocial.com</p>
+                        <small>Réponse sous 2h</small>
                     </div>
-                    
-                    <div class="contact-item">
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <h3>Support 24/7</h3>
+                        <p>Via notre chat en ligne</p>
+                        <small>Disponible 24h/24</small>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="contact-card">
                         <div class="contact-icon">
                             <i class="fas fa-clock"></i>
                         </div>
-                        <div class="contact-details">
-                            <h4>Horaires</h4>
-                            <p>Lundi - Vendredi : 9h - 18h<br>Samedi : 10h - 16h</p>
-                        </div>
+                        <h3>Réponse Rapide</h3>
+                        <p>Maximum 2 heures</p>
+                        <small>En semaine</small>
                     </div>
-                </div>
-                
-                <!-- Formulaire de Contact -->
-                <div class="contact-form">
-                    <h3>Envoyez-nous un Message</h3>
-                    
-                    <?php if ($message): ?>
-                        <div class="alert alert-<?php echo $messageType; ?> alert-dismissible fade show" role="alert">
-                            <?php echo htmlspecialchars($message); ?>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                        </div>
-                    <?php endif; ?>
-                    
-                    <form method="POST" action="">
-                        <div class="form-group">
-                            <label for="nom" class="form-label">Nom Complet *</label>
-                            <input type="text" id="nom" name="nom" class="form-control" 
-                                   value="<?php echo htmlspecialchars($nom ?? ''); ?>" 
-                                   placeholder="Votre nom complet" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="email" class="form-label">Email *</label>
-                            <input type="email" id="email" name="email" class="form-control" 
-                                   value="<?php echo htmlspecialchars($email ?? ''); ?>" 
-                                   placeholder="votre@email.com" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="sujet" class="form-label">Sujet *</label>
-                            <input type="text" id="sujet" name="sujet" class="form-control" 
-                                   value="<?php echo htmlspecialchars($sujet ?? ''); ?>" 
-                                   placeholder="Sujet de votre message" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="message" class="form-label">Message *</label>
-                            <textarea id="message" name="message" class="form-control" 
-                                      placeholder="Votre message..." required><?php echo htmlspecialchars($message_text ?? ''); ?></textarea>
-                        </div>
-                        
-                        <button type="submit" class="btn-submit">
-                            <i class="fas fa-paper-plane me-2"></i>Envoyer le Message
-                        </button>
-                    </form>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Section FAQ Rapide -->
-    <section class="faq-section">
+    <!-- Contact Form Section -->
+    <section class="contact-form">
         <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="display-4 fw-bold text-primary mb-3">Questions Fréquentes</h2>
-                <p class="lead text-muted">
-                    Trouvez rapidement des réponses à vos questions
-                </p>
+            <div class="section-title">
+                <h2>Envoyez-nous un message</h2>
+                <p>Remplissez le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais</p>
             </div>
             
-            <div class="faq-container">
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Comment puis-je suivre ma commande ?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        Connectez-vous à votre compte client et allez dans la section "Mes Commandes". 
-                        Vous y trouverez le statut détaillé de toutes vos commandes en cours.
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Quels sont vos délais de livraison ?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        Nos délais varient selon le service choisi : followers (24-48h), 
-                        likes (1-2h), vues (2-6h). La livraison commence généralement 
-                        dans les heures qui suivent votre commande.
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Comment contacter le support technique ?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        Vous pouvez nous contacter via ce formulaire, par email à 
-                        support@smmpro.com, ou créer un ticket depuis votre dashboard client. 
-                        Notre équipe répond sous 24h.
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="form-container">
+                        <div class="success-message" id="successMessage">
+                            Votre message a été envoyé avec succès ! Nous vous répondrons dans les plus brefs délais.
+                        </div>
+                        
+                        <form id="contactForm">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="name" class="form-label">Nom complet *</label>
+                                        <input type="text" id="name" name="name" class="form-control" required>
+                                        <div class="error-message" id="nameError"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="email" class="form-label">Email *</label>
+                                        <input type="email" id="email" name="email" class="form-control" required>
+                                        <div class="error-message" id="emailError"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="subject" class="form-label">Sujet *</label>
+                                <input type="text" id="subject" name="subject" class="form-control" required>
+                                <div class="error-message" id="subjectError"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="message" class="form-label">Message *</label>
+                                <textarea id="message" name="message" rows="5" class="form-control" required></textarea>
+                                <div class="error-message" id="messageError"></div>
+                            </div>
+                            
+                            <button type="submit" class="btn-submit" id="submitBtn">
+                                <i class="fas fa-paper-plane me-2"></i>Envoyer le message
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Section CTA -->
-    <section class="cta-section">
-        <div class="cta-content">
-            <h2 class="cta-title">Besoin d'Aide Immédiate ?</h2>
-            <p class="cta-subtitle">
-                Notre équipe d'experts est disponible pour vous accompagner 
-                dans votre succès sur les réseaux sociaux.
+    <!-- FAQ Section -->
+    <section class="faq">
+        <div class="container">
+            <div class="section-title">
+                <h2>Questions Fréquentes</h2>
+                <p>Trouvez rapidement des réponses à vos questions les plus courantes</p>
+            </div>
+            
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <h4>Combien de temps faut-il pour recevoir une réponse ?</h4>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Nous nous engageons à répondre à tous les messages dans un délai maximum de 2 heures en semaine. Pour les demandes urgentes, notre chat en ligne est disponible 24h/24.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <h4>Comment puis-je suivre l'état de ma commande ?</h4>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Vous pouvez suivre l'état de vos commandes directement depuis votre dashboard client. Nous vous enverrons également des notifications par email à chaque étape importante.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <h4>Quels sont vos horaires de support ?</h4>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Notre équipe support est disponible 24h/24 et 7j/7. Vous pouvez nous contacter à tout moment via le chat en ligne, par email ou en créant un ticket de support.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2>Besoin d'aide immédiate ?</h2>
+            <p>
+                Notre équipe support est disponible 24h/24 pour répondre à toutes vos questions 
+                et vous accompagner dans vos projets.
             </p>
-            <a href="commander.php" class="cta-btn">
-                <i class="fas fa-rocket me-2"></i>Commander Maintenant
+            <a href="support.php" class="btn-cta">
+                <i class="fas fa-headset me-2"></i>Accéder au support
             </a>
         </div>
     </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 mb-4">
-                    <h6><i class="fas fa-rocket me-2"></i>SMM Pro</h6>
-                    <p>Services SMM professionnels pour booster votre présence sur les réseaux sociaux. Qualité garantie et résultats visibles.</p>
-                </div>
-                
-                <div class="col-lg-2 mb-4">
-                    <h6>Services</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="commander.php">Commander</a></li>
-                        <li><a href="services.php">Nos Services</a></li>
-                        <li><a href="about.php">À Propos</a></li>
-                        <li><a href="contact.php">Contact</a></li>
-                    </ul>
-                </div>
-                
-                <div class="col-lg-2 mb-4">
-                    <h6>Réseaux</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="commander.php?category=1">Instagram</a></li>
-                        <li><a href="commander.php?category=2">TikTok</a></li>
-                        <li><a href="commander.php?category=3">YouTube</a></li>
-                        <li><a href="commander.php?category=4">Facebook</a></li>
-                    </ul>
-                </div>
-                
-                <div class="col-lg-2 mb-4">
-                    <h6>Compte</h6>
-                    <ul class="list-unstyled">
-                        <?php if (isUserLoggedIn()): ?>
-                            <li><a href="client/dashboard.php">Dashboard</a></li>
-                            <li><a href="client/profil.php">Mon Profil</a></li>
-                            <li><a href="client/logout.php">Déconnexion</a></li>
-                        <?php else: ?>
-                            <li><a href="connexion.php">Connexion</a></li>
-                            <li><a href="inscription.php">Inscription</a></li>
-                        <?php endif; ?>
-                    </ul>
-                </div>
-                
-                <div class="col-lg-2 mb-4">
-                    <h6>Support</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="support.php">FAQ</a></li>
-                        <li><a href="support.php">Tickets</a></li>
-                        <li><a href="contact.php">Contact</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <hr class="my-4">
-            
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <p class="mb-0">&copy; 2024 SMM Pro. Tous droits réservés.</p>
-                </div>
-                <div class="col-md-6 text-md-end">
-                    <a href="#" class="text-muted me-3">Conditions d'utilisation</a>
-                    <a href="#" class="text-muted">Politique de confidentialité</a>
-                </div>
-            </div>
-        </div>
-    </footer>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- Custom JS -->
     <script>
-        // Smooth scrolling pour les ancres
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
+        // Hamburger Menu Toggle
+        const hamburgerMenu = document.getElementById('hamburgerMenu');
+        const menuOverlay = document.getElementById('menuOverlay');
+
+        hamburgerMenu.addEventListener('click', function() {
+            hamburgerMenu.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+        });
+
+        // Close menu when clicking on overlay
+        menuOverlay.addEventListener('click', function(e) {
+            if (e.target === menuOverlay) {
+                hamburgerMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
+            }
+        });
+
+        // Close menu when pressing Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                hamburgerMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
+            }
+        });
+
+        // Close menu when clicking on menu items
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function() {
+                hamburgerMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
             });
         });
-        
-        // FAQ Interactive
+
+        // FAQ Accordion
         document.querySelectorAll('.faq-question').forEach(question => {
-            question.addEventListener('click', () => {
-                const faqItem = question.parentElement;
+            question.addEventListener('click', function() {
+                const faqItem = this.parentElement;
                 const isActive = faqItem.classList.contains('active');
                 
-                // Fermer toutes les autres FAQ
+                // Close all FAQ items
                 document.querySelectorAll('.faq-item').forEach(item => {
                     item.classList.remove('active');
                 });
                 
-                // Ouvrir/fermer la FAQ cliquée
+                // Open clicked item if it wasn't active
                 if (!isActive) {
                     faqItem.classList.add('active');
                 }
             });
         });
-        
-        // Animation au scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('fade-in-up');
-                }
-            });
-        }, observerOptions);
+        // Contact Form Validation
+        const contactForm = document.getElementById('contactForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const successMessage = document.getElementById('successMessage');
 
-        document.querySelectorAll('.contact-item, .faq-item').forEach(el => {
-            observer.observe(el);
-        });
-        
-        // Navigation active
-        const sections = document.querySelectorAll('section[id]');
-        const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
-        
-        window.addEventListener('scroll', () => {
-            let current = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                if (scrollY >= (sectionTop - 200)) {
-                    current = section.getAttribute('id');
-                }
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Reset error messages
+            document.querySelectorAll('.error-message').forEach(error => {
+                error.textContent = '';
             });
             
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === `#${current}`) {
-                    link.classList.add('active');
-                }
+            document.querySelectorAll('.form-control').forEach(input => {
+                input.classList.remove('error');
             });
+            
+            // Get form data
+            const formData = new FormData(this);
+            const name = formData.get('name').trim();
+            const email = formData.get('email').trim();
+            const subject = formData.get('subject').trim();
+            const message = formData.get('message').trim();
+            
+            let isValid = true;
+            
+            // Validate name
+            if (name.length < 2) {
+                document.getElementById('nameError').textContent = 'Le nom doit contenir au moins 2 caractères';
+                document.getElementById('name').classList.add('error');
+                isValid = false;
+            }
+            
+            // Validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                document.getElementById('emailError').textContent = 'Veuillez entrer une adresse email valide';
+                document.getElementById('email').classList.add('error');
+                isValid = false;
+            }
+            
+            // Validate subject
+            if (subject.length < 5) {
+                document.getElementById('subjectError').textContent = 'Le sujet doit contenir au moins 5 caractères';
+                document.getElementById('subject').classList.add('error');
+                isValid = false;
+            }
+            
+            // Validate message
+            if (message.length < 10) {
+                document.getElementById('messageError').textContent = 'Le message doit contenir au moins 10 caractères';
+                document.getElementById('message').classList.add('error');
+                isValid = false;
+            }
+            
+            if (isValid) {
+                // Simulate form submission
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Envoi en cours...';
+                
+                setTimeout(() => {
+                    successMessage.style.display = 'block';
+                    contactForm.reset();
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Envoyer le message';
+                    
+                    // Hide success message after 5 seconds
+                    setTimeout(() => {
+                        successMessage.style.display = 'none';
+                    }, 5000);
+                }, 2000);
+            }
         });
     </script>
 </body>
