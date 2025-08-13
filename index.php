@@ -22,8 +22,8 @@ $categories = getAllCategories();
     <style>
         :root {
             --bg-primary: #ffffff;
-            --bg-secondary: #f5f5f7;
-            --bg-tertiary: #fafafa;
+            --bg-secondary: #f8f9fa;
+            --bg-tertiary: #f1f3f4;
             --bg-dark: #1d1d1f;
             --text-primary: #1d1d1f;
             --text-secondary: #86868b;
@@ -34,11 +34,15 @@ $categories = getAllCategories();
             --accent-success: #34c759;
             --accent-warning: #ff9500;
             --accent-danger: #ff3b30;
+            --accent-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --accent-gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             --border-light: #d2d2d7;
             --border-lighter: #e5e5e7;
             --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.04);
             --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.08);
             --shadow-large: 0 8px 32px rgba(0, 0, 0, 0.12);
+            --shadow-glow: 0 0 40px rgba(0, 122, 255, 0.3);
             --radius-small: 8px;
             --radius-medium: 12px;
             --radius-large: 16px;
@@ -70,6 +74,571 @@ $categories = getAllCategories();
             border-bottom: 1px solid var(--border-lighter);
             padding: 16px 0;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        
+        /* Hero Section DINGUE */
+        .hero-section {
+            min-height: 100vh;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 80px;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="%23f093fb" stop-opacity="0.1"/><stop offset="100%" stop-color="%23f5576c" stop-opacity="0.05"/></radialGradient></defs><circle cx="200" cy="200" r="100" fill="url(%23a)"/><circle cx="800" cy="300" r="150" fill="url(%23a)"/><circle cx="400" cy="800" r="120" fill="url(%23a)"/></svg>') no-repeat;
+            background-size: cover;
+            opacity: 0.6;
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .hero-title {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 700;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+        
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 4vw, 1.5rem);
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            font-weight: 400;
+            line-height: 1.6;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 0.9s both;
+        }
+        
+        .hero-btn {
+            padding: 16px 32px;
+            border-radius: var(--radius-large);
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-btn-primary {
+            background: var(--accent-gradient);
+            color: white;
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .hero-btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-large);
+            color: white;
+        }
+        
+        .hero-btn-secondary {
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--text-primary);
+            border: 2px solid var(--border-lighter);
+            backdrop-filter: blur(10px);
+        }
+        
+        .hero-btn-secondary:hover {
+            background: var(--bg-primary);
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            transform: translateY(-3px);
+        }
+        
+        /* Section Réseaux Sociaux DINGUE */
+        .social-networks-section {
+            padding: 100px 0;
+            background: var(--bg-secondary);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .social-networks-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><linearGradient id="b" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="%234facfe" stop-opacity="0.03"/><stop offset="100%" stop-color="%2300f2fe" stop-opacity="0.03"/></linearGradient></defs><rect width="1200" height="800" fill="url(%23b)"/></svg>') no-repeat;
+            background-size: cover;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .section-title {
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            background: var(--accent-gradient-2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .social-card {
+            background: var(--bg-primary);
+            border-radius: var(--radius-xl);
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: var(--shadow-medium);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border-lighter);
+        }
+        
+        .social-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .social-card:hover::before {
+            left: 100%;
+        }
+        
+        .social-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--shadow-large);
+            border-color: var(--accent-primary);
+        }
+        
+        .social-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .social-icon.instagram {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            color: white;
+        }
+        
+        .social-icon.tiktok {
+            background: linear-gradient(45deg, #000000 0%, #25f4ee 50%, #fe2c55 100%);
+            color: white;
+        }
+        
+        .social-icon.youtube {
+            background: linear-gradient(45deg, #ff0000 0%, #ff4444 100%);
+            color: white;
+        }
+        
+        .social-icon.facebook {
+            background: linear-gradient(45deg, #1877f2 0%, #42a5f5 100%);
+            color: white;
+        }
+        
+        .social-icon::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .social-card:hover .social-icon::after {
+            opacity: 1;
+        }
+        
+        .social-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+        }
+        
+        .social-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        
+        .social-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 25px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .social-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: var(--accent-gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: var(--radius-medium);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+            color: white;
+        }
+        
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .social-card {
+            animation: fadeInUp 0.8s ease-out both;
+        }
+        
+        .social-card:nth-child(1) { animation-delay: 0.1s; }
+        .social-card:nth-child(2) { animation-delay: 0.2s; }
+        .social-card:nth-child(3) { animation-delay: 0.3s; }
+        .social-card:nth-child(4) { animation-delay: 0.4s; }
+        
+        /* Section Statistiques DINGUE */
+        .stats-section {
+            padding: 120px 0;
+            background: var(--bg-primary);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stats-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><radialGradient id="c" cx="50%" cy="50%"><stop offset="0%" stop-color="%23f093fb" stop-opacity="0.05"/><stop offset="100%" stop-color="%23f5576c" stop-opacity="0.02"/></radialGradient></defs><circle cx="300" cy="200" r="200" fill="url(%23c)"/><circle cx="900" cy="600" r="250" fill="url(%23c)"/></svg>') no-repeat;
+            background-size: cover;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: var(--radius-xl);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-lighter);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--accent-gradient);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+        
+        .stat-card:hover::before {
+            opacity: 0.05;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-large);
+            border-color: var(--accent-primary);
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            background: var(--accent-gradient);
+            color: white;
+            position: relative;
+        }
+        
+        .stat-icon::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border: 2px solid transparent;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary)) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
+            opacity: 0.3;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .stat-number {
+            font-size: clamp(2.5rem, 6vw, 3.5rem);
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .stat-card {
+            animation: fadeInUp 0.8s ease-out both;
+        }
+        
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) { animation-delay: 0.4s; }
+        
+        /* Responsive Design DINGUE */
+        @media (max-width: 768px) {
+            .hero-section {
+                padding-top: 100px;
+                min-height: 90vh;
+            }
+            
+            .hero-title {
+                font-size: clamp(2rem, 10vw, 3rem);
+            }
+            
+            .hero-subtitle {
+                font-size: clamp(1rem, 4vw, 1.3rem);
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .hero-btn {
+                width: 100%;
+                max-width: 300px;
+                text-align: center;
+            }
+            
+            .social-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 0 15px;
+            }
+            
+            .social-card {
+                padding: 30px 20px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+                padding: 0 15px;
+            }
+            
+            .stat-card {
+                padding: 30px 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-section {
+                padding-top: 120px;
+                min-height: 85vh;
+            }
+            
+            .hero-title {
+                font-size: clamp(1.8rem, 12vw, 2.5rem);
+            }
+            
+            .hero-subtitle {
+                font-size: clamp(0.9rem, 5vw, 1.1rem);
+            }
+            
+            .social-networks-section,
+            .stats-section {
+                padding: 60px 0;
+            }
+            
+            .section-header {
+                margin-bottom: 50px;
+            }
+            
+            .section-title {
+                font-size: clamp(1.5rem, 8vw, 2.5rem);
+            }
+        }
+        
+        /* Effets de parallaxe et animations avancées */
+        .parallax-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .floating-element {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 15s ease-in-out infinite;
+        }
+        
+        .floating-element:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .floating-element:nth-child(2) {
+            top: 60%;
+            right: 15%;
+            animation-delay: 5s;
+        }
+        
+        .floating-element:nth-child(3) {
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 10s;
         }
         
         .navbar-brand {
@@ -854,20 +1423,42 @@ $categories = getAllCategories();
         </div>
     </nav>
 
-    <!-- Hero Section Minimaliste -->
-    <section id="home" class="hero">
-        <div class="container">
-            <div class="row align-items-center min-vh-100">
-                <div class="col-lg-6">
-                    <div class="hero-content">
-                        <h1 class="hero-title">
-                            Boostez votre <span class="text-gradient">Présence en Ligne</span>
-                        </h1>
-                        <p class="hero-subtitle">
-                            Services SMM professionnels pour Instagram, TikTok, YouTube et Facebook. 
-                            Obtenez des followers, likes et vues de qualité pour augmenter votre visibilité.
-                        </p>
-                        <div class="hero-buttons">
+    <!-- Hero Section DINGUE -->
+    <section class="hero-section" id="home">
+        <div class="parallax-bg">
+            <div class="floating-element">
+                <svg width="100" height="100" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(0,122,255,0.1)" stroke-width="2"/>
+                </svg>
+            </div>
+            <div class="floating-element">
+                <svg width="80" height="80" viewBox="0 0 80 80">
+                    <rect x="20" y="20" width="40" height="40" fill="none" stroke="rgba(88,86,214,0.1)" stroke-width="2"/>
+                </svg>
+            </div>
+            <div class="floating-element">
+                <svg width="120" height="120" viewBox="0 0 120 120">
+                    <polygon points="60,20 100,100 20,100" fill="none" stroke="rgba(240,147,251,0.1)" stroke-width="2"/>
+                </svg>
+            </div>
+        </div>
+        
+        <div class="hero-content">
+            <h1 class="hero-title">Boostez Votre Présence Sociale</h1>
+            <p class="hero-subtitle">
+                Services SMM professionnels pour Instagram, TikTok, YouTube et Facebook. 
+                Obtenez des followers, likes et vues de qualité pour propulser votre influence en ligne.
+            </p>
+            <div class="hero-buttons">
+                <a href="commander.php" class="hero-btn hero-btn-primary">
+                    <i class="fas fa-rocket me-2"></i>Commander Maintenant
+                </a>
+                <a href="#services" class="hero-btn hero-btn-secondary">
+                    <i class="fas fa-eye me-2"></i>Découvrir nos Services
+                </a>
+            </div>
+        </div>
+    </section>
                             <?php if (isUserLoggedIn()): ?>
                                 <a href="client/dashboard.php" class="btn btn-primary btn-lg me-3">
                                     <i class="fas fa-tachometer-alt me-2"></i>Mon Dashboard
@@ -909,34 +1500,111 @@ $categories = getAllCategories();
         </div>
     </section>
 
-        <!-- Services Section -->
-    <section id="services" class="section">
-        <div class="container">
-            <div class="section-header text-center">
-                <h2 class="section-title">Nos Services SMM</h2>
-                <p class="section-subtitle">
-                    Choisissez parmi nos services de qualité pour booster votre présence sur les réseaux sociaux
-                </p>
-            </div>
-            
-            <div class="row">
-                <?php foreach ($categories as $category): ?>
-                    <div class="col-lg-3 col-md-6 mb-4">
-                        <div class="service-card fade-in-up">
-                            <div class="service-icon">
-                                <i class="<?php echo htmlspecialchars($category['icon']); ?>"></i>
-                            </div>
-                            <h4><?php echo htmlspecialchars($category['name']); ?></h4>
-                            <p><?php echo htmlspecialchars($category['description']); ?></p>
-                            <a href="commander.php?category=<?php echo $category['id']; ?>" class="btn btn-outline-primary">
-                                Voir les Services
-                            </a>
+        <!-- Section Réseaux Sociaux DINGUE -->
+        <section class="social-networks-section" id="services">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Nos Réseaux Sociaux</h2>
+                    <p class="section-subtitle">
+                        Boostez votre présence sur les plateformes les plus populaires avec nos services SMM professionnels
+                    </p>
+                </div>
+                
+                <div class="social-grid">
+                    <div class="social-card">
+                        <div class="social-icon instagram">
+                            <i class="fab fa-instagram"></i>
                         </div>
+                        <h3 class="social-title">Instagram</h3>
+                        <p class="social-description">
+                            Augmentez votre visibilité sur Instagram avec des followers, likes et commentaires authentiques.
+                        </p>
+                        <div class="social-stats">
+                            <div class="stat-item">
+                                <span class="stat-number">50K+</span>
+                                <span class="stat-label">Followers</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">100K+</span>
+                                <span class="stat-label">Likes</span>
+                            </div>
+                        </div>
+                        <a href="commander.php?category=1" class="social-btn">
+                            <i class="fas fa-rocket me-2"></i>Commander
+                        </a>
                     </div>
-                <?php endforeach; ?>
+                    
+                    <div class="social-card">
+                        <div class="social-icon tiktok">
+                            <i class="fab fa-tiktok"></i>
+                        </div>
+                        <h3 class="social-title">TikTok</h3>
+                        <p class="social-description">
+                            Propulsez vos vidéos TikTok avec des vues, likes et followers pour maximiser votre portée.
+                        </p>
+                        <div class="social-stats">
+                            <div class="stat-item">
+                                <span class="stat-number">100K+</span>
+                                <span class="stat-label">Vues</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">25K+</span>
+                                <span class="stat-label">Likes</span>
+                            </div>
+                        </div>
+                        <a href="commander.php?category=2" class="social-btn">
+                            <i class="fas fa-rocket me-2"></i>Commander
+                        </a>
+                    </div>
+                    
+                    <div class="social-card">
+                        <div class="social-icon youtube">
+                            <i class="fab fa-youtube"></i>
+                        </div>
+                        <h3 class="social-title">YouTube</h3>
+                        <p class="social-description">
+                            Développez votre chaîne YouTube avec des abonnés, vues et likes pour augmenter votre monétisation.
+                        </p>
+                        <div class="social-stats">
+                            <div class="stat-item">
+                                <span class="stat-number">10K+</span>
+                                <span class="stat-label">Abonnés</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">500K+</span>
+                                <span class="stat-label">Vues</span>
+                            </div>
+                        </div>
+                        <a href="commander.php?category=3" class="social-btn">
+                            <i class="fas fa-rocket me-2"></i>Commander
+                        </a>
+                    </div>
+                    
+                    <div class="social-card">
+                        <div class="social-icon facebook">
+                            <i class="fab fa-facebook"></i>
+                        </div>
+                        <h3 class="social-title">Facebook</h3>
+                        <p class="social-description">
+                            Renforcez votre page Facebook avec des fans, likes et partages pour une meilleure engagement.
+                        </p>
+                        <div class="social-stats">
+                            <div class="stat-item">
+                                <span class="stat-number">20K+</span>
+                                <span class="stat-label">Fans</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">75K+</span>
+                                <span class="stat-label">Likes</span>
+                            </div>
+                        </div>
+                        <a href="commander.php?category=4" class="social-btn">
+                            <i class="fas fa-rocket me-2"></i>Commander
+                        </a>
+                    </div>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
     
     <!-- Features Section -->
     <section class="section bg-dark">
@@ -1007,6 +1675,52 @@ $categories = getAllCategories();
                         <h4>Communauté Active</h4>
                         <p>Rejoignez notre communauté de clients satisfaits et boostez votre visibilité.</p>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section Statistiques DINGUE -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2 class="section-title">Nos Chiffres Impressionnants</h2>
+                <p class="section-subtitle">
+                    Découvrez pourquoi des milliers de clients nous font confiance pour leur croissance sociale
+                </p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <span class="stat-number" data-target="15000">0</span>
+                    <div class="stat-label">Clients Satisfaits</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <span class="stat-number" data-target="50000">0</span>
+                    <div class="stat-label">Commandes Livrées</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <span class="stat-number" data-target="24">0</span>
+                    <div class="stat-label">Heures de Support</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <span class="stat-number" data-target="99">0</span>
+                    <div class="stat-label">% de Satisfaction</div>
                 </div>
             </div>
         </div>
