@@ -25,9 +25,13 @@ $categories = getAllCategories();
             --bg-secondary: #f8fafc;
             --bg-tertiary: #f1f5f9;
             --bg-dark: #0f172a;
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --bg-gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --bg-gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             --text-primary: #0f172a;
             --text-secondary: #475569;
             --text-tertiary: #64748b;
+            --text-light: #ffffff;
             --accent-primary: #3b82f6;
             --accent-secondary: #8b5cf6;
             --accent-success: #10b981;
@@ -35,16 +39,19 @@ $categories = getAllCategories();
             --accent-danger: #ef4444;
             --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
             --accent-gradient-2: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+            --accent-gradient-3: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             --border-light: #e2e8f0;
             --border-lighter: #f1f5f9;
             --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.1);
             --shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.07);
             --shadow-large: 0 10px 15px rgba(0, 0, 0, 0.1);
             --shadow-glow: 0 0 20px rgba(59, 130, 246, 0.15);
+            --shadow-hero: 0 20px 40px rgba(0, 0, 0, 0.1);
             --radius-small: 8px;
             --radius-medium: 12px;
             --radius-large: 16px;
             --radius-xl: 20px;
+            --radius-2xl: 24px;
         }
         
         * {
@@ -105,15 +112,13 @@ $categories = getAllCategories();
             background: rgba(59, 130, 246, 0.05);
         }
         
-        /* Hero Section Professionnel et Optimisé Conversion */
+        /* Hero Section Moderne avec Image IA */
         .hero-section {
             min-height: 100vh;
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            background: var(--bg-gradient);
             position: relative;
             display: flex;
             align-items: center;
-            justify-content: center;
-            text-align: center;
             padding-top: 100px;
             overflow: hidden;
         }
@@ -125,10 +130,54 @@ $categories = getAllCategories();
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><radialGradient id="hero" cx="50%" cy="50%"><stop offset="0%" stop-color="%233b82f6" stop-opacity="0.05"/><stop offset="100%" stop-color="%233b82f6" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="150" fill="url(%23hero)"/><circle cx="1000" cy="300" r="200" fill="url(%23hero)"/><circle cx="400" cy="700" r="180" fill="url(%23hero)"/></svg>') no-repeat;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><radialGradient id="hero" cx="50%" cy="50%"><stop offset="0%" stop-color="%23ffffff" stop-opacity="0.1"/><stop offset="100%" stop-color="%23ffffff" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="150" fill="url(%23hero)"/><circle cx="1000" cy="300" r="200" fill="url(%23hero)"/><circle cx="400" cy="700" r="180" fill="url(%23hero)"/></svg>') no-repeat;
             background-size: cover;
-            opacity: 0.6;
+            opacity: 0.8;
             animation: float 25s ease-in-out infinite;
+        }
+        
+        .hero-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-content {
+            text-align: left;
+        }
+        
+        .hero-image {
+            position: relative;
+            text-align: center;
+        }
+        
+        .hero-image img {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-hero);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .hero-image::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            right: -20px;
+            bottom: -20px;
+            background: var(--accent-gradient-3);
+            border-radius: var(--radius-2xl);
+            opacity: 0.3;
+            z-index: -1;
+            animation: pulse 4s ease-in-out infinite;
         }
         
         .hero-content {
@@ -140,32 +189,33 @@ $categories = getAllCategories();
         }
         
         .hero-title {
-            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-size: clamp(3rem, 10vw, 5rem);
             font-weight: 800;
-            color: var(--text-primary);
+            color: var(--text-light);
             margin-bottom: 1.5rem;
             line-height: 1.1;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.03em;
             animation: fadeInUp 1s ease-out 0.3s both;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
         
         .hero-title .highlight {
-            background: var(--accent-gradient);
+            background: var(--accent-gradient-3);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            text-shadow: none;
         }
         
         .hero-subtitle {
-            font-size: clamp(1.1rem, 4vw, 1.4rem);
-            color: var(--text-secondary);
+            font-size: clamp(1.2rem, 4vw, 1.5rem);
+            color: rgba(255, 255, 255, 0.95);
             margin-bottom: 2.5rem;
             font-weight: 400;
             line-height: 1.6;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            max-width: 500px;
             animation: fadeInUp 1s ease-out 0.6s both;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
         
         .hero-buttons {
@@ -177,7 +227,7 @@ $categories = getAllCategories();
         }
         
         .hero-btn {
-            padding: 16px 32px;
+            padding: 18px 36px;
             border-radius: var(--radius-large);
             font-weight: 600;
             font-size: 1.1rem;
@@ -186,67 +236,84 @@ $categories = getAllCategories();
             position: relative;
             display: inline-block;
             margin: 0 12px;
+            overflow: hidden;
         }
         
         .hero-btn-primary {
-            background: var(--accent-primary);
+            background: var(--accent-gradient-3);
             color: white;
             box-shadow: var(--shadow-medium);
         }
         
         .hero-btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-large);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: var(--shadow-glow);
             color: white;
         }
         
         .hero-btn-secondary {
             background: transparent;
-            color: var(--accent-primary);
-            border: 2px solid var(--accent-primary);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
         }
         
         .hero-btn-secondary:hover {
-            background: var(--accent-primary);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: white;
             color: white;
-            transform: translateY(-2px);
+            transform: translateY(-3px) scale(1.05);
         }
         
-        /* Section Problème-Solution Professionnelle */
-        .problem-solution-section {
-            padding: 100px 0;
+        /* Section Présentation Moderne */
+        .presentation-section {
+            padding: 120px 0;
             background: var(--bg-primary);
             position: relative;
         }
         
-        .problem-solution-grid {
+        .presentation-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 80px;
-            align-items: center;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
         
-        .problem-card, .solution-card {
+        .presentation-card {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-xl);
+            padding: 50px 30px;
             text-align: center;
-            padding: 40px;
-        }
-        
-        .problem-card {
-            background: var(--bg-tertiary);
-            border-radius: var(--radius-large);
             border: 1px solid var(--border-light);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
         }
         
-        .solution-card {
-            background: var(--accent-gradient);
-            color: white;
-            border-radius: var(--radius-large);
+        .presentation-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+            transition: left 0.6s ease;
         }
         
-        .problem-icon, .solution-icon {
+        .presentation-card:hover::before {
+            left: 100%;
+        }
+        
+        .presentation-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-large);
+            border-color: var(--accent-primary);
+        }
+        
+        .presentation-icon {
             width: 80px;
             height: 80px;
             margin: 0 auto 30px;
@@ -254,41 +321,40 @@ $categories = getAllCategories();
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
-        }
-        
-        .problem-icon {
-            background: var(--accent-danger);
+            font-size: 2.5rem;
+            background: var(--accent-gradient);
             color: white;
+            position: relative;
         }
         
-        .solution-icon {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
+        .presentation-icon::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border: 2px solid transparent;
+            border-radius: 50%;
+            background: var(--accent-gradient) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
+            opacity: 0.3;
+            animation: pulse 2s ease-in-out infinite;
         }
         
-        .problem-title, .solution-title {
-            font-size: 1.8rem;
+        .presentation-title {
+            font-size: 1.5rem;
             font-weight: 700;
+            color: var(--text-primary);
             margin-bottom: 20px;
         }
         
-        .problem-title {
-            color: var(--text-primary);
-        }
-        
-        .solution-title {
-            color: white;
-        }
-        
-        .problem-text, .solution-text {
-            font-size: 1.1rem;
-            line-height: 1.6;
+        .presentation-text {
             color: var(--text-secondary);
-        }
-        
-        .solution-text {
-            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            font-size: 1.1rem;
         }
         
         .section-header {
@@ -353,6 +419,72 @@ $categories = getAllCategories();
         .benefit-text {
             color: var(--text-secondary);
             line-height: 1.6;
+        }
+        
+        /* Section FAQ Moderne */
+        .faq-section {
+            padding: 120px 0;
+            background: var(--bg-secondary);
+            position: relative;
+        }
+        
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .faq-item {
+            background: var(--bg-primary);
+            border-radius: var(--radius-large);
+            margin-bottom: 20px;
+            border: 1px solid var(--border-light);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item:hover {
+            box-shadow: var(--shadow-medium);
+            border-color: var(--accent-primary);
+        }
+        
+        .faq-question {
+            padding: 25px 30px;
+            background: var(--bg-primary);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+        
+        .faq-question:hover {
+            background: var(--bg-tertiary);
+        }
+        
+        .faq-question i {
+            color: var(--accent-primary);
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+        
+        .faq-answer {
+            padding: 0 30px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 0 30px 25px;
+            max-height: 200px;
         }
         
         .section-title {
@@ -781,9 +913,18 @@ $categories = getAllCategories();
         
         /* Responsive Design Professionnel */
         @media (max-width: 1024px) {
-            .problem-solution-grid {
+            .hero-container {
                 grid-template-columns: 1fr;
                 gap: 40px;
+                text-align: center;
+            }
+            
+            .hero-content {
+                text-align: center;
+            }
+            
+            .presentation-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             }
             
             .benefits-grid {
@@ -1697,23 +1838,29 @@ $categories = getAllCategories();
         </div>
     </nav>
 
-    <!-- Hero Section Professionnel et Optimisé Conversion -->
+    <!-- Hero Section Moderne avec Image IA -->
     <section class="hero-section" id="home">
-        <div class="hero-content">
-            <h1 class="hero-title">
-                Boostez Votre <span class="highlight">Présence Sociale</span> en 24h
-            </h1>
-            <p class="hero-subtitle">
-                Services SMM professionnels pour Instagram, TikTok, YouTube et Facebook. 
-                Obtenez des followers, likes et vues de qualité pour propulser votre influence en ligne.
-            </p>
-            <div class="hero-buttons">
-                <a href="commander.php" class="hero-btn hero-btn-primary">
-                    <i class="fas fa-rocket me-2"></i>Commander Maintenant
-                </a>
-                <a href="#benefits" class="hero-btn hero-btn-secondary">
-                    <i class="fas fa-star me-2"></i>Voir nos Avantages
-                </a>
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Boostez Votre <span class="highlight">Présence Sociale</span> en 24h
+                </h1>
+                <p class="hero-subtitle">
+                    Services SMM professionnels pour Instagram, TikTok, YouTube et Facebook. 
+                    Obtenez des followers, likes et vues de qualité pour propulser votre influence en ligne.
+                </p>
+                <div class="hero-buttons">
+                    <a href="commander.php" class="hero-btn hero-btn-primary">
+                        <i class="fas fa-rocket me-2"></i>Commander Maintenant
+                    </a>
+                    <a href="#presentation" class="hero-btn hero-btn-secondary">
+                        <i class="fas fa-star me-2"></i>Découvrir nos Services
+                    </a>
+                </div>
+            </div>
+            
+            <div class="hero-image">
+                <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 400'><defs><linearGradient id='heroImg' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%233b82f6'/><stop offset='100%' stop-color='%238b5cf6'/></linearGradient></defs><rect width='500' height='400' fill='url(%23heroImg)' rx='20'/><circle cx='100' cy='100' r='30' fill='white' opacity='0.2'/><circle cx='400' cy='80' r='25' fill='white' opacity='0.15'/><circle cx='80' cy='300' r='35' fill='white' opacity='0.1'/><path d='M150 200 Q250 150 350 200 T450 250' stroke='white' stroke-width='3' fill='none' opacity='0.6'/><text x='250' y='220' text-anchor='middle' fill='white' font-family='Arial' font-size='24' font-weight='bold'>SMM Pro</text><text x='250' y='250' text-anchor='middle' fill='white' font-family='Arial' font-size='16'>Marketing Social</text></svg>" alt="SMM Pro - Marketing sur les Réseaux Sociaux" />
             </div>
         </div>
     </section>
@@ -1758,36 +1905,58 @@ $categories = getAllCategories();
         </div>
     </section>
 
-    <!-- Section Problème-Solution -->
-    <section class="problem-solution-section" id="problem-solution">
+    <!-- Section Présentation Moderne -->
+    <section class="presentation-section" id="presentation">
         <div class="container">
             <div class="section-header text-center">
-                <h2 class="section-title">Pourquoi Choisir SMM Pro ?</h2>
+                <h2 class="section-title">Nos Services SMM</h2>
                 <p class="section-subtitle">
-                    Découvrez comment nous résolvons vos défis de croissance sociale
+                    Découvrez comment nous transformons votre présence sur les réseaux sociaux
                 </p>
             </div>
             
-            <div class="problem-solution-grid">
-                <div class="problem-card">
-                    <div class="problem-icon">
-                        <i class="fas fa-chart-line-down"></i>
+            <div class="presentation-grid">
+                <div class="presentation-card">
+                    <div class="presentation-icon">
+                        <i class="fas fa-rocket"></i>
                     </div>
-                    <h3 class="problem-title">Problème</h3>
-                    <p class="problem-text">
-                        Votre contenu est excellent mais manque de visibilité. 
-                        Vous passez des heures à créer du contenu sans obtenir l'engagement souhaité.
+                    <h3 class="presentation-title">Croissance Rapide</h3>
+                    <p class="presentation-text">
+                        Boostez votre visibilité en 24h avec nos services SMM professionnels. 
+                        Résultats garantis et visibles immédiatement.
                     </p>
                 </div>
                 
-                <div class="solution-card">
-                    <div class="solution-icon">
-                        <i class="fas fa-rocket"></i>
+                <div class="presentation-card">
+                    <div class="presentation-icon">
+                        <i class="fas fa-shield-alt"></i>
                     </div>
-                    <h3 class="solution-title">Solution</h3>
-                    <p class="solution-text">
-                        Nos services SMM professionnels boostent immédiatement votre visibilité, 
-                        augmentent votre engagement et accélèrent votre croissance.
+                    <h3 class="presentation-title">Sécurité Totale</h3>
+                    <p class="presentation-text">
+                        Vos comptes sont protégés avec nos méthodes sécurisées et respectueuses 
+                        des plateformes. Aucun risque de bannissement.
+                    </p>
+                </div>
+                
+                <div class="presentation-card">
+                    <div class="presentation-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="presentation-title">Engagement Garanti</h3>
+                    <p class="presentation-text">
+                        Augmentez vos likes, commentaires et partages avec des interactions 
+                        authentiques et durables.
+                    </p>
+                </div>
+                
+                <div class="presentation-card">
+                    <div class="presentation-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3 class="presentation-title">Multi-Plateformes</h3>
+                    <p class="presentation-text">
+                        Instagram, TikTok, YouTube, Facebook : nous couvrons tous les réseaux 
+                        sociaux populaires avec des services adaptés.
                     </p>
                 </div>
             </div>
@@ -1865,9 +2034,73 @@ $categories = getAllCategories();
                     </p>
                 </div>
             </div>
+                </div>
+    </section>
+    
+    <!-- Section FAQ Moderne -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2 class="section-title">Questions Fréquentes</h2>
+                <p class="section-subtitle">
+                    Tout ce que vous devez savoir sur nos services SMM
+                </p>
+            </div>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Comment fonctionnent vos services SMM ?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Nos services SMM utilisent des méthodes professionnelles et sécurisées pour augmenter votre visibilité sur les réseaux sociaux. Nous travaillons avec des partenaires de confiance pour garantir des résultats authentiques et durables.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Combien de temps pour voir les résultats ?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        La plupart de nos services commencent à livrer dans les 1-2 heures suivant la commande. La livraison complète se fait généralement entre 24h et 72h selon le service choisi.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Vos services sont-ils sûrs pour mon compte ?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Absolument ! Nous utilisons des méthodes respectueuses des plateformes et des comptes de haute qualité. Vos comptes sont protégés et il n'y a aucun risque de bannissement.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Quels réseaux sociaux supportez-vous ?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Nous supportons Instagram, TikTok, YouTube et Facebook. Chaque plateforme a ses spécificités et nous adaptons nos services en conséquence pour des résultats optimaux.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Que se passe-t-il si je ne suis pas satisfait ?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Nous offrons une garantie de satisfaction. Si vous n'êtes pas satisfait de nos services, nous vous remboursons ou relivrons gratuitement jusqu'à votre satisfaction.
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
-
+    
     <!-- Section Réseaux Sociaux -->
     <section class="social-networks-section" id="services">
             <div class="container">
@@ -2411,8 +2644,26 @@ $categories = getAllCategories();
             });
         }, { threshold: 0.2 });
         
-        document.querySelectorAll('.social-card, .stat-card').forEach(card => {
+        document.querySelectorAll('.social-card, .stat-card, .presentation-card').forEach(card => {
             cardObserver.observe(card);
+        });
+        
+        // FAQ Interactive
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const faqItem = question.parentElement;
+                const isActive = faqItem.classList.contains('active');
+                
+                // Fermer toutes les autres FAQ
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // Ouvrir/fermer la FAQ cliquée
+                if (!isActive) {
+                    faqItem.classList.add('active');
+                }
+            });
         });
         
         // Navigation active
