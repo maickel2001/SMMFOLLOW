@@ -251,40 +251,42 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
         
         /* Header Principal */
         .main-header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 50%, var(--primary) 100%);
             color: white;
-            padding: 60px 0;
+            padding: 120px 0 80px;
             text-align: center;
             position: relative;
             overflow: hidden;
             margin-bottom: 40px;
         }
         
+        .main-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="%23ffffff" stop-opacity="0.1"/><stop offset="100%" stop-color="%23ffffff" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="100" fill="url(%23a)"/><circle cx="800" cy="300" r="150" fill="url(%23a)"/><circle cx="400" cy="700" r="120" fill="url(%23a)"/></svg>') no-repeat;
+            opacity: 0.3;
+        }
+        
         .main-header h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 20px;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
             position: relative;
-            z-index: 1;
+            z-index: 2;
         }
         
         .main-header p {
-            font-size: 1.2rem;
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
             opacity: 0.9;
             max-width: 600px;
             margin: 0 auto;
             position: relative;
-            z-index: 1;
-        }
-        
-        .header-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.9) 0%, rgba(16, 185, 129, 0.9) 100%);
-            z-index: -1;
+            z-index: 2;
         }
         
         .floating-shapes {
@@ -850,15 +852,15 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
         /* Responsive Design */
         @media (max-width: 768px) {
             .main-header {
-                padding: 40px 20px;
+                padding: 80px 20px 60px;
             }
             
             .main-header h1 {
-                font-size: 2.5rem;
+                font-size: clamp(2rem, 4vw, 2.5rem);
             }
             
             .main-header p {
-                font-size: 1.1rem;
+                font-size: clamp(1rem, 2vw, 1.1rem);
             }
             
             .card {
@@ -889,12 +891,16 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
         }
         
         @media (max-width: 480px) {
+            .main-header {
+                padding: 60px 15px 40px;
+            }
+            
             .main-header h1 {
-                font-size: 2rem;
+                font-size: clamp(1.8rem, 3.5vw, 2rem);
             }
             
             .main-header p {
-                font-size: 1rem;
+                font-size: clamp(0.9rem, 1.8vw, 1rem);
             }
             
             .card {
