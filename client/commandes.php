@@ -153,7 +153,7 @@ try {
 
         /* Bouton hamburger personnalisé */
         .hamburger-btn {
-            display: none;
+            display: flex;
             flex-direction: column;
             justify-content: space-around;
             width: 30px;
@@ -192,7 +192,7 @@ try {
             transform: rotate(-45deg) translate(6px, -6px);
         }
 
-        /* Menu mobile */
+        /* Menu de navigation */
         .mobile-menu {
             display: none;
             position: absolute;
@@ -209,12 +209,42 @@ try {
             transform: translateY(-100%);
             opacity: 0;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 999;
         }
 
         .mobile-menu.active {
             display: block;
             transform: translateY(0);
             opacity: 1;
+        }
+
+        .mobile-menu .navbar-nav {
+            padding: 1rem;
+        }
+
+        .mobile-menu .nav-item {
+            margin: 0.5rem 0;
+        }
+
+        .mobile-menu .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .mobile-menu .nav-link:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateX(10px);
+        }
+
+        .mobile-menu .nav-link.active {
+            background: var(--primary);
+            color: white;
         }
 
         .nav-link {
@@ -730,33 +760,83 @@ try {
                 padding: 0.75rem 0.5rem;
             }
 
-            /* Bouton hamburger visible sur mobile */
-            .hamburger-btn {
-                display: flex;
-            }
-
-            /* Menu mobile */
+            /* Menu mobile plein écran */
             .mobile-menu {
                 position: fixed;
-                top: 80px;
+                top: 0;
                 left: 0;
                 right: 0;
-                height: calc(100vh - 80px);
+                bottom: 0;
+                height: 100vh;
+                width: 100vw;
                 background: rgba(255, 255, 255, 0.98);
                 backdrop-filter: blur(20px);
                 border-radius: 0;
-                box-shadow: var(--shadow-lg);
+                box-shadow: none;
                 border: none;
-                border-top: 1px solid var(--gray-light);
                 overflow-y: auto;
                 transform: translateX(-100%);
                 opacity: 0;
-                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                z-index: 9999;
             }
 
             .mobile-menu.active {
                 transform: translateX(0);
                 opacity: 1;
+            }
+
+            .mobile-menu .navbar-nav {
+                padding: 2rem 1rem;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            .mobile-menu .nav-item {
+                margin: 1rem 0;
+                text-align: center;
+            }
+
+            .mobile-menu .nav-link {
+                padding: 1.5rem 2rem;
+                font-size: 1.3rem;
+                border-radius: 16px;
+                margin: 0.5rem 0;
+                justify-content: center;
+            }
+
+            .mobile-menu .nav-link:hover {
+                transform: translateX(0) scale(1.05);
+                box-shadow: var(--shadow-lg);
+            }
+
+            /* Bouton fermer le menu */
+            .close-menu-btn {
+                position: absolute;
+                top: 2rem;
+                right: 2rem;
+                width: 50px;
+                height: 50px;
+                background: rgba(255, 255, 255, 0.9);
+                border: none;
+                border-radius: 50%;
+                font-size: 1.5rem;
+                color: var(--dark);
+                cursor: pointer;
+                z-index: 10000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: var(--shadow);
+                transition: all 0.3s ease;
+            }
+
+            .close-menu-btn:hover {
+                background: var(--danger);
+                color: white;
+                transform: scale(1.1);
             }
 
             .navbar-nav {
@@ -912,6 +992,9 @@ try {
             
             <!-- Menu de navigation -->
             <div class="mobile-menu" id="mobileMenu">
+                <button class="close-menu-btn" id="closeMenuBtn" aria-label="Fermer le menu">
+                    <i class="fas fa-times"></i>
+                </button>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="dashboard.php">
@@ -1192,9 +1275,28 @@ try {
                 });
             });
 
+            // Fermer le menu en cliquant sur le bouton X
+            const closeMenuBtn = document.getElementById('closeMenuBtn');
+            if (closeMenuBtn) {
+                closeMenuBtn.addEventListener('click', () => {
+                    hamburgerBtn.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                    body.style.overflow = '';
+                });
+            }
+
             // Fermer le menu en cliquant à l'extérieur
             document.addEventListener('click', (e) => {
                 if (!hamburgerBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+                    hamburgerBtn.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                    body.style.overflow = '';
+                }
+            });
+
+            // Fermer le menu avec la touche Escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
                     hamburgerBtn.classList.remove('active');
                     mobileMenu.classList.remove('active');
                     body.style.overflow = '';
