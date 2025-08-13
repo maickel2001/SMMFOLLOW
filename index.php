@@ -265,14 +265,14 @@ $categories = getAllCategories();
             transform: translateY(-3px) scale(1.05);
         }
         
-        /* Section Présentation Moderne */
-        .presentation-section {
+        /* Section Menu Principal */
+        .menu-section {
             padding: 120px 0;
             background: var(--bg-primary);
             position: relative;
         }
         
-        .presentation-grid {
+        .menu-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 40px;
@@ -281,7 +281,7 @@ $categories = getAllCategories();
             padding: 0 20px;
         }
         
-        .presentation-card {
+        .menu-card {
             background: var(--bg-secondary);
             border-radius: var(--radius-xl);
             padding: 50px 30px;
@@ -292,7 +292,7 @@ $categories = getAllCategories();
             overflow: hidden;
         }
         
-        .presentation-card::before {
+        .menu-card::before {
             content: '';
             position: absolute;
             top: 0;
@@ -303,17 +303,17 @@ $categories = getAllCategories();
             transition: left 0.6s ease;
         }
         
-        .presentation-card:hover::before {
+        .menu-card:hover::before {
             left: 100%;
         }
         
-        .presentation-card:hover {
+        .menu-card:hover {
             transform: translateY(-10px);
             box-shadow: var(--shadow-large);
             border-color: var(--accent-primary);
         }
         
-        .presentation-icon {
+        .menu-icon {
             width: 80px;
             height: 80px;
             margin: 0 auto 30px;
@@ -327,7 +327,7 @@ $categories = getAllCategories();
             position: relative;
         }
         
-        .presentation-icon::after {
+        .menu-icon::after {
             content: '';
             position: absolute;
             top: -10px;
@@ -344,17 +344,35 @@ $categories = getAllCategories();
             animation: pulse 2s ease-in-out infinite;
         }
         
-        .presentation-title {
+        .menu-title {
             font-size: 1.5rem;
             font-weight: 700;
             color: var(--text-primary);
             margin-bottom: 20px;
         }
         
-        .presentation-text {
+        .menu-text {
             color: var(--text-secondary);
             line-height: 1.6;
             font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+        
+        .menu-btn {
+            display: inline-block;
+            padding: 14px 28px;
+            background: var(--accent-gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: var(--radius-medium);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .menu-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+            color: white;
         }
         
         .section-header {
@@ -857,7 +875,7 @@ $categories = getAllCategories();
                 text-align: center;
             }
             
-            .presentation-grid {
+            .menu-grid {
                 grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             }
             
@@ -1839,66 +1857,58 @@ $categories = getAllCategories();
         </div>
     </section>
 
-    <!-- Section Présentation Moderne -->
-    <section class="presentation-section" id="presentation">
+    <!-- Section Menu Principal -->
+    <section class="menu-section" id="menu">
         <div class="container">
             <div class="section-header text-center">
-                <h2 class="section-title">Pourquoi Choisir SMM Pro ?</h2>
+                <h2 class="section-title">Découvrez SMM Pro</h2>
                 <p class="section-subtitle">
-                    Découvrez les avantages qui nous distinguent de la concurrence
+                    Explorez nos services et apprenez-en plus sur notre entreprise
                 </p>
             </div>
             
-            <div class="presentation-grid">
-                <div class="presentation-card">
-                    <div class="presentation-icon">
+            <div class="menu-grid">
+                <div class="menu-card">
+                    <div class="menu-icon">
                         <i class="fas fa-rocket"></i>
                     </div>
-                    <h3 class="presentation-title">Croissance Rapide</h3>
-                    <p class="presentation-text">
-                        Boostez votre visibilité en 24h avec nos services SMM professionnels. 
-                        Résultats garantis et visibles immédiatement.
+                    <h3 class="menu-title">Nos Services</h3>
+                    <p class="menu-text">
+                        Découvrez notre gamme complète de services SMM professionnels 
+                        pour tous les réseaux sociaux populaires.
                     </p>
+                    <a href="services.php" class="menu-btn">
+                        <i class="fas fa-arrow-right me-2"></i>Explorer les Services
+                    </a>
                 </div>
                 
-                <div class="presentation-card">
-                    <div class="presentation-icon">
-                        <i class="fas fa-shield-alt"></i>
+                <div class="menu-card">
+                    <div class="menu-icon">
+                        <i class="fas fa-info-circle"></i>
                     </div>
-                    <h3 class="presentation-title">Sécurité Totale</h3>
-                    <p class="presentation-text">
-                        Vos comptes sont protégés avec nos méthodes sécurisées et respectueuses 
-                        des plateformes. Aucun risque de bannissement.
+                    <h3 class="menu-title">À Propos</h3>
+                    <p class="menu-text">
+                        Apprenez-en plus sur notre histoire, notre mission et notre équipe 
+                        d'experts passionnés.
                     </p>
+                    <a href="about.php" class="menu-btn">
+                        <i class="fas fa-arrow-right me-2"></i>En Savoir Plus
+                    </a>
                 </div>
                 
-                <div class="presentation-card">
-                    <div class="presentation-icon">
-                        <i class="fas fa-chart-line"></i>
+                <div class="menu-card">
+                    <div class="menu-icon">
+                        <i class="fas fa-envelope"></i>
                     </div>
-                    <h3 class="presentation-title">Engagement Garanti</h3>
-                    <p class="presentation-text">
-                        Augmentez vos likes, commentaires et partages avec des interactions 
-                        authentiques et durables.
+                    <h3 class="menu-title">Contact</h3>
+                    <p class="menu-text">
+                        Contactez notre équipe pour toute question ou demande de support. 
+                        Nous sommes là pour vous aider.
                     </p>
+                    <a href="contact.php" class="menu-btn">
+                        <i class="fas fa-arrow-right me-2"></i>Nous Contacter
+                    </a>
                 </div>
-                
-                <div class="presentation-card">
-                    <div class="presentation-icon">
-                        <i class="fas fa-globe"></i>
-                    </div>
-                    <h3 class="presentation-title">Multi-Plateformes</h3>
-                    <p class="presentation-text">
-                        Instagram, TikTok, YouTube, Facebook : nous couvrons tous les réseaux 
-                        sociaux populaires avec des services adaptés.
-                    </p>
-                </div>
-            </div>
-            
-            <div class="text-center mt-5">
-                <a href="services.php" class="btn btn-primary btn-lg">
-                    <i class="fas fa-arrow-right me-2"></i>Voir Tous nos Services
-                </a>
             </div>
         </div>
     </section>
@@ -1979,382 +1989,16 @@ $categories = getAllCategories();
     
 
     
-    <!-- Section Réseaux Sociaux -->
-    <section class="social-networks-section" id="services">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Réseaux Sociaux</h2>
-                    <p class="section-subtitle">
-                        Boostez votre présence sur les plateformes les plus populaires
-                    </p>
-                </div>
-                
-                <div class="social-grid">
-                    <div class="social-card">
-                        <div class="social-icon instagram">
-                            <i class="fab fa-instagram"></i>
-                        </div>
-                        <h3 class="social-title">Instagram</h3>
-                        <p class="social-description">
-                            Augmentez votre visibilité sur Instagram avec des followers, likes et commentaires authentiques.
-                        </p>
-                        <div class="social-stats">
-                            <div class="stat-item">
-                                <span class="stat-number">50K+</span>
-                                <span class="stat-label">Followers</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number">100K+</span>
-                                <span class="stat-label">Likes</span>
-                            </div>
-                        </div>
-                        <a href="commander.php?category=1" class="social-btn">
-                            <i class="fas fa-rocket me-2"></i>Commander
-                        </a>
-                    </div>
-                    
-                    <div class="social-card">
-                        <div class="social-icon tiktok">
-                            <i class="fab fa-tiktok"></i>
-                        </div>
-                        <h3 class="social-title">TikTok</h3>
-                        <p class="social-description">
-                            Propulsez vos vidéos TikTok avec des vues, likes et followers pour maximiser votre portée.
-                        </p>
-                        <div class="social-stats">
-                            <div class="stat-item">
-                                <span class="stat-number">100K+</span>
-                                <span class="stat-label">Vues</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number">25K+</span>
-                                <span class="stat-label">Likes</span>
-                            </div>
-                        </div>
-                        <a href="commander.php?category=2" class="social-btn">
-                            <i class="fas fa-rocket me-2"></i>Commander
-                        </a>
-                    </div>
-                    
-                    <div class="social-card">
-                        <div class="social-icon youtube">
-                            <i class="fab fa-youtube"></i>
-                        </div>
-                        <h3 class="social-title">YouTube</h3>
-                        <p class="social-description">
-                            Développez votre chaîne YouTube avec des abonnés, vues et likes pour augmenter votre monétisation.
-                        </p>
-                        <div class="social-stats">
-                            <div class="stat-item">
-                                <span class="stat-number">10K+</span>
-                                <span class="stat-label">Abonnés</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number">500K+</span>
-                                <span class="stat-label">Vues</span>
-                            </div>
-                        </div>
-                        <a href="commander.php?category=3" class="social-btn">
-                            <i class="fas fa-rocket me-2"></i>Commander
-                        </a>
-                    </div>
-                    
-                    <div class="social-card">
-                        <div class="social-icon facebook">
-                            <i class="fab fa-facebook"></i>
-                        </div>
-                        <h3 class="social-title">Facebook</h3>
-                        <p class="social-description">
-                            Renforcez votre page Facebook avec des fans, likes et partages pour une meilleure engagement.
-                        </p>
-                        <div class="social-stats">
-                            <div class="stat-item">
-                                <span class="stat-number">20K+</span>
-                                <span class="stat-label">Fans</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number">75K+</span>
-                                <span class="stat-label">Likes</span>
-                            </div>
-                        </div>
-                        <a href="commander.php?category=4" class="social-btn">
-                            <i class="fas fa-rocket me-2"></i>Commander
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
+
     
-    <!-- Features Section -->
-    <section class="section bg-dark">
-        <div class="container">
-            <div class="section-header text-center">
-                <h2 class="section-title">Pourquoi Choisir SMM Pro ?</h2>
-                <p class="section-subtitle">
-                    Découvrez les avantages de nos services professionnels
-                </p>
-            </div>
-            
-            <div class="row">
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="feature-card fade-in-up">
-                        <div class="feature-icon">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <h4>Sécurité Garantie</h4>
-                        <p>Vos comptes sont protégés avec nos méthodes sécurisées et respectueuses des plateformes.</p>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="feature-card fade-in-up">
-                        <div class="feature-icon">
-                            <i class="fas fa-rocket"></i>
-                        </div>
-                        <h4>Livraison Rapide</h4>
-                        <p>Recevez vos followers, likes et vues dans les délais indiqués, généralement entre 1h et 72h.</p>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="feature-card fade-in-up">
-                        <div class="feature-icon">
-                            <i class="fas fa-headset"></i>
-                        </div>
-                        <h4>Support 24/7</h4>
-                        <p>Notre équipe support est disponible 24h/24 et 7j/7 pour vous assister.</p>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="feature-card fade-in-up">
-                        <div class="feature-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <h4>Qualité Premium</h4>
-                        <p>Des services de haute qualité pour des résultats durables et visibles.</p>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="feature-card fade-in-up">
-                        <div class="feature-icon">
-                            <i class="fas fa-credit-card"></i>
-                        </div>
-                        <h4>Paiement Sécurisé</h4>
-                        <p>Paiements sécurisés via MTN Money et Moov Money avec suivi en temps réel.</p>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="feature-card fade-in-up">
-                        <div class="feature-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <h4>Communauté Active</h4>
-                        <p>Rejoignez notre communauté de clients satisfaits et boostez votre visibilité.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+
+
     
-    <!-- Section Preuves Sociales -->
-    <section class="social-proof-section" id="social-proof">
-        <div class="container">
-            <div class="section-header text-center">
-                <h2 class="section-title">Ils Nous Font Confiance</h2>
-                <p class="section-subtitle">
-                    Découvrez pourquoi des milliers de clients nous font confiance
-                </p>
-            </div>
-            
-            <div class="social-proof-grid">
-                <div class="proof-card">
-                    <span class="proof-number" data-target="15000">0</span>
-                    <div class="proof-label">Clients Satisfaits</div>
-                </div>
-                
-                <div class="proof-card">
-                    <span class="proof-number" data-target="50000">0</span>
-                    <div class="proof-label">Commandes Livrées</div>
-                </div>
-                
-                <div class="proof-card">
-                    <span class="proof-number" data-target="24">0</span>
-                    <div class="proof-label">Heures de Support</div>
-                </div>
-                
-                <div class="proof-card">
-                    <span class="proof-number" data-target="99">0</span>
-                    <div class="proof-label">% de Satisfaction</div>
-                </div>
-            </div>
-        </div>
-    </section>
+
     
-    <!-- Section Call-to-Action Finale -->
-    <section class="cta-section" id="cta">
-        <div class="container">
-            <div class="cta-content">
-                <h2 class="cta-title">Prêt à Booster Votre Présence ?</h2>
-                <p class="cta-subtitle">
-                    Rejoignez des milliers de clients satisfaits et transformez votre visibilité sociale dès aujourd'hui
-                </p>
-                <div class="cta-buttons">
-                    <a href="commander.php" class="cta-btn cta-btn-primary">
-                        <i class="fas fa-rocket me-2"></i>Commander Maintenant
-                    </a>
-                    <a href="connexion.php" class="cta-btn cta-btn-secondary">
-                        <i class="fas fa-user me-2"></i>Créer un Compte
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+
     
-    <!-- Section Statistiques -->
-    <section class="stats-section">
-        <div class="container">
-                            <div class="section-header text-center">
-                    <h2 class="section-title">Chiffres Clés</h2>
-                    <p class="section-subtitle">
-                        Pourquoi des milliers de clients nous font confiance
-                    </p>
-                </div>
-            
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <span class="stat-number" data-target="15000">0</span>
-                    <div class="stat-label">Clients Satisfaits</div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-rocket"></i>
-                    </div>
-                    <span class="stat-number" data-target="50000">0</span>
-                    <div class="stat-label">Commandes Livrées</div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <span class="stat-number" data-target="24">0</span>
-                    <div class="stat-label">Heures de Support</div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <span class="stat-number" data-target="99">0</span>
-                    <div class="stat-label">% de Satisfaction</div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- About Section -->
-    <section id="about" class="section">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <div class="about-content fade-in-up">
-                        <h2 class="section-title">À Propos de SMM Pro</h2>
-                        <p class="lead">
-                            SMM Pro est votre partenaire de confiance pour le marketing sur les réseaux sociaux. 
-                            Nous offrons des services de qualité pour aider les entreprises et particuliers à 
-                            accroître leur visibilité en ligne.
-                        </p>
-                        <p>
-                            Avec des années d'expérience dans le domaine, nous comprenons l'importance d'une 
-                            présence forte sur les réseaux sociaux pour le succès de votre entreprise.
-                        </p>
-                        <div class="about-stats">
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="stat-item">
-                                        <h3>1000+</h3>
-                                        <p>Clients Satisfaits</p>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="stat-item">
-                                        <h3>50K+</h3>
-                                        <p>Commandes Traitées</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="about-image fade-in-up">
-                        <img src="https://via.placeholder.com/500x400/f5f5f7/007aff?text=SMM+Pro" 
-                             alt="SMM Pro" class="img-fluid rounded">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Contact Section -->
-    <section id="contact" class="section bg-dark">
-        <div class="container">
-            <div class="section-header text-center">
-                <h2 class="section-title">Contactez-Nous</h2>
-                <p class="section-subtitle">
-                    Notre équipe est là pour vous aider. N'hésitez pas à nous contacter !
-                </p>
-            </div>
-            
-            <div class="row">
-                <div class="col-lg-4 mb-4">
-                    <div class="contact-card fade-in-up">
-                        <div class="contact-icon">
-                            <i class="fab fa-whatsapp"></i>
-                        </div>
-                        <h4>WhatsApp</h4>
-                        <p>+225 0123456789</p>
-                        <small>Réponse immédiate</small>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 mb-4">
-                    <div class="contact-card fade-in-up">
-                        <div class="contact-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <h4>Email</h4>
-                        <p>contact@smmpro.com</p>
-                        <small>Réponse sous 24h</small>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 mb-4">
-                    <div class="contact-card fade-in-up">
-                        <div class="contact-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <h4>Disponibilité</h4>
-                        <p>24h/24 - 7j/7</p>
-                        <small>Support permanent</small>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="text-center mt-4">
-                <a href="support.php" class="btn btn-primary btn-lg">
-                    <i class="fas fa-headset me-2"></i>Créer un Ticket de Support
-                </a>
-            </div>
-        </div>
-    </section>
+
 
     <!-- Footer -->
     <footer class="footer">
@@ -2370,8 +2014,8 @@ $categories = getAllCategories();
                     <h6>Services</h6>
                     <ul class="list-unstyled">
                         <li><a href="commander.php">Commander</a></li>
+                        <li><a href="services.php">Nos Services</a></li>
                         <li><a href="support.php">Support</a></li>
-                        <li><a href="#about">À Propos</a></li>
                     </ul>
                 </div>
                 
@@ -2382,6 +2026,15 @@ $categories = getAllCategories();
                         <li><a href="commander.php?category=2">TikTok</a></li>
                         <li><a href="commander.php?category=3">YouTube</a></li>
                         <li><a href="commander.php?category=4">Facebook</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 mb-4">
+                    <h6>À Propos</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="about.php">Notre Histoire</a></li>
+                        <li><a href="about.php#mission">Mission</a></li>
+                        <li><a href="about.php#team">Notre Équipe</a></li>
                     </ul>
                 </div>
                 
