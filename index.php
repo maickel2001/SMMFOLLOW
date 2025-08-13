@@ -22,30 +22,29 @@ $categories = getAllCategories();
     <style>
         :root {
             --bg-primary: #ffffff;
-            --bg-secondary: #f8f9fa;
-            --bg-tertiary: #f1f3f4;
-            --bg-dark: #1d1d1f;
-            --text-primary: #1d1d1f;
-            --text-secondary: #86868b;
-            --text-tertiary: #6e6e73;
-            --accent-primary: #007aff;
-            --accent-secondary: #5856d6;
-            --accent-success: #34c759;
-            --accent-warning: #ff9500;
-            --accent-danger: #ff3b30;
-            --accent-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --accent-gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --accent-gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --border-light: #d2d2d7;
-            --border-lighter: #e5e5e7;
-            --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.04);
-            --shadow-medium: 0 4px 20px rgba(0, 0, 0, 0.08);
-            --shadow-large: 0 8px 32px rgba(0, 0, 0, 0.12);
-            --shadow-glow: 0 0 40px rgba(0, 122, 255, 0.3);
-            --radius-small: 12px;
-            --radius-medium: 16px;
-            --radius-large: 20px;
-            --radius-xl: 24px;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --bg-dark: #0f172a;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-tertiary: #64748b;
+            --accent-primary: #3b82f6;
+            --accent-secondary: #8b5cf6;
+            --accent-success: #10b981;
+            --accent-warning: #f59e0b;
+            --accent-danger: #ef4444;
+            --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            --accent-gradient-2: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+            --border-light: #e2e8f0;
+            --border-lighter: #f1f5f9;
+            --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-large: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --shadow-glow: 0 0 20px rgba(59, 130, 246, 0.15);
+            --radius-small: 8px;
+            --radius-medium: 12px;
+            --radius-large: 16px;
+            --radius-xl: 20px;
         }
         
         * {
@@ -65,14 +64,14 @@ $categories = getAllCategories();
             overflow-x: hidden;
         }
         
-        /* Navigation Ultra-Minimaliste Apple */
+        /* Navigation Professionnelle et Moderne */
         .navbar {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border-bottom: 1px solid var(--border-lighter);
-            padding: 20px 0;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-light);
+            padding: 16px 0;
+            transition: all 0.3s ease;
             position: fixed;
             top: 0;
             left: 0;
@@ -80,16 +79,42 @@ $categories = getAllCategories();
             z-index: 1000;
         }
         
-        /* Hero Section MAGNIFIQUE et ATTRACTIF */
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--text-primary) !important;
+            text-decoration: none;
+        }
+        
+        .navbar-brand i {
+            color: var(--accent-primary);
+        }
+        
+        .navbar-nav .nav-link {
+            color: var(--text-secondary) !important;
+            font-weight: 500;
+            padding: 8px 16px;
+            margin: 0 4px;
+            border-radius: var(--radius-medium);
+            transition: all 0.2s ease;
+        }
+        
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link.active {
+            color: var(--accent-primary) !important;
+            background: rgba(59, 130, 246, 0.05);
+        }
+        
+        /* Hero Section Professionnel et Optimisé Conversion */
         .hero-section {
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding-top: 120px;
+            padding-top: 100px;
             overflow: hidden;
         }
         
@@ -100,10 +125,10 @@ $categories = getAllCategories();
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><radialGradient id="hero" cx="50%" cy="50%"><stop offset="0%" stop-color="%23ffffff" stop-opacity="0.1"/><stop offset="100%" stop-color="%23ffffff" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="150" fill="url(%23hero)"/><circle cx="1000" cy="300" r="200" fill="url(%23hero)"/><circle cx="400" cy="700" r="180" fill="url(%23hero)"/></svg>') no-repeat;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><radialGradient id="hero" cx="50%" cy="50%"><stop offset="0%" stop-color="%233b82f6" stop-opacity="0.05"/><stop offset="100%" stop-color="%233b82f6" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="150" fill="url(%23hero)"/><circle cx="1000" cy="300" r="200" fill="url(%23hero)"/><circle cx="400" cy="700" r="180" fill="url(%23hero)"/></svg>') no-repeat;
             background-size: cover;
-            opacity: 0.8;
-            animation: float 20s ease-in-out infinite;
+            opacity: 0.6;
+            animation: float 25s ease-in-out infinite;
         }
         
         .hero-content {
@@ -115,26 +140,31 @@ $categories = getAllCategories();
         }
         
         .hero-title {
-            font-size: clamp(3.5rem, 12vw, 6rem);
-            font-weight: 700;
-            color: white;
-            margin-bottom: 2rem;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
             line-height: 1.1;
-            letter-spacing: -0.03em;
-            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            letter-spacing: -0.02em;
             animation: fadeInUp 1s ease-out 0.3s both;
         }
         
+        .hero-title .highlight {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
         .hero-subtitle {
-            font-size: clamp(1.3rem, 4vw, 1.8rem);
-            color: rgba(255, 255, 255, 0.95);
-            margin-bottom: 3.5rem;
+            font-size: clamp(1.1rem, 4vw, 1.4rem);
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
             font-weight: 400;
             line-height: 1.6;
-            max-width: 700px;
+            max-width: 600px;
             margin-left: auto;
             margin-right: auto;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
             animation: fadeInUp 1s ease-out 0.6s both;
         }
         
@@ -147,62 +177,118 @@ $categories = getAllCategories();
         }
         
         .hero-btn {
-            padding: 20px 40px;
+            padding: 16px 32px;
             border-radius: var(--radius-large);
             font-weight: 600;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             text-decoration: none;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: all 0.3s ease;
             position: relative;
             display: inline-block;
-            margin: 0 15px;
-            overflow: hidden;
+            margin: 0 12px;
         }
         
         .hero-btn-primary {
-            background: white;
-            color: var(--accent-primary);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-            font-weight: 700;
+            background: var(--accent-primary);
+            color: white;
+            box-shadow: var(--shadow-medium);
         }
         
         .hero-btn-primary:hover {
-            transform: translateY(-4px) scale(1.05);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-            color: var(--accent-primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-large);
+            color: white;
         }
         
         .hero-btn-secondary {
             background: transparent;
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
+            color: var(--accent-primary);
+            border: 2px solid var(--accent-primary);
         }
         
         .hero-btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: white;
+            background: var(--accent-primary);
             color: white;
-            transform: translateY(-4px) scale(1.05);
+            transform: translateY(-2px);
         }
         
-        /* Section Réseaux Sociaux MAGNIFIQUE */
-        .social-networks-section {
-            padding: 120px 0;
-            background: var(--bg-secondary);
+        /* Section Problème-Solution Professionnelle */
+        .problem-solution-section {
+            padding: 100px 0;
+            background: var(--bg-primary);
             position: relative;
-            overflow: hidden;
         }
         
-        .social-networks-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><linearGradient id="social" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="%234facfe" stop-opacity="0.03"/><stop offset="100%" stop-color="%2300f2fe" stop-opacity="0.03"/></linearGradient></defs><rect width="1200" height="800" fill="url(%23social)"/></svg>') no-repeat;
-            background-size: cover;
+        .problem-solution-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .problem-card, .solution-card {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .problem-card {
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-large);
+            border: 1px solid var(--border-light);
+        }
+        
+        .solution-card {
+            background: var(--accent-gradient);
+            color: white;
+            border-radius: var(--radius-large);
+        }
+        
+        .problem-icon, .solution-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+        
+        .problem-icon {
+            background: var(--accent-danger);
+            color: white;
+        }
+        
+        .solution-icon {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        
+        .problem-title, .solution-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .problem-title {
+            color: var(--text-primary);
+        }
+        
+        .solution-title {
+            color: white;
+        }
+        
+        .problem-text, .solution-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+        
+        .solution-text {
+            color: rgba(255, 255, 255, 0.9);
         }
         
         .section-header {
@@ -210,6 +296,63 @@ $categories = getAllCategories();
             margin-bottom: 80px;
             position: relative;
             z-index: 2;
+        }
+        
+        /* Section Avantages Professionnelle */
+        .benefits-section {
+            padding: 100px 0;
+            background: var(--bg-secondary);
+            position: relative;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .benefit-card {
+            background: var(--bg-primary);
+            border-radius: var(--radius-large);
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: var(--shadow-subtle);
+            border: 1px solid var(--border-light);
+            transition: all 0.3s ease;
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+            border-color: var(--accent-primary);
+        }
+        
+        .benefit-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            background: var(--accent-gradient);
+            color: white;
+        }
+        
+        .benefit-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+        }
+        
+        .benefit-text {
+            color: var(--text-secondary);
+            line-height: 1.6;
         }
         
         .section-title {
@@ -412,23 +555,121 @@ $categories = getAllCategories();
         .social-card:nth-child(3) { animation-delay: 0.3s; }
         .social-card:nth-child(4) { animation-delay: 0.4s; }
         
-        /* Section Statistiques MAGNIFIQUE */
-        .stats-section {
-            padding: 120px 0;
+        /* Section Preuves Sociales Professionnelle */
+        .social-proof-section {
+            padding: 100px 0;
             background: var(--bg-primary);
             position: relative;
-            overflow: hidden;
         }
         
-        .stats-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><radialGradient id="stats" cx="50%" cy="50%"><stop offset="0%" stop-color="%23f093fb" stop-opacity="0.05"/><stop offset="100%" stop-color="%23f5576c" stop-opacity="0.02"/></radialGradient></defs><circle cx="300" cy="200" r="200" fill="url(%23stats)"/><circle cx="900" cy="600" r="250" fill="url(%23stats)"/></svg>') no-repeat;
-            background-size: cover;
+        .social-proof-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .proof-card {
+            text-align: center;
+            padding: 40px 20px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-large);
+            border: 1px solid var(--border-light);
+            transition: all 0.3s ease;
+        }
+        
+        .proof-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .proof-number {
+            font-size: clamp(2.5rem, 6vw, 3.5rem);
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .proof-label {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Section Call-to-Action Finale */
+        .cta-section {
+            padding: 100px 0;
+            background: var(--accent-gradient);
+            position: relative;
+            text-align: center;
+            color: white;
+        }
+        
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .cta-title {
+            font-size: clamp(2.5rem, 8vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .cta-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .cta-btn {
+            padding: 18px 36px;
+            border-radius: var(--radius-large);
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .cta-btn-primary {
+            background: white;
+            color: var(--accent-primary);
+        }
+        
+        .cta-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-large);
+            color: var(--accent-primary);
+        }
+        
+        .cta-btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+        }
+        
+        .cta-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: white;
+            transform: translateY(-2px);
         }
         
         .stats-grid {
@@ -538,7 +779,18 @@ $categories = getAllCategories();
         .stat-card:nth-child(3) { animation-delay: 0.3s; }
         .stat-card:nth-child(4) { animation-delay: 0.4s; }
         
-        /* Responsive Design DINGUE */
+        /* Responsive Design Professionnel */
+        @media (max-width: 1024px) {
+            .problem-solution-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .benefits-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+        
         @media (max-width: 768px) {
             .hero-section {
                 padding-top: 100px;
@@ -564,24 +816,39 @@ $categories = getAllCategories();
                 text-align: center;
             }
             
-            .social-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
+            .problem-solution-section,
+            .benefits-section,
+            .social-proof-section,
+            .cta-section {
+                padding: 60px 0;
+            }
+            
+            .problem-solution-grid {
+                gap: 30px;
                 padding: 0 15px;
             }
             
-            .social-card {
-                padding: 30px 20px;
-            }
-            
-            .stats-grid {
+            .benefits-grid {
                 grid-template-columns: 1fr;
                 gap: 25px;
                 padding: 0 15px;
             }
             
-            .stat-card {
-                padding: 30px 20px;
+            .social-proof-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 25px;
+                padding: 0 15px;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .cta-btn {
+                width: 100%;
+                max-width: 300px;
+                text-align: center;
             }
         }
         
@@ -599,13 +866,15 @@ $categories = getAllCategories();
                 font-size: clamp(0.9rem, 5vw, 1.1rem);
             }
             
-            .social-networks-section,
-            .stats-section {
-                padding: 60px 0;
+            .problem-solution-section,
+            .benefits-section,
+            .social-proof-section,
+            .cta-section {
+                padding: 50px 0;
             }
             
             .section-header {
-                margin-bottom: 50px;
+                margin-bottom: 40px;
             }
             
             .section-title {
@@ -1428,10 +1697,12 @@ $categories = getAllCategories();
         </div>
     </nav>
 
-    <!-- Hero Section Ultra-Minimaliste -->
+    <!-- Hero Section Professionnel et Optimisé Conversion -->
     <section class="hero-section" id="home">
         <div class="hero-content">
-            <h1 class="hero-title">Boostez Votre Présence Sociale</h1>
+            <h1 class="hero-title">
+                Boostez Votre <span class="highlight">Présence Sociale</span> en 24h
+            </h1>
             <p class="hero-subtitle">
                 Services SMM professionnels pour Instagram, TikTok, YouTube et Facebook. 
                 Obtenez des followers, likes et vues de qualité pour propulser votre influence en ligne.
@@ -1440,8 +1711,8 @@ $categories = getAllCategories();
                 <a href="commander.php" class="hero-btn hero-btn-primary">
                     <i class="fas fa-rocket me-2"></i>Commander Maintenant
                 </a>
-                <a href="#services" class="hero-btn hero-btn-secondary">
-                    <i class="fas fa-eye me-2"></i>Découvrir nos Services
+                <a href="#benefits" class="hero-btn hero-btn-secondary">
+                    <i class="fas fa-star me-2"></i>Voir nos Avantages
                 </a>
             </div>
         </div>
@@ -1487,8 +1758,118 @@ $categories = getAllCategories();
         </div>
     </section>
 
-        <!-- Section Réseaux Sociaux DINGUE -->
-        <section class="social-networks-section" id="services">
+    <!-- Section Problème-Solution -->
+    <section class="problem-solution-section" id="problem-solution">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2 class="section-title">Pourquoi Choisir SMM Pro ?</h2>
+                <p class="section-subtitle">
+                    Découvrez comment nous résolvons vos défis de croissance sociale
+                </p>
+            </div>
+            
+            <div class="problem-solution-grid">
+                <div class="problem-card">
+                    <div class="problem-icon">
+                        <i class="fas fa-chart-line-down"></i>
+                    </div>
+                    <h3 class="problem-title">Problème</h3>
+                    <p class="problem-text">
+                        Votre contenu est excellent mais manque de visibilité. 
+                        Vous passez des heures à créer du contenu sans obtenir l'engagement souhaité.
+                    </p>
+                </div>
+                
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3 class="solution-title">Solution</h3>
+                    <p class="solution-text">
+                        Nos services SMM professionnels boostent immédiatement votre visibilité, 
+                        augmentent votre engagement et accélèrent votre croissance.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Avantages -->
+    <section class="benefits-section" id="benefits">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2 class="section-title">Nos Avantages Uniques</h2>
+                <p class="section-subtitle">
+                    Découvrez ce qui nous rend différents de la concurrence
+                </p>
+            </div>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="benefit-title">Sécurité Garantie</h3>
+                    <p class="benefit-text">
+                        Vos comptes sont protégés avec nos méthodes sécurisées et respectueuses des plateformes.
+                    </p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="benefit-title">Livraison Rapide</h3>
+                    <p class="benefit-text">
+                        Recevez vos followers, likes et vues dans les délais indiqués, généralement entre 1h et 72h.
+                    </p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3 class="benefit-title">Support 24/7</h3>
+                    <p class="benefit-text">
+                        Notre équipe support est disponible 24h/24 et 7j/7 pour vous assister.
+                    </p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="benefit-title">Qualité Premium</h3>
+                    <p class="benefit-text">
+                        Des services de haute qualité pour des résultats durables et visibles.
+                    </p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <h3 class="benefit-title">Paiement Sécurisé</h3>
+                    <p class="benefit-text">
+                        Paiements sécurisés via MTN Money et Moov Money avec suivi en temps réel.
+                    </p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="benefit-title">Communauté Active</h3>
+                    <p class="benefit-text">
+                        Rejoignez notre communauté de clients satisfaits et boostez votre visibilité.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Réseaux Sociaux -->
+    <section class="social-networks-section" id="services">
             <div class="container">
                 <div class="section-header">
                     <h2 class="section-title">Réseaux Sociaux</h2>
@@ -1667,7 +2048,61 @@ $categories = getAllCategories();
         </div>
     </section>
     
-    <!-- Section Statistiques DINGUE -->
+    <!-- Section Preuves Sociales -->
+    <section class="social-proof-section" id="social-proof">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2 class="section-title">Ils Nous Font Confiance</h2>
+                <p class="section-subtitle">
+                    Découvrez pourquoi des milliers de clients nous font confiance
+                </p>
+            </div>
+            
+            <div class="social-proof-grid">
+                <div class="proof-card">
+                    <span class="proof-number" data-target="15000">0</span>
+                    <div class="proof-label">Clients Satisfaits</div>
+                </div>
+                
+                <div class="proof-card">
+                    <span class="proof-number" data-target="50000">0</span>
+                    <div class="proof-label">Commandes Livrées</div>
+                </div>
+                
+                <div class="proof-card">
+                    <span class="proof-number" data-target="24">0</span>
+                    <div class="proof-label">Heures de Support</div>
+                </div>
+                
+                <div class="proof-card">
+                    <span class="proof-number" data-target="99">0</span>
+                    <div class="proof-label">% de Satisfaction</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section Call-to-Action Finale -->
+    <section class="cta-section" id="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">Prêt à Booster Votre Présence ?</h2>
+                <p class="cta-subtitle">
+                    Rejoignez des milliers de clients satisfaits et transformez votre visibilité sociale dès aujourd'hui
+                </p>
+                <div class="cta-buttons">
+                    <a href="commander.php" class="cta-btn cta-btn-primary">
+                        <i class="fas fa-rocket me-2"></i>Commander Maintenant
+                    </a>
+                    <a href="connexion.php" class="cta-btn cta-btn-secondary">
+                        <i class="fas fa-user me-2"></i>Créer un Compte
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section Statistiques -->
     <section class="stats-section">
         <div class="container">
                             <div class="section-header text-center">
@@ -1914,9 +2349,9 @@ $categories = getAllCategories();
             observer.observe(el);
         });
         
-        // Animation des compteurs MAGNIFIQUES
+        // Animation des compteurs Professionnels
         function animateCounters() {
-            const counters = document.querySelectorAll('.stat-number');
+            const counters = document.querySelectorAll('.proof-number');
             
             counters.forEach(counter => {
                 const target = parseInt(counter.getAttribute('data-target'));
@@ -1950,18 +2385,18 @@ $categories = getAllCategories();
         }
         
         // Observer pour les compteurs
-        const statsObserver = new IntersectionObserver((entries) => {
+        const proofObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     animateCounters();
-                    statsObserver.unobserve(entry.target);
+                    proofObserver.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.5 });
         
-        const statsSection = document.querySelector('.stats-section');
-        if (statsSection) {
-            statsObserver.observe(statsSection);
+        const proofSection = document.querySelector('.social-proof-section');
+        if (proofSection) {
+            proofObserver.observe(proofSection);
         }
         
         // Effet de parallaxe
