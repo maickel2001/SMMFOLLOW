@@ -146,19 +146,6 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
             --bg-primary: #ffffff;
             --bg-secondary: #f8fafc;
             --bg-tertiary: #f1f5f9;
-            --text-primary: #0f172a;
-            --text-secondary: #64748b;
-            --text-tertiary: #94a3b8;
-            --text-light: #ffffff;
-            --border-light: #e2e8f0;
-            --border-medium: #cbd5e1;
-            --border-dark: #94a3b8;
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 16px;
-            --radius-xl: 20px;
-            --radius-2xl: 24px;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         * {
@@ -271,17 +258,6 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
             position: relative;
             overflow: hidden;
             margin-bottom: 40px;
-        }
-        
-        .main-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/><circle cx="10" cy="60" r="0.5" fill="white" opacity="0.1"/><circle cx="90" cy="40" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-            opacity: 0.3;
         }
         
         .main-header h1 {
@@ -405,7 +381,7 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
         /* Messages d'alerte */
         .alert {
             border: none;
-            border-radius: var(--radius-lg);
+            border-radius: 12px;
             padding: 20px;
             margin-bottom: 20px;
             font-weight: 500;
@@ -427,7 +403,7 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
         .card {
             background: white;
             border: none;
-            border-radius: var(--radius-lg);
+            border-radius: 12px;
             padding: 30px;
             margin-bottom: 30px;
             box-shadow: var(--shadow);
@@ -627,7 +603,7 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
         /* Upload de preuve */
         .upload-area {
             border: 3px dashed var(--gray-light);
-            border-radius: var(--radius-lg);
+            border-radius: 12px;
             padding: 40px;
             text-align: center;
             margin: 20px 0;
@@ -717,7 +693,7 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
         
         .file-preview {
             background: var(--bg-secondary);
-            border-radius: var(--radius-lg);
+            border-radius: 12px;
             padding: 25px;
             margin-top: 20px;
             border: 1px solid var(--gray-light);
@@ -726,7 +702,7 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
         
         .file-preview img {
             max-width: 100%;
-            border-radius: var(--radius-lg);
+            border-radius: 12px;
             box-shadow: var(--shadow);
         }
         
@@ -734,14 +710,14 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
             margin-top: 15px;
             padding: 15px;
             background: white;
-            border-radius: var(--radius-md);
+            border-radius: 8px;
             border: 1px solid var(--gray-light);
         }
         
         .upload-status {
             margin-top: 20px;
             padding: 15px;
-            border-radius: var(--radius-lg);
+            border-radius: 12px;
             font-weight: 500;
             display: none;
         }
@@ -826,7 +802,7 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
             border: none;
             color: white;
             padding: 15px 30px;
-            border-radius: var(--radius-lg);
+            border-radius: 12px;
             font-weight: 600;
             text-decoration: none;
             display: inline-block;
@@ -968,7 +944,7 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
             color: white;
             font-weight: 600;
             padding: 15px 30px;
-            border-radius: var(--radius-lg);
+            border-radius: 12px;
             font-size: 1rem;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -983,7 +959,7 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
         
         .mobile-instructions {
             background: var(--gray-light);
-            border-radius: var(--radius-lg);
+            border-radius: 12px;
             padding: 20px;
             margin-top: 20px;
             border-left: 4px solid var(--primary);
@@ -1010,7 +986,7 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
             border: none;
             color: var(--gray);
             padding: 8px 16px;
-            border-radius: var(--radius-md);
+            border-radius: 8px;
             font-size: 0.9rem;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -1020,6 +996,32 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
         .change-file-btn:hover {
             background: var(--gray);
             color: white;
+        }
+        .btn-submit {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .btn-submit:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
+        }
+        
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
         }
     </style>
 </head>
