@@ -107,6 +107,27 @@ try {
             position: sticky;
             top: 0;
             z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .navbar-toggler {
+            border: none;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+            outline: none;
+        }
+
+        .navbar-toggler:hover {
+            background: var(--gray-light);
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(15, 23, 42, 0.75)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
         }
 
         .navbar-brand {
@@ -159,6 +180,72 @@ try {
             color: white;
             font-weight: 600;
             font-size: 1.1rem;
+        }
+
+        /* Bouton hamburger personnalisé */
+        .hamburger-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 30px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1001;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger-line {
+            width: 100%;
+            height: 3px;
+            background: var(--dark);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+
+        .hamburger-btn:hover .hamburger-line {
+            background: var(--primary);
+        }
+
+        /* Animation du hamburger */
+        .hamburger-btn.active .hamburger-line:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .hamburger-btn.active .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-btn.active .hamburger-line:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        /* Menu mobile */
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-radius: 0 0 16px 16px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--gray-light);
+            border-top: none;
+            overflow: hidden;
+            transform: translateY(-100%);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .mobile-menu.active {
+            display: block;
+            transform: translateY(0);
+            opacity: 1;
         }
 
         .btn-logout {
@@ -524,6 +611,67 @@ try {
                 grid-template-columns: 1fr;
                 margin: 0 1rem 1rem;
             }
+
+            /* Bouton hamburger visible sur mobile */
+            .hamburger-btn {
+                display: flex;
+            }
+
+            /* Menu mobile */
+            .mobile-menu {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                right: 0;
+                height: calc(100vh - 80px);
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(20px);
+                border-radius: 0;
+                box-shadow: var(--shadow-lg);
+                border: none;
+                border-top: 1px solid var(--gray-light);
+                overflow-y: auto;
+                transform: translateX(-100%);
+                opacity: 0;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            .mobile-menu.active {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            .navbar-nav {
+                text-align: center;
+            }
+
+            .nav-item {
+                margin: 0.5rem 0;
+            }
+
+            .nav-link {
+                padding: 0.75rem 1rem;
+                border-radius: 8px;
+                transition: all 0.3s ease;
+            }
+
+            .nav-link:hover {
+                background: var(--primary);
+                color: white;
+                transform: translateX(5px);
+            }
+
+            .user-menu {
+                flex-direction: column;
+                gap: 0.5rem;
+                margin-top: 1rem;
+                padding-top: 1rem;
+                border-top: 1px solid var(--gray-light);
+            }
+
+            .user-avatar {
+                margin: 0 auto;
+            }
         }
 
         @media (max-width: 480px) {
@@ -608,19 +756,37 @@ try {
                 <i class="fas fa-rocket me-2"></i>Boost<span>Social</span>
             </a>
             
-            <div class="navbar-nav ms-auto">
-                <a class="nav-link" href="nouvelle-commande.php">
-                    <i class="fas fa-plus me-2"></i>Nouvelle Commande
-                </a>
-                <a class="nav-link" href="commandes.php">
-                    <i class="fas fa-list me-2"></i>Mes Commandes
-                </a>
-                <a class="nav-link" href="tickets.php">
-                    <i class="fas fa-headset me-2"></i>Support
-                </a>
-                <a class="nav-link" href="profil.php">
-                    <i class="fas fa-user me-2"></i>Profil
-                </a>
+            <!-- Bouton hamburger personnalisé -->
+            <button class="hamburger-btn" type="button" id="hamburgerBtn" aria-label="Toggle navigation">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+            
+            <!-- Menu de navigation -->
+            <div class="mobile-menu" id="mobileMenu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="nouvelle-commande.php">
+                            <i class="fas fa-plus me-2"></i>Nouvelle Commande
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="commandes.php">
+                            <i class="fas fa-list me-2"></i>Mes Commandes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tickets.php">
+                            <i class="fas fa-headset me-2"></i>Support
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="profil.php">
+                            <i class="fas fa-user me-2"></i>Profil
+                        </a>
+                    </li>
+                </ul>
             </div>
             
             <div class="user-menu">
@@ -923,6 +1089,38 @@ try {
                 }
             });
         }, 30000); // Mise à jour toutes les 30 secondes
+
+        // Menu hamburger mobile
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const body = document.body;
+
+        if (hamburgerBtn && mobileMenu) {
+            hamburgerBtn.addEventListener('click', () => {
+                hamburgerBtn.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+                body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+            });
+
+            // Fermer le menu en cliquant sur un lien
+            const mobileLinks = mobileMenu.querySelectorAll('.nav-link');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburgerBtn.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                    body.style.overflow = '';
+                });
+            });
+
+            // Fermer le menu en cliquant à l'extérieur
+            document.addEventListener('click', (e) => {
+                if (!hamburgerBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+                    hamburgerBtn.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                    body.style.overflow = '';
+                }
+            });
+        }
     </script>
 </body>
 </html>
