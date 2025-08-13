@@ -168,13 +168,11 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
         }
         
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            min-height: 100vh;
-            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
             line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            color: var(--dark);
+            background: var(--light);
+            overflow-x: hidden;
         }
         
         /* Menu Hamburger */
@@ -266,11 +264,41 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
         
         /* Header Principal */
         .main-header {
-            text-align: center;
-            padding: 120px 20px 80px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
+            padding: 60px 0;
+            text-align: center;
             position: relative;
             overflow: hidden;
+            margin-bottom: 40px;
+        }
+        
+        .main-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/><circle cx="10" cy="60" r="0.5" fill="white" opacity="0.1"/><circle cx="90" cy="40" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .main-header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .main-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
         
         .header-bg {
@@ -378,35 +406,32 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
         .alert {
             border: none;
             border-radius: var(--radius-lg);
-            padding: 20px 25px;
-            margin-bottom: 30px;
+            padding: 20px;
+            margin-bottom: 20px;
             font-weight: 500;
-            backdrop-filter: blur(20px);
-            box-shadow: var(--shadow-md);
         }
         
         .alert-success {
             background: rgba(16, 185, 129, 0.1);
             color: var(--success);
-            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-left: 4px solid var(--success);
         }
         
         .alert-danger {
             background: rgba(239, 68, 68, 0.1);
             color: var(--danger);
-            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-left: 4px solid var(--danger);
         }
         
         /* Cartes */
         .card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: var(--radius-2xl);
-            padding: 40px;
+            background: white;
+            border: none;
+            border-radius: var(--radius-lg);
+            padding: 30px;
             margin-bottom: 30px;
-            box-shadow: var(--shadow-lg);
-            transition: var(--transition);
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
         }
@@ -423,7 +448,7 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
         
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: var(--shadow-xl);
+            box-shadow: var(--shadow-lg);
         }
         
         .card h4 {
@@ -450,33 +475,25 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
         }
         
         .detail-item {
-            background: var(--bg-secondary);
-            border-radius: var(--radius-lg);
-            padding: 25px;
-            border: 1px solid var(--border-light);
-            transition: var(--transition);
-            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--gray-light);
         }
         
-        .detail-item:hover {
-            background: var(--bg-tertiary);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
+        .detail-item:last-child {
+            border-bottom: none;
         }
         
         .detail-label {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 10px;
             font-weight: 600;
+            color: var(--gray);
         }
         
         .detail-value {
-            color: var(--text-primary);
-            font-size: 1.2rem;
             font-weight: 700;
+            color: var(--dark);
         }
         
         .detail-value.order-number {
@@ -485,7 +502,7 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
         }
         
         .detail-value.price {
-            color: var(--success);
+            color: var(--secondary);
             font-size: 1.4rem;
         }
         
@@ -609,42 +626,25 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
         
         /* Upload de preuve */
         .upload-area {
-            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
-            border: 3px dashed var(--border-medium);
-            border-radius: var(--radius-xl);
-            padding: 60px 40px;
+            border: 3px dashed var(--gray-light);
+            border-radius: var(--radius-lg);
+            padding: 40px;
             text-align: center;
-            transition: var(--transition);
+            margin: 20px 0;
+            background: var(--bg-secondary);
             cursor: pointer;
+            transition: all 0.3s ease;
             position: relative;
-            overflow: hidden;
-        }
-        
-        .upload-area::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 122, 255, 0.1), transparent);
-            transition: var(--transition);
-        }
-        
-        .upload-area:hover::before {
-            left: 100%;
         }
         
         .upload-area:hover {
             border-color: var(--primary);
-            background: linear-gradient(135deg, rgba(0, 122, 255, 0.05) 0%, rgba(88, 86, 214, 0.05) 100%);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+            background: var(--bg-tertiary);
         }
         
         .upload-area.dragover {
             border-color: var(--primary);
-            background: linear-gradient(135deg, rgba(0, 122, 255, 0.1) 0%, rgba(88, 86, 214, 0.1) 100%);
+            background: var(--bg-tertiary);
             transform: scale(1.02);
         }
         
@@ -716,29 +716,26 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
         }
         
         .file-preview {
-            margin-top: 30px;
-            padding: 30px;
-            background: rgba(0, 122, 255, 0.05);
-            border-radius: var(--radius-xl);
-            border: 1px solid rgba(0, 122, 255, 0.2);
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: 25px;
+            margin-top: 20px;
+            border: 1px solid var(--gray-light);
             display: none;
-            text-align: center;
         }
         
         .file-preview img {
             max-width: 100%;
             border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
+            box-shadow: var(--shadow);
         }
         
         .file-info {
             margin-top: 15px;
-            padding: 10px;
-            background: rgba(0, 122, 255, 0.1);
+            padding: 15px;
+            background: white;
             border-radius: var(--radius-md);
-            color: var(--primary);
-            font-size: 0.9rem;
-            font-weight: 500;
+            border: 1px solid var(--gray-light);
         }
         
         .upload-status {
@@ -750,21 +747,21 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
         }
         
         .upload-status.info {
-            background: rgba(90, 200, 250, 0.1);
-            border: 1px solid rgba(90, 200, 250, 0.3);
+            background: rgba(59, 130, 246, 0.1);
             color: var(--info);
+            border-left: 4px solid var(--info);
         }
         
         .upload-status.success {
-            background: rgba(52, 199, 89, 0.1);
-            border: 1px solid rgba(52, 199, 89, 0.3);
+            background: rgba(16, 185, 129, 0.1);
             color: var(--success);
+            border-left: 4px solid var(--success);
         }
         
         .upload-status.error {
-            background: rgba(255, 59, 48, 0.1);
-            border: 1px solid rgba(255, 59, 48, 0.3);
+            background: rgba(239, 68, 68, 0.1);
             color: var(--danger);
+            border-left: 4px solid var(--danger);
         }
         
         .status-message {
@@ -828,6 +825,13 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             border: none;
             color: white;
+            padding: 15px 30px;
+            border-radius: var(--radius-lg);
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
         }
         
         .btn-new-order:hover {
@@ -839,107 +843,96 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
         }
         
         /* Animations */
-        .animate-fade-in {
-            animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        
-        .animate-fade-in:nth-child(1) { animation-delay: 0.1s; }
-        .animate-fade-in:nth-child(2) { animation-delay: 0.2s; }
-        .animate-fade-in:nth-child(3) { animation-delay: 0.3s; }
-        .animate-fade-in:nth-child(4) { animation-delay: 0.4s; }
-        
         @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
         
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
         /* Responsive Design */
         @media (max-width: 768px) {
             .main-header {
-                padding: 100px 20px 60px;
+                padding: 40px 20px;
             }
             
-            .header-title {
+            .main-header h1 {
                 font-size: 2.5rem;
             }
             
-            .header-subtitle {
+            .main-header p {
                 font-size: 1.1rem;
             }
             
             .card {
                 padding: 25px 20px;
+                margin: 0 15px 20px;
             }
             
-            .order-details {
-                grid-template-columns: 1fr;
+            .upload-area {
+                padding: 30px 20px;
+                margin: 15px 0;
             }
             
-            .payment-method-card {
-                padding: 25px 20px;
+            .upload-buttons {
+                flex-direction: column;
+                align-items: center;
             }
             
-            .payment-steps li {
+            .upload-btn.primary {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .detail-item {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 15px;
-                text-align: left;
-            }
-            
-            .action-buttons .btn-action {
-                display: block;
-                margin: 10px auto;
-                max-width: 280px;
-            }
-            
-            .hamburger-menu {
-                top: 20px;
-                right: 20px;
-            }
-            
-            .hamburger-icon {
-                width: 45px;
-                height: 45px;
+                gap: 8px;
             }
         }
         
         @media (max-width: 480px) {
-            .header-title {
+            .main-header h1 {
                 font-size: 2rem;
+            }
+            
+            .main-header p {
+                font-size: 1rem;
             }
             
             .card {
                 padding: 20px 15px;
+                margin: 0 10px 15px;
             }
             
             .upload-area {
                 padding: 25px 15px;
             }
             
-            .upload-icon {
-                font-size: 2rem;
-                margin-bottom: 15px;
-            }
-            
-            .upload-text {
+            .btn-submit {
+                padding: 15px 30px;
                 font-size: 1rem;
-            }
-            
-            .upload-hint {
-                font-size: 0.8rem;
-            }
-            
-            .mobile-instructions {
-                padding: 12px;
-                font-size: 0.9rem;
-            }
-            
-            .mobile-instructions li {
-                font-size: 0.85rem;
             }
         }
         
@@ -949,7 +942,7 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
         }
         
         ::-webkit-scrollbar-track {
-            background: var(--bg-secondary);
+            background: var(--gray-light);
         }
         
         ::-webkit-scrollbar-thumb {
@@ -978,7 +971,7 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
             border-radius: var(--radius-lg);
             font-size: 1rem;
             cursor: pointer;
-            transition: var(--transition);
+            transition: all 0.3s ease;
             box-shadow: var(--shadow);
         }
         
@@ -989,18 +982,17 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
         }
         
         .mobile-instructions {
-            margin-top: 25px;
-            padding: 20px;
-            background: rgba(0, 122, 255, 0.05);
-            border: 1px solid rgba(0, 122, 255, 0.2);
+            background: var(--gray-light);
             border-radius: var(--radius-lg);
-            text-align: left;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid var(--primary);
         }
         
         .mobile-instructions p {
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             font-weight: 600;
-            color: var(--primary);
+            color: var(--dark);
         }
         
         .mobile-instructions ul {
@@ -1009,92 +1001,25 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
         }
         
         .mobile-instructions li {
-            margin-bottom: 5px;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
+            margin-bottom: 8px;
+            color: var(--gray);
         }
         
         .change-file-btn {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-light);
-            color: var(--text-secondary);
+            background: var(--gray-light);
+            border: none;
+            color: var(--gray);
+            padding: 8px 16px;
             border-radius: var(--radius-md);
-            padding: 10px 20px;
             font-size: 0.9rem;
             cursor: pointer;
+            transition: all 0.3s ease;
             margin-top: 15px;
-            transition: var(--transition);
         }
         
         .change-file-btn:hover {
-            background: var(--bg-tertiary);
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-        
-        /* Améliorations spécifiques mobile */
-        @media (max-width: 768px) {
-            .upload-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .upload-btn {
-                width: 100%;
-                max-width: 280px;
-                margin: 5px 0;
-            }
-            
-            .mobile-instructions {
-                margin-top: 20px;
-                padding: 15px;
-            }
-            
-            .upload-area {
-                padding: 30px 20px;
-            }
-            
-            .upload-icon {
-                font-size: 2.5rem;
-                margin-bottom: 20px;
-            }
-            
-            .upload-text {
-                font-size: 1.1rem;
-                margin-bottom: 10px;
-            }
-            
-            .upload-hint {
-                font-size: 0.85rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .upload-area {
-                padding: 25px 15px;
-            }
-            
-            .upload-icon {
-                font-size: 2rem;
-                margin-bottom: 15px;
-            }
-            
-            .upload-text {
-                font-size: 1rem;
-            }
-            
-            .upload-hint {
-                font-size: 0.8rem;
-            }
-            
-            .mobile-instructions {
-                padding: 12px;
-                font-size: 0.9rem;
-            }
-            
-            .mobile-instructions li {
-                font-size: 0.85rem;
-            }
+            background: var(--gray);
+            color: white;
         }
     </style>
 </head>
