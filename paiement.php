@@ -126,39 +126,38 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
     
     <style>
         :root {
-            --primary: #007AFF;
-            --primary-dark: #0056CC;
-            --secondary: #5856D6;
-            --success: #34C759;
-            --warning: #FF9500;
-            --danger: #FF3B30;
-            --info: #5AC8FA;
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
             
-            --bg-primary: #FFFFFF;
-            --bg-secondary: #F2F2F7;
-            --bg-tertiary: #FAFAFA;
-            --bg-dark: #1C1C1E;
-            
-            --text-primary: #1C1C1E;
-            --text-secondary: #8E8E93;
-            --text-tertiary: #AEAEB2;
-            --text-light: #FFFFFF;
-            
-            --border-light: #E5E5EA;
-            --border-medium: #D1D1D6;
-            --border-dark: #C7C7CC;
-            
-            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
-            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-            --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
-            
+            /* Variables supplémentaires pour la compatibilité */
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --text-tertiary: #94a3b8;
+            --text-light: #ffffff;
+            --border-light: #e2e8f0;
+            --border-medium: #cbd5e1;
+            --border-dark: #94a3b8;
             --radius-sm: 8px;
             --radius-md: 12px;
             --radius-lg: 16px;
             --radius-xl: 20px;
             --radius-2xl: 24px;
-            
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
@@ -170,7 +169,7 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
         
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             min-height: 100vh;
             color: var(--text-primary);
             line-height: 1.6;
@@ -280,7 +279,7 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.9) 0%, rgba(16, 185, 129, 0.9) 100%);
             z-index: -1;
         }
         
@@ -387,15 +386,15 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
         }
         
         .alert-success {
-            background: rgba(52, 199, 89, 0.1);
+            background: rgba(16, 185, 129, 0.1);
             color: var(--success);
-            border: 1px solid rgba(52, 199, 89, 0.3);
+            border: 1px solid rgba(16, 185, 129, 0.3);
         }
         
         .alert-danger {
-            background: rgba(255, 59, 48, 0.1);
+            background: rgba(239, 68, 68, 0.1);
             color: var(--danger);
-            border: 1px solid rgba(255, 59, 48, 0.3);
+            border: 1px solid rgba(239, 68, 68, 0.3);
         }
         
         /* Cartes */
@@ -836,6 +835,7 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
             box-shadow: var(--shadow-lg);
             color: white;
             text-decoration: none;
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
         }
         
         /* Animations */
@@ -971,10 +971,21 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
         
         .upload-btn.primary {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 15px 30px;
+            border-radius: var(--radius-lg);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
         }
         
-        .upload-btn.mobile-upload-btn {
-            background: linear-gradient(135deg, var(--success), var(--info));
+        .upload-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
         }
         
         .mobile-instructions {
@@ -1299,19 +1310,14 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
                             <button type="button" class="upload-btn primary" onclick="triggerFileInput()">
                                 <i class="fas fa-folder-open me-2"></i>Sélectionner un fichier
                             </button>
-                            
-                            <!-- Bouton spécifique pour mobile avec appareil photo -->
-                            <button type="button" class="upload-btn mobile-upload-btn" onclick="triggerCameraInput()">
-                                <i class="fas fa-camera me-2"></i>Prendre une photo
-                            </button>
                         </div>
                         
                         <!-- Instructions spécifiques mobile -->
                         <div class="mobile-instructions">
                             <p><strong>Sur mobile :</strong></p>
                             <ul>
-                                <li>Appuyez sur "Prendre une photo" pour utiliser l'appareil photo</li>
-                                <li>Ou appuyez sur "Sélectionner un fichier" pour choisir depuis la galerie</li>
+                                <li>Appuyez sur "Sélectionner un fichier" pour choisir depuis la galerie</li>
+                                <li>Vous pouvez aussi prendre une photo directement depuis la galerie</li>
                                 <li>Assurez-vous que la capture d'écran est bien visible</li>
                             </ul>
                         </div>
@@ -1650,17 +1656,13 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
         // Fonction pour déclencher le clic sur l'input file
         function triggerFileInput() {
             console.log('Déclenchement sélection de fichier');
-            fileInput.removeAttribute('capture'); // Retire capture pour permettre la galerie
+            // Retire tous les attributs capture pour permettre la galerie et l'appareil photo
+            fileInput.removeAttribute('capture');
+            fileInput.removeAttribute('accept');
+            fileInput.setAttribute('accept', '.jpg,.jpeg,.png');
             fileInput.click();
         }
         
-        // Fonction pour déclencher le clic sur l'input file pour la caméra
-        function triggerCameraInput() {
-            console.log('Déclenchement appareil photo');
-            fileInput.setAttribute('capture', 'environment'); // Force l'utilisation de la caméra
-            fileInput.click();
-        }
-
         // Fonction pour réinitialiser l'upload
         function resetUpload() {
             fileInput.value = ''; // Efface le fichier sélectionné
