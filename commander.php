@@ -1060,9 +1060,9 @@ if ($selectedCategory) {
                     servicesList.innerHTML = servicesHTML;
                     
                     // Réattacher l'événement change au nouveau select
-                    const newServiceSelect = document.getElementById('serviceSelect');
-                    if (newServiceSelect) {
-                        newServiceSelect.addEventListener('change', updateOrderSummary);
+                    serviceSelect = document.getElementById('serviceSelect');
+                    if (serviceSelect) {
+                        serviceSelect.addEventListener('change', updateOrderSummary);
                     }
                     
                     // Réinitialiser le résumé
@@ -1125,8 +1125,8 @@ if ($selectedCategory) {
             });
         });
         
-        // Gestion de la sélection de service et calcul du prix
-        const serviceSelect = document.getElementById('serviceSelect');
+        // Variables globales pour le résumé de commande
+        let serviceSelect = null;
         const hiddenServiceId = document.getElementById('hiddenServiceId');
         const quantityInput = document.getElementById('quantity');
         const selectedServiceSpan = document.getElementById('selectedService');
@@ -1135,6 +1135,8 @@ if ($selectedCategory) {
         const submitBtn = document.getElementById('submitBtn');
         
         function updateOrderSummary() {
+            if (!serviceSelect) return;
+            
             const selectedOption = serviceSelect.options[serviceSelect.selectedIndex];
             const quantity = parseInt(quantityInput.value) || 0;
             
@@ -1158,8 +1160,8 @@ if ($selectedCategory) {
             }
         }
         
-        if (serviceSelect) {
-            serviceSelect.addEventListener('change', updateOrderSummary);
+        // Attacher les événements aux éléments qui existent déjà
+        if (quantityInput) {
             quantityInput.addEventListener('input', updateOrderSummary);
         }
         

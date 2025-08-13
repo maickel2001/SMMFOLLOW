@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Commander - BoostSocial</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .test-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .test-link {
+            background: #6366f1;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        .test-link:hover {
+            background: #4f46e5;
+        }
+        .test-info {
+            background: #f0fdf4;
+            border: 1px solid #a7f3d0;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .test-info h4 {
+            color: #16a34a;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test Commander.php - BoostSocial</h1>
+    
+    <div class="test-section">
+        <h3>Test de la Page de Commande</h3>
+        <p>Testez les différentes fonctionnalités de commander.php :</p>
+        
+        <div class="test-links">
+            <a href="commander.php" class="test-link" target="_blank">
+                🚀 Ouvrir Commander.php
+            </a>
+            <a href="get_services.php?category_id=1" class="test-link" target="_blank">
+                📊 Test API Services (Instagram)
+            </a>
+            <a href="get_services.php?category_id=2" class="test-link" target="_blank">
+                📊 Test API Services (TikTok)
+            </a>
+        </div>
+    </div>
+
+    <div class="test-info">
+        <h4>✅ Fonctionnalités à Tester</h4>
+        <ul>
+            <li><strong>Menu Hamburger :</strong> Doit s'ouvrir et se fermer correctement</li>
+            <li><strong>Sélection de Catégorie :</strong> Doit charger les services sans recharger la page</li>
+            <li><strong>Résumé de Commande :</strong> Doit se mettre à jour en temps réel</li>
+            <li><strong>Presets de Quantité :</strong> Doit fonctionner et mettre à jour le résumé</li>
+            <li><strong>Validation :</strong> Doit empêcher la soumission si les champs sont vides</li>
+        </ul>
+    </div>
+
+    <div class="test-info">
+        <h4>🔍 Points de Vérification</h4>
+        <ul>
+            <li><strong>Utilisateur Connecté :</strong> Les champs nom/email doivent être cachés</li>
+            <li><strong>Utilisateur Invité :</strong> Les champs nom/email doivent être visibles</li>
+            <li><strong>AJAX :</strong> Pas de rechargement lors du changement de catégorie</li>
+            <li><strong>Responsive :</strong> Doit fonctionner sur mobile et tablette</li>
+        </ul>
+    </div>
+
+    <div class="test-section">
+        <h3>Debug Console</h3>
+        <p>Ouvrez la console du navigateur (F12) pour voir les logs AJAX et détecter les erreurs potentielles.</p>
+        <div id="consoleOutput" style="background: #1f2937; color: #f9fafb; padding: 15px; border-radius: 5px; font-family: monospace; max-height: 200px; overflow-y: auto;">
+            <div>Console prête pour le debug...</div>
+        </div>
+    </div>
+
+    <script>
+        // Fonction pour ajouter des logs dans la console de test
+        function addConsoleLog(message, type = 'info') {
+            const consoleOutput = document.getElementById('consoleOutput');
+            const timestamp = new Date().toLocaleTimeString();
+            const logElement = document.createElement('div');
+            logElement.style.color = type === 'error' ? '#ef4444' : type === 'success' ? '#10b981' : '#f9fafb';
+            logElement.textContent = `[${timestamp}] ${message}`;
+            consoleOutput.appendChild(logElement);
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        }
+
+        // Intercepter les erreurs console
+        const originalError = console.error;
+        console.error = function(...args) {
+            addConsoleLog(`ERROR: ${args.join(' ')}`, 'error');
+            originalError.apply(console, args);
+        };
+
+        // Intercepter les logs console
+        const originalLog = console.log;
+        console.log = function(...args) {
+            addConsoleLog(`LOG: ${args.join(' ')}`, 'info');
+            originalLog.apply(console, args);
+        };
+
+        // Ajouter un log de démarrage
+        addConsoleLog('Système de test démarré', 'success');
+    </script>
+</body>
+</html>
